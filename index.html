@@ -1,5 +1,3 @@
-
-Index · HTML
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -27,7 +25,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 .hidden{display:none !important}
 .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
- 
+
 /* ---------- Login ---------- */
 #login{min-height:100dvh;display:grid;place-items:center;padding:24px}
 .card{width:100%;max-width:390px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px}
@@ -44,7 +42,7 @@ input:focus,select:focus{border-color:var(--accent);outline:none}
 .btn-ghost:hover{background:var(--surface-2);filter:none}
 .btn-full{width:100%}
 .note{background:var(--miss-dim);border:1px solid var(--miss);color:#FFC7BB;padding:9px 12px;border-radius:var(--r);font-size:13px;margin-bottom:14px}
- 
+
 /* ---------- Header ---------- */
 header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:20}
 .hd{display:flex;align-items:center;gap:14px;height:62px}
@@ -54,14 +52,14 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .who b{display:block;font-weight:600}
 .who small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.07em}
 .hd .btn{flex:none}
- 
+
 /* ---------- Stats ---------- */
 .stats{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 16px}
 .stat{flex:1 1 140px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
 .stat .n{font-family:Archivo;font-size:24px;font-weight:700;line-height:1}
 .stat .n small{color:var(--muted);font-size:15px;font-weight:600}
 .stat .l{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:5px;font-weight:600}
- 
+
 /* ---------- Toolbar ---------- */
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
 .search{flex:1 1 240px;position:relative}
@@ -71,7 +69,7 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .chip{padding:9px 13px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);width:auto}
 .chip[aria-pressed="true"]{background:var(--surface-2);color:var(--ink);border-color:var(--line-2)}
 #sort{width:auto;padding:10px 12px;background:var(--surface);font-size:13px}
- 
+
 /* ---------- Listă oficii ---------- */
 .head-row{display:grid;grid-template-columns:4px 1fr 276px 190px;gap:14px;align-items:center;padding:0 14px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
 .head-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
@@ -112,7 +110,7 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .hline .meta{color:var(--muted);font-size:11px;white-space:nowrap}
 .empty{text-align:center;color:var(--muted);padding:48px 0}
 .empty-h{color:var(--muted);font-size:13px}
- 
+
 /* ---------- Panou admin ---------- */
 .panel{margin:26px 0 44px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 .tabs{display:flex;border-bottom:1px solid var(--line)}
@@ -132,12 +130,12 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 .urow .acts{display:flex;gap:6px}
 .badge-me{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);font-weight:600}
 .divider{height:1px;background:var(--line);margin:20px 0}
- 
+
 /* ---------- Toast ---------- */
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);padding:11px 16px;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:50;max-width:90vw}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.bad{border-color:var(--miss);color:#FFC7BB}
- 
+
 @media (max-width:820px){
   .head-row{display:none}
   .row{grid-template-columns:4px 1fr;grid-template-areas:"s n" ". t" ". m";row-gap:12px}
@@ -152,7 +150,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 </style>
 </head>
 <body>
- 
+
 <!-- ============ LOGIN ============ -->
 <section id="login">
   <form class="card" id="loginForm">
@@ -170,7 +168,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
     <button class="btn btn-full" id="loginBtn" type="submit">Intră în cont</button>
   </form>
 </section>
- 
+
 <!-- ============ APLICAȚIE ============ -->
 <div id="app" class="hidden">
   <header>
@@ -180,10 +178,10 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
       <button class="btn btn-ghost" id="logoutBtn">Ieși</button>
     </div>
   </header>
- 
+
   <main class="wrap">
     <div class="stats" id="stats"></div>
- 
+
     <div class="toolbar">
       <div class="search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
@@ -201,7 +199,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
         <option value="old">Ordonează: cele mai vechi</option>
       </select>
     </div>
- 
+
     <div class="head-row">
       <div></div>
       <div>Oficiu</div>
@@ -209,14 +207,14 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
       <div>Ultima modificare</div>
     </div>
     <div class="rows" id="rows"></div>
- 
+
     <!-- Panou administrare -->
     <section class="panel hidden" id="adminPanel">
       <div class="tabs">
         <button class="tab" data-tab="offices" aria-selected="true">Oficii</button>
         <button class="tab" data-tab="users" aria-selected="false">Utilizatori</button>
       </div>
- 
+
       <div class="pane" id="paneOffices">
         <form class="grid-form" id="addForm">
           <div><span class="lbl">Cod</span><input id="aCode" placeholder="OF-042" required></div>
@@ -229,7 +227,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
         <textarea id="bulk" placeholder="OF-042 | Centrul Regional Orhei | Regiuni Centru&#10;OF-043 | Centrul Regional Criuleni | Regiuni Centru"></textarea>
         <div style="margin-top:10px"><button class="btn btn-ghost" id="bulkBtn" type="button">Importă lista</button></div>
       </div>
- 
+
       <div class="pane hidden" id="paneUsers">
         <form class="grid-form" id="userForm">
           <div><span class="lbl">Utilizator</span><input id="nUser" placeholder="of014" required autocapitalize="off" spellcheck="false"></div>
@@ -250,12 +248,12 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
     </section>
   </main>
 </div>
- 
+
 <div id="toast"></div>
- 
+
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
- 
+
 /* ==========================================================
    CONFIGURARE — Supabase → Project Settings → API
    ========================================================== */
@@ -264,15 +262,15 @@ const SUPABASE_ANON = 'sb_publishable_mYJ7zrTGfhWYtKMv5e2OYw_BdlLmM9v';
 const MAIL_DOMAIN   = '@stoc.starnet.md';  // userii scriu doar "of014"
 const STALE_DAYS    = 7;                   // după câte zile un oficiu e marcat neactualizat
 /* ========================================================== */
- 
+
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 // client secundar: creează conturi fără să deconecteze adminul
 const sbTmp = createClient(SUPABASE_URL, SUPABASE_ANON, {
   auth:{ persistSession:false, autoRefreshToken:false, detectSessionInUrl:false, storageKey:'stoc-tmp' }
 });
- 
+
 const $ = s => document.querySelector(s);
- 
+
 const ITEMS = [
   { key:'telecomenzi', label:'Telecomenzi'   },
   { key:'blocuri',     label:'Blocuri alim.' },
@@ -280,11 +278,11 @@ const ITEMS = [
 ];
 const LABEL   = Object.fromEntries(ITEMS.map(i => [i.key, i.label]));
 const ROLE_RO = { admin:'Administrator', office:'Oficiu', viewer:'Vizualizare' };
- 
+
 let me = null, offices = [], users = [];
 let filter = 'all', query = '', sortBy = 'name';
 let openHist = null, histCache = {};
- 
+
 /* ---------- utilitare ---------- */
 function toast(msg, bad=false){
   const t = $('#toast');
@@ -292,19 +290,19 @@ function toast(msg, bad=false){
   clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 3600);
 }
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
- 
+
 // scoate diacriticele: „balti" găsește „Bălți"
 const fold = s => String(s ?? '').toLowerCase()
   .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   .replace(/ș/g,'s').replace(/ş/g,'s')
   .replace(/ț/g,'t').replace(/ţ/g,'t');
- 
+
 const canEdit = o => me && (me.role === 'admin' || me.office_id === o.id);
 const isAdmin = () => me && me.role === 'admin';
 const isStale = o => !o.updated_at || (Date.now() - new Date(o.updated_at)) / 86400000 > STALE_DAYS;
 const mail = u => u.includes('@') ? u : u + MAIL_DOMAIN;
 const fmtDate = iso => new Date(iso).toLocaleString('ro-MD', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
- 
+
 function timeAgo(iso){
   const s = (Date.now() - new Date(iso)) / 1000;
   if (s < 60)    return 'acum câteva secunde';
@@ -316,17 +314,17 @@ function timeAgo(iso){
   const m = Math.floor(d/30);
   return m === 1 ? 'acum o lună' : `acum ${m} luni`;
 }
- 
+
 /* ---------- autentificare ---------- */
 $('#loginForm').addEventListener('submit', async e => {
   e.preventDefault();
   const btn = $('#loginBtn'), box = $('#loginErr');
   const email = mail($('#u').value.trim()), pass = $('#p').value;
- 
+
   btn.disabled = true; btn.textContent = 'Se verifică…'; box.classList.add('hidden');
   const { error } = await sb.auth.signInWithPassword({ email, password:pass });
   btn.disabled = false; btn.textContent = 'Intră în cont';
- 
+
   if (error){
     box.textContent = 'Utilizator sau parolă greșită. Verifică datele și încearcă din nou.';
     box.classList.remove('hidden');
@@ -334,14 +332,14 @@ $('#loginForm').addEventListener('submit', async e => {
   }
   await start();
 });
- 
+
 $('#logoutBtn').addEventListener('click', async () => { await sb.auth.signOut(); location.reload(); });
- 
+
 /* ---------- pornire ---------- */
 async function start(){
   const { data:{ user } } = await sb.auth.getUser();
   if (!user) return;
- 
+
   const { data:prof, error } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
   if (error || !prof){
     toast('Contul nu are profil. Contactează administratorul.', true);
@@ -349,17 +347,17 @@ async function start(){
     return;
   }
   me = prof;
- 
+
   $('#login').classList.add('hidden');
   $('#app').classList.remove('hidden');
   $('#whoName').textContent = prof.full_name || user.email;
   $('#whoRole').textContent = ROLE_RO[prof.role] || prof.role;
   $('#adminPanel').classList.toggle('hidden', !isAdmin());
- 
+
   await load();
   if (isAdmin()) await loadUsers();
 }
- 
+
 async function load(){
   const { data, error } = await sb.from('offices').select('*');
   if (error) return toast('Lista nu s-a putut încărca: ' + error.message, true);
@@ -367,7 +365,7 @@ async function load(){
   render();
   fillOfficeSelect();
 }
- 
+
 /* ---------- filtre & sortare ---------- */
 $('#q').addEventListener('input', e => { query = fold(e.target.value).trim(); render(); });
 $('#sort').addEventListener('change', e => { sortBy = e.target.value; render(); });
@@ -377,7 +375,7 @@ $('#chips').addEventListener('click', e => {
   [...$('#chips').children].forEach(c => c.setAttribute('aria-pressed', c === b));
   render();
 });
- 
+
 function visible(){
   const list = offices.filter(o => {
     const n = ITEMS.filter(i => o[i.key]).length;
@@ -387,19 +385,19 @@ function visible(){
     if (!query) return true;
     return [o.name, o.code, o.city].some(v => fold(v).includes(query));
   });
- 
+
   const t = o => o.updated_at ? new Date(o.updated_at).getTime() : 0;
   if (sortBy === 'recent')   list.sort((a,b) => t(b) - t(a));
   else if (sortBy === 'old') list.sort((a,b) => t(a) - t(b));
   else list.sort((a,b) => a.code.localeCompare(b.code, 'ro', { numeric:true }));
- 
+
   // oficiul propriu urcă mereu pe prima poziție
   const mineIdx = list.findIndex(o => o.id === me.office_id);
   if (mineIdx > 0) list.unshift(list.splice(mineIdx, 1)[0]);
- 
+
   return list;
 }
- 
+
 /* ---------- randare oficii ---------- */
 function stampHTML(o){
   if (!o.updated_at)
@@ -409,24 +407,24 @@ function stampHTML(o){
           ${o.updated_by ? `<span class="by">${esc(o.updated_by)}</span>` : ''}
           ${isStale(o) ? `<span class="stale">peste ${STALE_DAYS} zile</span>` : ''}`;
 }
- 
+
 function render(){
   const list = visible();
   const totals = ITEMS.map(i => offices.filter(o => o[i.key]).length);
   const full   = offices.filter(o => ITEMS.every(i => o[i.key])).length;
   const stale  = offices.filter(isStale).length;
- 
+
   $('#stats').innerHTML = `
     <div class="stat"><div class="n">${offices.length}</div><div class="l">Oficii</div></div>
     <div class="stat"><div class="n" style="color:var(--ok)">${full}</div><div class="l">Complet dotate</div></div>
     ${ITEMS.map((i,x) => `<div class="stat"><div class="n">${totals[x]}<small>/${offices.length}</small></div><div class="l">${i.label}</div></div>`).join('')}
     <div class="stat"><div class="n" style="color:${stale?'var(--miss)':'var(--muted)'}">${stale}</div><div class="l">Neactualizate</div></div>`;
- 
+
   if (!list.length){
     $('#rows').innerHTML = `<p class="empty">${offices.length ? 'Niciun oficiu nu corespunde căutării.' : 'Încă nu există oficii în listă.'}</p>`;
     return;
   }
- 
+
   $('#rows').innerHTML = list.map(o => {
     const n = ITEMS.filter(i => o[i.key]).length;
     const cls = n === 3 ? 'full' : n === 0 ? '' : 'partial';
@@ -436,7 +434,7 @@ function render(){
               data-id="${o.id}" data-key="${i.key}"
               aria-label="${esc(i.label)} — ${o[i.key]?'în stoc':'lipsă'}${edit?'':' (doar vizualizare)'}"
               ${edit?'':'disabled'}>${o[i.key]?'✓':'✕'}</button>`).join('');
- 
+
     return `
       <div class="rw ${openHist === o.id ? 'open' : ''}">
         <div class="row">
@@ -458,7 +456,7 @@ function render(){
       </div>`;
   }).join('');
 }
- 
+
 function histHTML(id){
   const rows = histCache[id];
   if (!rows) return `<div class="hist"><p class="empty-h">Se încarcă istoricul…</p></div>`;
@@ -470,12 +468,12 @@ function histHTML(id){
       <span class="meta">${fmtDate(r.changed_at)}${r.changed_by ? ' · ' + esc(r.changed_by) : ''}</span>
     </div>`).join('') + `</div>`;
 }
- 
+
 /* ---------- interacțiuni pe rânduri ---------- */
 $('#rows').addEventListener('click', async e => {
   const del = e.target.closest('[data-del]');
   if (del) return removeOffice(del.dataset.del);
- 
+
   const h = e.target.closest('[data-hist]');
   if (h){
     openHist = (openHist === h.dataset.hist) ? null : h.dataset.hist;
@@ -483,18 +481,18 @@ $('#rows').addEventListener('click', async e => {
     if (openHist && !histCache[openHist]) await fetchHist(openHist);
     return;
   }
- 
+
   const tile = e.target.closest('.tile.editable');
   if (!tile || tile.classList.contains('busy')) return;
- 
+
   const { id, key } = tile.dataset;
   const office = offices.find(o => o.id === id);
   const next = !office[key];
- 
+
   tile.classList.add('busy');
   const { data, error } = await sb.from('offices').update({ [key]: next }).eq('id', id).select().single();
   tile.classList.remove('busy');
- 
+
   if (error) return toast('Modificarea nu a fost salvată: ' + error.message, true);
   Object.assign(office, data);
   delete histCache[id];
@@ -502,7 +500,7 @@ $('#rows').addEventListener('click', async e => {
   if (openHist === id) fetchHist(id);
   toast(`${LABEL[key]} · ${office.name}: ${next ? 'în stoc' : 'lipsă'}`);
 });
- 
+
 async function fetchHist(id){
   const { data, error } = await sb.from('stock_log')
     .select('*').eq('office_id', id).order('changed_at', { ascending:false }).limit(30);
@@ -510,14 +508,14 @@ async function fetchHist(id){
   histCache[id] = data;
   render();
 }
- 
+
 /* ---------- taburi admin ---------- */
 document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
   document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === t));
   $('#paneOffices').classList.toggle('hidden', t.dataset.tab !== 'offices');
   $('#paneUsers').classList.toggle('hidden', t.dataset.tab !== 'users');
 }));
- 
+
 /* ---------- administrare oficii ---------- */
 $('#addForm').addEventListener('submit', async e => {
   e.preventDefault();
@@ -526,19 +524,19 @@ $('#addForm').addEventListener('submit', async e => {
   if (error) return toast('Oficiul nu a fost adăugat: ' + error.message, true);
   e.target.reset(); await load(); toast('Oficiu adăugat.');
 });
- 
+
 $('#bulkBtn').addEventListener('click', async () => {
   const rows = $('#bulk').value.split('\n').map(l => l.trim()).filter(Boolean).map(l => {
     const [code, name, city] = l.split('|').map(s => (s||'').trim());
     return { code, name: name || code, city: city || null };
   }).filter(r => r.code);
   if (!rows.length) return toast('Nu am găsit nicio linie validă.', true);
- 
+
   const { error } = await sb.from('offices').insert(rows);
   if (error) return toast('Importul s-a oprit: ' + error.message, true);
   $('#bulk').value = ''; await load(); toast(`${rows.length} oficii importate.`);
 });
- 
+
 async function removeOffice(id){
   const o = offices.find(x => x.id === id);
   if (!confirm(`Ștergi oficiul „${o.name}"?`)) return;
@@ -547,29 +545,29 @@ async function removeOffice(id){
   if (openHist === id) openHist = null;
   await load(); toast('Oficiu șters.');
 }
- 
+
 /* ---------- administrare utilizatori ---------- */
 const byCode = (a,b) => a.code.localeCompare(b.code, 'ro', { numeric:true });
- 
+
 function fillOfficeSelect(){
   $('#nOffice').innerHTML = ['<option value="">— fără oficiu —</option>']
     .concat(offices.slice().sort(byCode)
       .map(o => `<option value="${o.id}">${esc(o.code)} · ${esc(o.name)}</option>`)).join('');
 }
- 
+
 async function loadUsers(){
   const { data, error } = await sb.rpc('admin_users');
   if (error) return toast('Utilizatorii nu s-au putut încărca: ' + error.message, true);
   users = data;
   renderUsers();
 }
- 
+
 function renderUsers(){
   const offOpts = sel => ['<option value="">— fără oficiu —</option>']
     .concat(offices.slice().sort(byCode)
       .map(o => `<option value="${o.id}"${o.id===sel?' selected':''}>${esc(o.code)} · ${esc(o.name)}</option>`))
     .join('');
- 
+
   $('#users').innerHTML = users.map(u => {
     const self = u.id === me.id;
     return `
@@ -591,7 +589,7 @@ function renderUsers(){
       </div>`;
   }).join('') || '<p class="empty-h">Niciun utilizator.</p>';
 }
- 
+
 $('#userForm').addEventListener('submit', async e => {
   e.preventDefault();
   const btn = $('#nBtn');
@@ -599,58 +597,58 @@ $('#userForm').addEventListener('submit', async e => {
   const pass  = $('#nPass').value;
   const role  = $('#nRole').value;
   const office = role === 'office' ? ($('#nOffice').value || null) : null;
- 
+
   if (role === 'office' && !office) return toast('Alege oficiul pentru acest cont.', true);
- 
+
   btn.disabled = true; btn.textContent = 'Se creează…';
- 
+
   // 1. pregătește invitația (doar adminul are voie)
   const { error:e1 } = await sb.from('pending_signups')
     .upsert({ email: mail(uname), full_name: uname, role, office_id: office });
- 
+
   if (e1){
     btn.disabled = false; btn.textContent = 'Creează contul';
     return toast('Nu am putut pregăti contul: ' + e1.message, true);
   }
- 
+
   // 2. creează contul, fără să deconecteze adminul
   const { error:e2 } = await sbTmp.auth.signUp({ email: mail(uname), password: pass });
   await sbTmp.auth.signOut();
   btn.disabled = false; btn.textContent = 'Creează contul';
- 
+
   if (e2){
     await sb.from('pending_signups').delete().eq('email', mail(uname));
     return toast(/already registered|exists/i.test(e2.message)
       ? 'Există deja un cont cu acest nume.'
       : 'Contul nu a fost creat: ' + e2.message, true);
   }
- 
+
   e.target.reset(); fillOfficeSelect();
   await loadUsers();
   toast(`Cont creat: ${uname}. Notează parola acum.`);
 });
- 
+
 $('#users').addEventListener('change', async e => {
   const r = e.target.closest('[data-role]'), o = e.target.closest('[data-office]');
   const id = r ? r.dataset.role : o ? o.dataset.office : null;
   if (!id) return;
- 
+
   const u = users.find(x => x.id === id);
   const role   = r ? r.value : u.role;
   const office = role === 'office' ? (o ? o.value : u.office_id) : null;
- 
+
   if (role === 'office' && !office){
     toast('Alege oficiul pentru acest cont.', true);
     renderUsers();
     return;
   }
- 
+
   const { error } = await sb.rpc('admin_set_role', { target:id, new_role:role, new_office:office || null });
   if (error){ toast('Nu am putut salva: ' + error.message, true); renderUsers(); return; }
   await loadUsers();
   toast('Permisiuni actualizate.');
 });
- 
+
 $('#users').addEventListener('click', async e => {
   const p = e.target.closest('[data-pass]');
   if (p){
@@ -660,7 +658,7 @@ $('#users').addEventListener('click', async e => {
     const { error } = await sb.rpc('admin_set_password', { target:u.id, new_password:np });
     return toast(error ? 'Parola nu a fost schimbată: ' + error.message : 'Parolă schimbată.', !!error);
   }
- 
+
   const d = e.target.closest('[data-deluser]');
   if (d){
     const u = users.find(x => x.id === d.dataset.deluser);
@@ -670,7 +668,7 @@ $('#users').addEventListener('click', async e => {
     await loadUsers(); toast('Cont șters.');
   }
 });
- 
+
 /* sesiune deja activă? */
 const { data:{ session } } = await sb.auth.getSession();
 if (session) await start();
