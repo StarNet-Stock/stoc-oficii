@@ -24,7 +24,7 @@ h1,h2{font-family:Archivo,Inter,sans-serif;letter-spacing:-.01em;margin:0}
 button,input,select,textarea{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 .hidden{display:none !important}
-.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 18px}
 
 /* ---------- Login ---------- */
 #login{min-height:100dvh;display:grid;place-items:center;padding:24px}
@@ -68,22 +68,26 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .chip{padding:9px 13px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);width:auto}
 .chip[aria-pressed="true"]{background:var(--surface-2);color:var(--ink);border-color:var(--line-2)}
+#scope{border-color:var(--line-2);color:var(--ink)}
+#scope[aria-pressed="true"]{background:var(--accent);color:#1A1200;border-color:var(--accent)}
 #sort{width:auto;padding:10px 12px;background:var(--surface);font-size:13px}
 
 /* ---------- Listă oficii ---------- */
-.head-row{display:grid;grid-template-columns:4px 1fr 276px 190px;gap:14px;align-items:center;padding:0 14px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.head-row{display:grid;grid-template-columns:4px 1fr 372px 186px;gap:14px;align-items:end;padding:0 14px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
 .head-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
 .rows{display:flex;flex-direction:column;gap:8px}
 .rw{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
 .rw.open{border-color:var(--line-2)}
-.row{display:grid;grid-template-columns:4px 1fr 276px 190px;gap:14px;align-items:center;padding:12px 14px}
-.spine{width:4px;height:40px;border-radius:2px;background:var(--miss)}
+.row{display:grid;grid-template-columns:4px 1fr 372px 186px;gap:14px;align-items:center;padding:12px 14px}
+.spine{width:4px;height:100%;min-height:44px;border-radius:2px;background:var(--miss)}
 .spine.partial{background:var(--accent)}
 .spine.full{background:var(--ok)}
 .who-col{min-width:0}
 .oname{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ometa{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
 .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cell{display:flex;flex-direction:column;gap:5px;min-width:0}
 .tile{height:44px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);display:grid;place-items:center;cursor:default;font-family:Archivo;font-size:19px;font-weight:700;transition:transform .12s ease,background .15s ease;width:100%}
 .tile.on{background:var(--ok-dim);border-color:var(--ok-line);color:var(--ok)}
 .tile.off{background:var(--miss-dim);border-color:var(--miss-line);color:var(--miss)}
@@ -91,6 +95,23 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .tile.editable:hover{transform:translateY(-2px)}
 .tile.busy{opacity:.45}
 .tile.locked{opacity:.62}
+
+.qtybar{display:flex;align-items:center;justify-content:center;gap:3px}
+.qtybar button{width:24px;height:22px;padding:0;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:14px;line-height:1;cursor:pointer}
+.qtybar button:hover{border-color:var(--line-2);color:var(--ink)}
+.qtybar .v{font-family:Archivo;font-weight:700;font-size:13px;min-width:26px;text-align:center}
+.qtybar .u{font-size:10px;color:var(--muted)}
+
+.resbar{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap}
+.left{font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;color:var(--muted)}
+.left b{font-family:Archivo;font-size:12px;color:var(--ink)}
+.left.zero,.left.zero b{color:var(--miss)}
+.ask{padding:2px 7px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:5px;cursor:pointer;width:auto}
+.ask:hover{background:var(--accent);color:#1A1200}
+.ask:disabled{opacity:.35;cursor:default;background:transparent;color:var(--accent)}
+.undo{padding:2px 6px;font-size:10px;background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:5px;cursor:pointer;width:auto}
+.undo:hover{border-color:var(--line-2);color:var(--ink)}
+
 .stamp{font-size:12px;line-height:1.4;min-width:0}
 .stamp .when{font-weight:600}
 .stamp .rel,.stamp .by{color:var(--muted);font-size:11px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -136,10 +157,10 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.bad{border-color:var(--miss);color:#FFC7BB}
 
-@media (max-width:820px){
+@media (max-width:900px){
   .head-row{display:none}
   .row{grid-template-columns:4px 1fr;grid-template-areas:"s n" ". t" ". m";row-gap:12px}
-  .spine{grid-area:s;height:100%;min-height:44px}
+  .spine{grid-area:s}
   .who-col{grid-area:n}
   .tiles{grid-area:t}
   .stamp{grid-area:m}
@@ -183,6 +204,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
     <div class="stats" id="stats"></div>
 
     <div class="toolbar">
+      <button class="chip hidden" id="scope" aria-pressed="false">Vezi toate oficiile</button>
       <div class="search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
         <input id="q" placeholder="Caută după denumire, cod sau regiune…" autocomplete="off">
@@ -260,7 +282,8 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL  = 'https://tjliqsomoulsemofdoyb.supabase.co';
 const SUPABASE_ANON = 'sb_publishable_mYJ7zrTGfhWYtKMv5e2OYw_BdlLmM9v';
 const MAIL_DOMAIN   = '@stoc.starnet.md';  // userii scriu doar "of014"
-const STALE_DAYS    = 7;                   // după câte zile un oficiu e marcat neactualizat
+const STALE_DAYS    = 7;   // după câte zile un oficiu e marcat neactualizat
+const LOW_STOCK     = 5;   // sub ce cantitate apare butonul „Solicitat"
 /* ========================================================== */
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
@@ -280,8 +303,8 @@ const LABEL   = Object.fromEntries(ITEMS.map(i => [i.key, i.label]));
 const ROLE_RO = { admin:'Administrator', office:'Oficiu', viewer:'Vizualizare' };
 
 let me = null, offices = [], users = [];
-let filter = 'all', query = '', sortBy = 'name';
-let openHist = null, histCache = {};
+let filter = 'all', query = '', sortBy = 'name', showAll = false;
+let openHist = null, histCache = {}, busy = false;
 
 /* ---------- utilitare ---------- */
 function toast(msg, bad=false){
@@ -302,6 +325,10 @@ const isAdmin = () => me && me.role === 'admin';
 const isStale = o => !o.updated_at || (Date.now() - new Date(o.updated_at)) / 86400000 > STALE_DAYS;
 const mail = u => u.includes('@') ? u : u + MAIL_DOMAIN;
 const fmtDate = iso => new Date(iso).toLocaleString('ro-MD', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+
+const qtyOf  = (o,k) => o['qty_' + k] ?? 0;
+const resOf  = (o,k) => o['res_' + k] ?? 0;
+const leftOf = (o,k) => Math.max(0, qtyOf(o,k) - resOf(o,k));
 
 function timeAgo(iso){
   const s = (Date.now() - new Date(iso)) / 1000;
@@ -354,6 +381,11 @@ async function start(){
   $('#whoRole').textContent = ROLE_RO[prof.role] || prof.role;
   $('#adminPanel').classList.toggle('hidden', !isAdmin());
 
+  // comutatorul apare doar la conturile legate de un oficiu
+  const scoped = prof.role === 'office' && prof.office_id;
+  $('#scope').classList.toggle('hidden', !scoped);
+  showAll = !scoped;
+
   await load();
   if (isAdmin()) await loadUsers();
 }
@@ -366,6 +398,13 @@ async function load(){
   fillOfficeSelect();
 }
 
+async function refresh(id){
+  const { data, error } = await sb.from('offices').select('*').eq('id', id).single();
+  if (error) return toast('Nu am putut reîncărca oficiul: ' + error.message, true);
+  Object.assign(offices.find(o => o.id === id), data);
+  render();
+}
+
 /* ---------- filtre & sortare ---------- */
 $('#q').addEventListener('input', e => { query = fold(e.target.value).trim(); render(); });
 $('#sort').addEventListener('change', e => { sortBy = e.target.value; render(); });
@@ -375,9 +414,16 @@ $('#chips').addEventListener('click', e => {
   [...$('#chips').children].forEach(c => c.setAttribute('aria-pressed', c === b));
   render();
 });
+$('#scope').addEventListener('click', () => {
+  showAll = !showAll;
+  $('#scope').setAttribute('aria-pressed', showAll);
+  $('#scope').textContent = showAll ? 'Doar oficiul meu' : 'Vezi toate oficiile';
+  render();
+});
 
 function visible(){
   const list = offices.filter(o => {
+    if (!showAll && me.office_id && o.id !== me.office_id) return false;
     const n = ITEMS.filter(i => o[i.key]).length;
     if (filter === 'missing' && n === 3) return false;
     if (filter === 'full'    && n !== 3) return false;
@@ -408,6 +454,34 @@ function stampHTML(o){
           ${isStale(o) ? `<span class="stale">peste ${STALE_DAYS} zile</span>` : ''}`;
 }
 
+function cellHTML(o, i){
+  const has = o[i.key], qty = qtyOf(o, i.key), left = leftOf(o, i.key), edit = canEdit(o);
+
+  const face = !has ? '✕' : (qty > 0 ? qty : '✓');
+  const tile = `<button class="tile ${has?'on':'off'} ${edit?'editable':'locked'}"
+      data-id="${o.id}" data-key="${i.key}"
+      aria-label="${esc(i.label)} — ${has ? (qty>0 ? qty + ' bucăți' : 'în stoc') : 'lipsă'}"
+      ${edit?'':'disabled'}>${face}</button>`;
+
+  // cantitatea: doar oficiul propriu și adminul o pot schimba
+  const stepper = (has && edit) ? `
+    <div class="qtybar">
+      <button data-id="${o.id}" data-key="${i.key}" data-qty="-1" aria-label="Scade cantitatea">−</button>
+      <span class="v">${qty}<span class="u"> buc</span></span>
+      <button data-id="${o.id}" data-key="${i.key}" data-qty="1" aria-label="Crește cantitatea">+</button>
+    </div>` : '';
+
+  // solicitările apar doar când stocul e mic
+  const res = (has && qty > 0 && qty <= LOW_STOCK) ? `
+    <div class="resbar">
+      <span class="left ${left === 0 ? 'zero' : ''}">rămas <b>${left}</b></span>
+      <button class="ask" data-id="${o.id}" data-key="${i.key}" data-res="1" ${left === 0 ? 'disabled' : ''}>Solicitat</button>
+      ${resOf(o,i.key) > 0 ? `<button class="undo" data-id="${o.id}" data-key="${i.key}" data-res="-1" aria-label="Anulează ultima solicitare">↺</button>` : ''}
+    </div>` : '';
+
+  return `<div class="cell">${tile}${stepper}${res}</div>`;
+}
+
 function render(){
   const list = visible();
   const totals = ITEMS.map(i => offices.filter(o => o[i.key]).length);
@@ -428,13 +502,6 @@ function render(){
   $('#rows').innerHTML = list.map(o => {
     const n = ITEMS.filter(i => o[i.key]).length;
     const cls = n === 3 ? 'full' : n === 0 ? '' : 'partial';
-    const edit = canEdit(o);
-    const tiles = ITEMS.map(i => `
-      <button class="tile ${o[i.key]?'on':'off'} ${edit?'editable':'locked'}"
-              data-id="${o.id}" data-key="${i.key}"
-              aria-label="${esc(i.label)} — ${o[i.key]?'în stoc':'lipsă'}${edit?'':' (doar vizualizare)'}"
-              ${edit?'':'disabled'}>${o[i.key]?'✓':'✕'}</button>`).join('');
-
     return `
       <div class="rw ${openHist === o.id ? 'open' : ''}">
         <div class="row">
@@ -443,7 +510,7 @@ function render(){
             <div class="oname">${esc(o.name)}${o.id === me.office_id ? ' <span class="badge-me">oficiul tău</span>' : ''}</div>
             <div class="ometa"><span class="mono">${esc(o.code)}</span>${o.city ? ' · ' + esc(o.city) : ''}</div>
           </div>
-          <div class="tiles">${tiles}</div>
+          <div class="tiles">${ITEMS.map(i => cellHTML(o, i)).join('')}</div>
           <div class="stamp">
             ${stampHTML(o)}
             <div class="rowacts">
@@ -471,6 +538,8 @@ function histHTML(id){
 
 /* ---------- interacțiuni pe rânduri ---------- */
 $('#rows').addEventListener('click', async e => {
+  if (busy) return;
+
   const del = e.target.closest('[data-del]');
   if (del) return removeOffice(del.dataset.del);
 
@@ -482,16 +551,24 @@ $('#rows').addEventListener('click', async e => {
     return;
   }
 
-  const tile = e.target.closest('.tile.editable');
-  if (!tile || tile.classList.contains('busy')) return;
+  const r = e.target.closest('[data-res]');
+  if (r) return reserve(r.dataset.id, r.dataset.key, Number(r.dataset.res));
 
+  const q = e.target.closest('[data-qty]');
+  if (q) return changeQty(q.dataset.id, q.dataset.key, Number(q.dataset.qty));
+
+  const tile = e.target.closest('.tile.editable');
+  if (tile) return toggleItem(tile);
+});
+
+async function toggleItem(tile){
   const { id, key } = tile.dataset;
   const office = offices.find(o => o.id === id);
   const next = !office[key];
 
-  tile.classList.add('busy');
+  busy = true; tile.classList.add('busy');
   const { data, error } = await sb.from('offices').update({ [key]: next }).eq('id', id).select().single();
-  tile.classList.remove('busy');
+  busy = false; tile.classList.remove('busy');
 
   if (error) return toast('Modificarea nu a fost salvată: ' + error.message, true);
   Object.assign(office, data);
@@ -499,7 +576,36 @@ $('#rows').addEventListener('click', async e => {
   render();
   if (openHist === id) fetchHist(id);
   toast(`${LABEL[key]} · ${office.name}: ${next ? 'în stoc' : 'lipsă'}`);
-});
+}
+
+async function changeQty(id, key, delta){
+  const office = offices.find(o => o.id === id);
+  const next = Math.max(0, qtyOf(office, key) + delta);
+  if (next === qtyOf(office, key)) return;
+
+  busy = true;
+  const { data, error } = await sb.from('offices')
+    .update({ ['qty_' + key]: next }).eq('id', id).select().single();
+  busy = false;
+
+  if (error) return toast('Cantitatea nu a fost salvată: ' + error.message, true);
+  Object.assign(office, data);
+  render();
+}
+
+async function reserve(id, key, delta){
+  const office = offices.find(o => o.id === id);
+  busy = true;
+  const { error } = await sb.rpc('reserve_item', { target:id, item:key, delta });
+  busy = false;
+
+  if (error) return toast('Solicitarea nu a fost înregistrată: ' + error.message, true);
+  await refresh(id);
+  const left = leftOf(office, key);
+  toast(delta > 0
+    ? `${LABEL[key]} · ${office.name} — rămas ${left}`
+    : `Solicitare anulată · ${office.name} — rămas ${left}`);
+}
 
 async function fetchHist(id){
   const { data, error } = await sb.from('stock_log')
