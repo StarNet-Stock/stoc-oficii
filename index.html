@@ -412,6 +412,11 @@ function visible(){
   if (sortBy === 'recent')   list.sort((a,b) => t(b) - t(a));
   else if (sortBy === 'old') list.sort((a,b) => t(a) - t(b));
   else list.sort((a,b) => a.name.localeCompare(b.name, 'ro'));
+
+  // oficiul propriu urcă mereu pe prima poziție
+  const mineIdx = list.findIndex(o => o.id === me.office_id);
+  if (mineIdx > 0) list.unshift(list.splice(mineIdx, 1)[0]);
+
   return list;
 }
 
