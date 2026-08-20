@@ -122,6 +122,7 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .pane{padding:18px}
 .grid-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;align-items:end;margin-bottom:8px}
 .grid-form .btn{width:100%}
+.lbl{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;font-weight:600}
 .hint{font-size:12px;color:var(--muted);margin:10px 0}
 textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);resize:vertical;font-family:'JetBrains Mono',monospace;font-size:13px}
 .utable{display:flex;flex-direction:column;gap:8px;margin-top:6px}
@@ -191,7 +192,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
     <div class="toolbar">
       <div class="search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-        <input id="q" placeholder="Caută după denumire, cod sau localitate…" autocomplete="off">
+        <input id="q" placeholder="Caută după denumire, cod sau regiune…" autocomplete="off">
       </div>
       <div class="chips" id="chips">
         <button class="chip" data-f="all" aria-pressed="true">Toate</button>
@@ -200,7 +201,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
         <button class="chip" data-f="stale" aria-pressed="false">Neactualizate</button>
       </div>
       <select id="sort" aria-label="Ordonare">
-        <option value="name">Ordonează: denumire</option>
+        <option value="name">Ordonează: cod oficiu</option>
         <option value="recent">Ordonează: modificate recent</option>
         <option value="old">Ordonează: cele mai vechi</option>
       </select>
@@ -223,29 +224,28 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 
       <div class="pane" id="paneOffices">
         <form class="grid-form" id="addForm">
-          <div><label class="field" style="margin:0"><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;font-weight:600">Cod</span><input id="aCode" placeholder="OF-014" required></label></div>
-          <div><label class="field" style="margin:0"><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;font-weight:600">Denumire</span><input id="aName" placeholder="Oficiu Rîșcani" required></label></div>
-          <div><label class="field" style="margin:0"><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;font-weight:600">Localitate</span><input id="aCity" placeholder="Chișinău"></label></div>
+          <div><span class="lbl">Cod</span><input id="aCode" placeholder="OF-042" required></div>
+          <div><span class="lbl">Denumire</span><input id="aName" placeholder="Centrul Regional Orhei" required></div>
+          <div><span class="lbl">Regiune</span><input id="aCity" placeholder="Regiuni Centru"></div>
           <button class="btn" type="submit">Adaugă oficiu</button>
         </form>
         <div class="divider"></div>
-        <p class="hint">Import în masă — câte un oficiu pe linie: <span class="mono">cod | denumire | localitate</span></p>
-        <textarea id="bulk" placeholder="OF-014 | Oficiu Rîșcani | Chișinău&#10;OF-015 | Oficiu Orhei | Orhei"></textarea>
+        <p class="hint">Import în masă — câte un oficiu pe linie: <span class="mono">cod | denumire | regiune</span></p>
+        <textarea id="bulk" placeholder="OF-042 | Centrul Regional Orhei | Regiuni Centru&#10;OF-043 | Centrul Regional Criuleni | Regiuni Centru"></textarea>
         <div style="margin-top:10px"><button class="btn btn-ghost" id="bulkBtn" type="button">Importă lista</button></div>
       </div>
 
       <div class="pane hidden" id="paneUsers">
         <form class="grid-form" id="userForm">
-          <div><label class="field" style="margin:0"><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;font-weight:600">Utilizator</span><input id="nUser" placeholder="of014" required autocapitalize="off" spellcheck="false"></label></div>
-          <div><label class="field" style="margin:0"><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;font-weight:600">Parolă</span><input id="nPass" placeholder="minim 6 caractere" required minlength="6"></label></div>
-          <div><label class="field" style="margin:0"><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;font-weight:600">Rol</span>
+          <div><span class="lbl">Utilizator</span><input id="nUser" placeholder="of014" required autocapitalize="off" spellcheck="false"></div>
+          <div><span class="lbl">Parolă</span><input id="nPass" placeholder="minim 6 caractere" required minlength="6"></div>
+          <div><span class="lbl">Rol</span>
             <select id="nRole">
               <option value="office">Oficiu</option>
               <option value="viewer">Vizualizare</option>
               <option value="admin">Administrator</option>
-            </select></label></div>
-          <div><label class="field" style="margin:0"><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;font-weight:600">Oficiu</span>
-            <select id="nOffice"></select></label></div>
+            </select></div>
+          <div><span class="lbl">Oficiu</span><select id="nOffice"></select></div>
           <button class="btn" type="submit" id="nBtn">Creează contul</button>
         </form>
         <p class="hint">Utilizatorul se loghează scriind doar numele, fără domeniu. Notează-i parola — nu mai poate fi citită după creare, doar resetată.</p>
@@ -267,7 +267,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL  = 'https://tjliqsomoulsemofdoyb.supabase.co';
 const SUPABASE_ANON = 'sb_publishable_mYJ7zrTGfhWYtKMv5e2OYw_BdlLmM9v';
 const MAIL_DOMAIN   = '@stoc.starnet.md';  // userii scriu doar "of014"
-const STALE_DAYS    = 7;             // după câte zile un oficiu e marcat neactualizat
+const STALE_DAYS    = 7;                   // după câte zile un oficiu e marcat neactualizat
 /* ========================================================== */
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
@@ -297,6 +297,13 @@ function toast(msg, bad=false){
   clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 3600);
 }
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// scoate diacriticele: „balti" găsește „Bălți"
+const fold = s => String(s ?? '').toLowerCase()
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .replace(/ș/g,'s').replace(/ş/g,'s')
+  .replace(/ț/g,'t').replace(/ţ/g,'t');
+
 const canEdit = o => me && (me.role === 'admin' || me.office_id === o.id);
 const isAdmin = () => me && me.role === 'admin';
 const isStale = o => !o.updated_at || (Date.now() - new Date(o.updated_at)) / 86400000 > STALE_DAYS;
@@ -390,7 +397,7 @@ async function load(){
 }
 
 /* ---------- filtre & sortare ---------- */
-$('#q').addEventListener('input', e => { query = e.target.value.toLowerCase().trim(); render(); });
+$('#q').addEventListener('input', e => { query = fold(e.target.value).trim(); render(); });
 $('#sort').addEventListener('change', e => { sortBy = e.target.value; render(); });
 $('#chips').addEventListener('click', e => {
   const b = e.target.closest('.chip'); if (!b) return;
@@ -406,12 +413,13 @@ function visible(){
     if (filter === 'full'    && n !== 3) return false;
     if (filter === 'stale'   && !isStale(o)) return false;
     if (!query) return true;
-    return [o.name, o.code, o.city].some(v => (v||'').toLowerCase().includes(query));
+    return [o.name, o.code, o.city].some(v => fold(v).includes(query));
   });
+
   const t = o => o.updated_at ? new Date(o.updated_at).getTime() : 0;
   if (sortBy === 'recent')   list.sort((a,b) => t(b) - t(a));
   else if (sortBy === 'old') list.sort((a,b) => t(a) - t(b));
-  else list.sort((a,b) => a.name.localeCompare(b.name, 'ro'));
+  else list.sort((a,b) => a.code.localeCompare(b.code, 'ro', { numeric:true }));
 
   // oficiul propriu urcă mereu pe prima poziție
   const mineIdx = list.findIndex(o => o.id === me.office_id);
@@ -462,16 +470,16 @@ function render(){
         <div class="row">
           <div class="spine ${cls}"></div>
           <div class="who-col">
-            <div class="oname">${esc(o.name)}</div>
+            <div class="oname">${esc(o.name)}${o.id === me.office_id ? ' <span class="badge-me">oficiul tău</span>' : ''}</div>
             <div class="ometa"><span class="mono">${esc(o.code)}</span>${o.city ? ' · ' + esc(o.city) : ''}</div>
           </div>
           <div class="tiles">${tiles}</div>
           <div class="stamp">
             ${stampHTML(o)}
-            ${isAdmin() ? `<div class="rowacts">
+            <div class="rowacts">
               <button class="mini" data-hist="${o.id}">${openHist === o.id ? 'Ascunde' : 'Istoric'}</button>
-              <button class="mini danger" data-del="${o.id}">Șterge</button>
-            </div>` : ''}
+              ${isAdmin() ? `<button class="mini danger" data-del="${o.id}">Șterge</button>` : ''}
+            </div>
           </div>
         </div>
         ${openHist === o.id ? histHTML(o.id) : ''}
@@ -569,11 +577,12 @@ async function removeOffice(id){
 }
 
 /* ---------- administrare utilizatori ---------- */
+const byCode = (a,b) => a.code.localeCompare(b.code, 'ro', { numeric:true });
+
 function fillOfficeSelect(){
-  const opts = ['<option value="">— fără oficiu —</option>']
-    .concat(offices.slice().sort((a,b)=>a.name.localeCompare(b.name,'ro'))
-      .map(o => `<option value="${o.id}">${esc(o.code)} · ${esc(o.name)}</option>`));
-  $('#nOffice').innerHTML = opts.join('');
+  $('#nOffice').innerHTML = ['<option value="">— fără oficiu —</option>']
+    .concat(offices.slice().sort(byCode)
+      .map(o => `<option value="${o.id}">${esc(o.code)} · ${esc(o.name)}</option>`)).join('');
 }
 
 async function loadUsers(){
@@ -584,8 +593,8 @@ async function loadUsers(){
 }
 
 function renderUsers(){
-  const offOpts = (sel, role) => ['<option value="">— fără oficiu —</option>']
-    .concat(offices.slice().sort((a,b)=>a.name.localeCompare(b.name,'ro'))
+  const offOpts = sel => ['<option value="">— fără oficiu —</option>']
+    .concat(offices.slice().sort(byCode)
       .map(o => `<option value="${o.id}"${o.id===sel?' selected':''}>${esc(o.code)} · ${esc(o.name)}</option>`))
     .join('');
 
@@ -601,7 +610,7 @@ function renderUsers(){
           ${Object.entries(ROLE_RO).map(([k,v]) => `<option value="${k}"${u.role===k?' selected':''}>${v}</option>`).join('')}
         </select>
         <select data-office="${u.id}" ${self || u.role!=='office' ? 'disabled':''}>
-          ${offOpts(u.office_id, u.role)}
+          ${offOpts(u.office_id)}
         </select>
         <div class="acts">
           <button class="mini" data-pass="${u.id}">Parolă nouă</button>
