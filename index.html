@@ -150,7 +150,6 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .hint{font-size:12px;color:var(--muted);margin:10px 0}
 textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);resize:vertical;font-family:'JetBrains Mono',monospace;font-size:13px}
 
-/* selector de oficii */
 .picker{margin:12px 0 4px}
 .pk-search{margin-bottom:6px}
 .pk-list{max-height:190px;overflow:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--bg);padding:6px}
@@ -160,13 +159,22 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 .pk-item .c{color:var(--muted);font-size:11px}
 .pk-empty{color:var(--muted);font-size:12px;padding:8px}
 
-.utable{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.online-bar{font-size:12px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.online-bar .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(53,196,106,.18)}
+.online-bar b{color:var(--ink);font-weight:600}
+
+.utable{display:flex;flex-direction:column;gap:8px}
 .ubox{background:var(--bg);border:1px solid var(--line);border-radius:var(--r)}
 .urow{display:grid;grid-template-columns:1fr 140px 150px auto;gap:10px;align-items:center;padding:10px 12px}
 .urow b{display:block;font-weight:600;font-size:14px}
 .urow .mail{font-size:11px;color:var(--muted)}
 .urow select{padding:8px 10px;font-size:13px}
 .urow .acts{display:flex;gap:6px}
+.pres{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);margin-top:2px}
+.pres::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--line-2);flex:none}
+.pres.on{color:var(--ok)}
+.pres.on::before{background:var(--ok);box-shadow:0 0 0 3px rgba(53,196,106,.16)}
+.pres.never::before{background:var(--miss)}
 .uoff{padding:8px 10px;font-size:12px;background:transparent;border:1px solid var(--line);border-radius:var(--r);color:var(--ink);cursor:pointer;width:100%;text-align:left}
 .uoff:hover{border-color:var(--line-2)}
 .uoff:disabled{opacity:.4;cursor:default}
@@ -306,6 +314,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
         </form>
         <p class="hint">Utilizatorul se loghează scriind doar numele, fără domeniu. Notează-i parola — nu mai poate fi citită după creare, doar resetată.</p>
         <div class="divider"></div>
+        <div class="online-bar" id="onlineBar"></div>
         <div class="utable" id="users"></div>
       </div>
     </section>
@@ -323,8 +332,9 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL  = 'https://tjliqsomoulsemofdoyb.supabase.co';
 const SUPABASE_ANON = 'sb_publishable_mYJ7zrTGfhWYtKMv5e2OYw_BdlLmM9v';
 const MAIL_DOMAIN   = '@stoc.starnet.md';  // userii scriu doar "of014"
-const STALE_DAYS    = 7;   // după câte zile un oficiu e marcat neactualizat
-const LOW_STOCK     = 5;   // sub ce cantitate apare butonul „Solicitat"
+const STALE_DAYS    = 7;    // după câte zile un oficiu e marcat neactualizat
+const LOW_STOCK     = 5;    // sub ce cantitate apare butonul „Solicitat"
+const BEAT_MIN      = 2;    // la câte minute se salvează semnalul de activitate
 /* ========================================================== */
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
@@ -346,6 +356,7 @@ let me = null, offices = [], users = [];
 let filter = 'all', query = '', sortBy = 'code', showAll = false;
 let openHist = null, histCache = {}, busy = false;
 let channel = null, poller = null, liveOn = true, editing = false, pendingRender = false;
+let presence = null, beat = null, online = new Set();
 let openPicker = null, pickerQuery = '', newOffices = new Set();
 
 /* ---------- utilitare ---------- */
@@ -404,7 +415,8 @@ $('#loginForm').addEventListener('submit', async e => {
 });
 
 $('#logoutBtn').addEventListener('click', async () => {
-  stopLive(); await sb.auth.signOut(); location.reload();
+  stopLive(); stopPresence();
+  await sb.auth.signOut(); location.reload();
 });
 
 /* ---------- pornire ---------- */
@@ -431,12 +443,12 @@ async function start(){
 
   const scoped = prof.role === 'office' && me.offices.size > 0;
   $('#scope').classList.toggle('hidden', !scoped);
-  $('#scope').textContent = me.offices.size > 1 ? 'Vezi toate oficiile' : 'Vezi toate oficiile';
   showAll = !scoped;
 
   await load();
   if (isAdmin()) await loadUsers();
   startLive();
+  startPresence();
 }
 
 async function load(){
@@ -454,6 +466,33 @@ async function refresh(id){
   if (row) Object.assign(row, data);
   safeRender();
 }
+
+/* ---------- prezență ---------- */
+function startPresence(){
+  stopPresence();
+
+  sb.rpc('touch_presence');
+  beat = setInterval(() => { if (document.visibilityState === 'visible') sb.rpc('touch_presence'); }, BEAT_MIN * 60000);
+  document.addEventListener('visibilitychange', onVisible);
+
+  presence = sb.channel('prezenta', { config:{ presence:{ key: me.id } } })
+    .on('presence', { event:'sync' }, () => {
+      online = new Set(Object.keys(presence.presenceState()));
+      if (isAdmin()) renderUsers();
+    })
+    .subscribe(async status => {
+      if (status === 'SUBSCRIBED') await presence.track({ name: me.full_name, at: Date.now() });
+    });
+}
+
+function stopPresence(){
+  if (presence){ sb.removeChannel(presence); presence = null; }
+  if (beat){ clearInterval(beat); beat = null; }
+  document.removeEventListener('visibilitychange', onVisible);
+  online = new Set();
+}
+
+function onVisible(){ if (document.visibilityState === 'visible') sb.rpc('touch_presence'); }
 
 /* ---------- timp real ---------- */
 function startLive(){
@@ -503,7 +542,6 @@ $('#live').addEventListener('click', () => {
 });
 $('#rate').addEventListener('change', applyRate);
 
-// nu redesena lista cât timp cineva scrie o cantitate
 function safeRender(){
   if (editing){ pendingRender = true; return; }
   render();
@@ -545,7 +583,6 @@ function visible(){
   else if (sortBy === 'name')   list.sort((a,b) => fold(a.name).localeCompare(fold(b.name), 'ro'));
   else list.sort(byCode);
 
-  // oficiile proprii urcă în capul listei, păstrându-și ordinea
   list.sort((a,b) => (mine(a) ? 0 : 1) - (mine(b) ? 0 : 1));
   return list;
 }
@@ -798,6 +835,7 @@ function officeItems(selected, q, attr){
 }
 
 function fillNewOffices(){
+  if (!$('#nOffices')) return;
   $('#nOffices').innerHTML = officeItems(newOffices, $('#nSearch').value, 'data-new');
 }
 $('#nSearch').addEventListener('input', fillNewOffices);
@@ -817,7 +855,17 @@ async function loadUsers(){
   renderUsers();
 }
 
+function presenceHTML(u){
+  if (online.has(u.id))  return `<span class="pres on">activ acum</span>`;
+  if (u.last_seen)       return `<span class="pres">activ ${timeAgo(u.last_seen)}</span>`;
+  if (u.last_login)      return `<span class="pres">ultima logare ${timeAgo(u.last_login)}</span>`;
+  return `<span class="pres never">nu s-a conectat niciodată</span>`;
+}
+
 function renderUsers(){
+  const n = users.filter(u => online.has(u.id)).length;
+  $('#onlineBar').innerHTML = `<span class="dot"></span><b>${n}</b> din ${users.length} conturi active acum`;
+
   $('#users').innerHTML = users.map(u => {
     const self = u.id === me.id;
     const own = new Set(u.office_ids || []);
@@ -833,6 +881,7 @@ function renderUsers(){
           <div>
             <b>${esc(u.full_name || u.email.split('@')[0])} ${self ? '<span class="badge-me">contul tău</span>' : ''}</b>
             <span class="mail mono">${esc(u.email.split('@')[0])}</span>
+            ${presenceHTML(u)}
           </div>
           <select data-role="${u.id}" ${self?'disabled':''}>
             ${Object.entries(ROLE_RO).map(([k,v]) => `<option value="${k}"${u.role===k?' selected':''}>${v}</option>`).join('')}
