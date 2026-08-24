@@ -13,7 +13,7 @@
   --ink:#E9ECF2; --muted:#8A93A3;
   --ok:#35C46A; --ok-dim:#14331F; --ok-line:#1E6B3C;
   --miss:#E4553D; --miss-dim:#38180F; --miss-line:#7A2E1D;
-  --accent:#F2A413;
+  --accent:#ffd800; --on-accent:#1A1600;
   --r:10px;
 }
 *{box-sizing:border-box}
@@ -35,7 +35,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .field label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;font-weight:600}
 input,select{width:100%;padding:11px 13px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r)}
 input:focus,select:focus{border-color:var(--accent);outline:none}
-.btn{padding:11px 16px;background:var(--accent);color:#1A1200;border:0;border-radius:var(--r);font-weight:600;cursor:pointer;width:auto}
+.btn{padding:11px 16px;background:var(--accent);color:var(--on-accent);border:0;border-radius:var(--r);font-weight:600;cursor:pointer;width:auto}
 .btn:hover{filter:brightness(1.08)}
 .btn:disabled{opacity:.5;cursor:default}
 .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
@@ -45,13 +45,18 @@ input:focus,select:focus{border-color:var(--accent);outline:none}
 
 /* ---------- Header ---------- */
 header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:20}
-.hd{display:flex;align-items:center;gap:14px;height:62px}
-.hd h1{font-size:19px;font-weight:700;flex:1}
+.hd{display:flex;align-items:center;gap:10px;min-height:62px;flex-wrap:wrap;padding:8px 0}
+.hd h1{font-size:19px;font-weight:700;flex:1;min-width:120px}
 .hd h1 em{font-style:normal;color:var(--accent)}
 .who{text-align:right;line-height:1.25;font-size:13px}
 .who b{display:block;font-weight:600}
 .who small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.07em}
-.hd .btn{flex:none}
+.hd .btn,.hd select{flex:none;width:auto}
+#live{display:flex;align-items:center;gap:7px;padding:9px 13px;font-size:13px}
+#live .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+#live.on .dot{background:var(--ok);box-shadow:0 0 0 3px rgba(53,196,106,.18)}
+#live.warn .dot{background:var(--accent)}
+#rate{padding:9px 10px;background:var(--bg);font-size:12px;color:var(--muted)}
 
 /* ---------- Stats ---------- */
 .stats{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 16px}
@@ -69,16 +74,16 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .chip{padding:9px 13px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);width:auto}
 .chip[aria-pressed="true"]{background:var(--surface-2);color:var(--ink);border-color:var(--line-2)}
 #scope{border-color:var(--line-2);color:var(--ink)}
-#scope[aria-pressed="true"]{background:var(--accent);color:#1A1200;border-color:var(--accent)}
+#scope[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
 #sort{width:auto;padding:10px 12px;background:var(--surface);font-size:13px}
 
 /* ---------- Listă oficii ---------- */
-.head-row{display:grid;grid-template-columns:4px 1fr 372px 186px;gap:14px;align-items:end;padding:0 14px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.head-row{display:grid;grid-template-columns:4px 1fr 396px 186px;gap:14px;align-items:end;padding:0 14px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
 .head-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
 .rows{display:flex;flex-direction:column;gap:8px}
 .rw{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
 .rw.open{border-color:var(--line-2)}
-.row{display:grid;grid-template-columns:4px 1fr 372px 186px;gap:14px;align-items:center;padding:12px 14px}
+.row{display:grid;grid-template-columns:4px 1fr 396px 186px;gap:14px;align-items:center;padding:12px 14px}
 .spine{width:4px;height:100%;min-height:44px;border-radius:2px;background:var(--miss)}
 .spine.partial{background:var(--accent)}
 .spine.full{background:var(--ok)}
@@ -97,19 +102,20 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .tile.locked{opacity:.62}
 
 .qtybar{display:flex;align-items:center;justify-content:center;gap:3px}
-.qtybar button{width:24px;height:22px;padding:0;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:14px;line-height:1;cursor:pointer}
+.qtybar button{width:24px;height:24px;padding:0;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:14px;line-height:1;cursor:pointer;flex:none}
 .qtybar button:hover{border-color:var(--line-2);color:var(--ink)}
-.qtybar .v{font-family:Archivo;font-weight:700;font-size:13px;min-width:26px;text-align:center}
-.qtybar .u{font-size:10px;color:var(--muted)}
+.qv{width:52px;padding:2px 4px;text-align:center;font-family:Archivo;font-weight:700;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:5px;-moz-appearance:textfield}
+.qv::-webkit-outer-spin-button,.qv::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.qstatic{text-align:center;font-size:11px;color:var(--muted);font-weight:600}
 
 .resbar{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap}
 .left{font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;color:var(--muted)}
 .left b{font-family:Archivo;font-size:12px;color:var(--ink)}
 .left.zero,.left.zero b{color:var(--miss)}
 .ask{padding:2px 7px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:5px;cursor:pointer;width:auto}
-.ask:hover{background:var(--accent);color:#1A1200}
+.ask:hover{background:var(--accent);color:var(--on-accent)}
 .ask:disabled{opacity:.35;cursor:default;background:transparent;color:var(--accent)}
-.undo{padding:2px 6px;font-size:10px;background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:5px;cursor:pointer;width:auto}
+.undo{padding:2px 6px;font-size:11px;background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:5px;cursor:pointer;width:auto}
 .undo:hover{border-color:var(--line-2);color:var(--ink)}
 
 .stamp{font-size:12px;line-height:1.4;min-width:0}
@@ -143,12 +149,28 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .lbl{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;font-weight:600}
 .hint{font-size:12px;color:var(--muted);margin:10px 0}
 textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);resize:vertical;font-family:'JetBrains Mono',monospace;font-size:13px}
+
+/* selector de oficii */
+.picker{margin:12px 0 4px}
+.pk-search{margin-bottom:6px}
+.pk-list{max-height:190px;overflow:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--bg);padding:6px}
+.pk-item{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:13px}
+.pk-item:hover{background:var(--surface-2)}
+.pk-item input{width:auto;margin:0;accent-color:var(--accent)}
+.pk-item .c{color:var(--muted);font-size:11px}
+.pk-empty{color:var(--muted);font-size:12px;padding:8px}
+
 .utable{display:flex;flex-direction:column;gap:8px;margin-top:6px}
-.urow{display:grid;grid-template-columns:1fr 130px 1fr auto;gap:10px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px}
+.ubox{background:var(--bg);border:1px solid var(--line);border-radius:var(--r)}
+.urow{display:grid;grid-template-columns:1fr 140px 150px auto;gap:10px;align-items:center;padding:10px 12px}
 .urow b{display:block;font-weight:600;font-size:14px}
 .urow .mail{font-size:11px;color:var(--muted)}
 .urow select{padding:8px 10px;font-size:13px}
 .urow .acts{display:flex;gap:6px}
+.uoff{padding:8px 10px;font-size:12px;background:transparent;border:1px solid var(--line);border-radius:var(--r);color:var(--ink);cursor:pointer;width:100%;text-align:left}
+.uoff:hover{border-color:var(--line-2)}
+.uoff:disabled{opacity:.4;cursor:default}
+.upicker{border-top:1px solid var(--line);padding:12px}
 .badge-me{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);font-weight:600}
 .divider{height:1px;background:var(--line);margin:20px 0}
 
@@ -157,7 +179,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.bad{border-color:var(--miss);color:#FFC7BB}
 
-@media (max-width:900px){
+@media (max-width:920px){
   .head-row{display:none}
   .row{grid-template-columns:4px 1fr;grid-template-areas:"s n" ". t" ". m";row-gap:12px}
   .spine{grid-area:s}
@@ -166,6 +188,10 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
   .stamp{grid-area:m}
   .hist{padding-left:18px}
   .urow{grid-template-columns:1fr;gap:8px}
+}
+@media (max-width:560px){
+  .hd h1{flex:1 1 100%}
+  #rate{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none !important}}
 </style>
@@ -195,6 +221,13 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
   <header>
     <div class="wrap hd">
       <h1>Stoc <em>Oficii</em></h1>
+      <button class="btn btn-ghost" id="live" title="Actualizare automată"><span class="dot"></span><span id="liveTxt">Live</span></button>
+      <select id="rate" aria-label="Verificare de rezervă">
+        <option value="0">Fără verificare</option>
+        <option value="15">la 15 s</option>
+        <option value="30">la 30 s</option>
+        <option value="60" selected>la 60 s</option>
+      </select>
       <div class="who"><b id="whoName">—</b><small id="whoRole">—</small></div>
       <button class="btn btn-ghost" id="logoutBtn">Ieși</button>
     </div>
@@ -216,7 +249,9 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
         <button class="chip" data-f="stale" aria-pressed="false">Neactualizate</button>
       </div>
       <select id="sort" aria-label="Ordonare">
-        <option value="name">Ordonează: cod oficiu</option>
+        <option value="code">Ordonează: cod oficiu</option>
+        <option value="name">Ordonează: nume</option>
+        <option value="new">Ordonează: cele mai noi</option>
         <option value="recent">Ordonează: modificate recent</option>
         <option value="old">Ordonează: cele mai vechi</option>
       </select>
@@ -251,17 +286,23 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
       </div>
 
       <div class="pane hidden" id="paneUsers">
-        <form class="grid-form" id="userForm">
-          <div><span class="lbl">Utilizator</span><input id="nUser" placeholder="of014" required autocapitalize="off" spellcheck="false"></div>
-          <div><span class="lbl">Parolă</span><input id="nPass" placeholder="minim 6 caractere" required minlength="6"></div>
-          <div><span class="lbl">Rol</span>
-            <select id="nRole">
-              <option value="office">Oficiu</option>
-              <option value="viewer">Vizualizare</option>
-              <option value="admin">Administrator</option>
-            </select></div>
-          <div><span class="lbl">Oficiu</span><select id="nOffice"></select></div>
-          <button class="btn" type="submit" id="nBtn">Creează contul</button>
+        <form id="userForm">
+          <div class="grid-form">
+            <div><span class="lbl">Utilizator</span><input id="nUser" placeholder="of014" required autocapitalize="off" spellcheck="false"></div>
+            <div><span class="lbl">Parolă</span><input id="nPass" placeholder="minim 6 caractere" required minlength="6"></div>
+            <div><span class="lbl">Rol</span>
+              <select id="nRole">
+                <option value="office">Oficiu</option>
+                <option value="viewer">Vizualizare</option>
+                <option value="admin">Administrator</option>
+              </select></div>
+            <button class="btn" type="submit" id="nBtn">Creează contul</button>
+          </div>
+          <div class="picker" id="nPicker">
+            <span class="lbl">Oficii cu acces — poți bifa mai multe</span>
+            <input class="pk-search" id="nSearch" placeholder="Caută oficiu…" autocomplete="off">
+            <div class="pk-list" id="nOffices"></div>
+          </div>
         </form>
         <p class="hint">Utilizatorul se loghează scriind doar numele, fără domeniu. Notează-i parola — nu mai poate fi citită după creare, doar resetată.</p>
         <div class="divider"></div>
@@ -287,7 +328,6 @@ const LOW_STOCK     = 5;   // sub ce cantitate apare butonul „Solicitat"
 /* ========================================================== */
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
-// client secundar: creează conturi fără să deconecteze adminul
 const sbTmp = createClient(SUPABASE_URL, SUPABASE_ANON, {
   auth:{ persistSession:false, autoRefreshToken:false, detectSessionInUrl:false, storageKey:'stoc-tmp' }
 });
@@ -303,8 +343,10 @@ const LABEL   = Object.fromEntries(ITEMS.map(i => [i.key, i.label]));
 const ROLE_RO = { admin:'Administrator', office:'Oficiu', viewer:'Vizualizare' };
 
 let me = null, offices = [], users = [];
-let filter = 'all', query = '', sortBy = 'name', showAll = false;
+let filter = 'all', query = '', sortBy = 'code', showAll = false;
 let openHist = null, histCache = {}, busy = false;
+let channel = null, poller = null, liveOn = true, editing = false, pendingRender = false;
+let openPicker = null, pickerQuery = '', newOffices = new Set();
 
 /* ---------- utilitare ---------- */
 function toast(msg, bad=false){
@@ -314,14 +356,14 @@ function toast(msg, bad=false){
 }
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-// scoate diacriticele: „balti" găsește „Bălți"
 const fold = s => String(s ?? '').toLowerCase()
   .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   .replace(/ș/g,'s').replace(/ş/g,'s')
   .replace(/ț/g,'t').replace(/ţ/g,'t');
 
-const canEdit = o => me && (me.role === 'admin' || me.office_id === o.id);
 const isAdmin = () => me && me.role === 'admin';
+const mine    = o => me && me.offices && me.offices.has(o.id);
+const canEdit = o => isAdmin() || mine(o);
 const isStale = o => !o.updated_at || (Date.now() - new Date(o.updated_at)) / 86400000 > STALE_DAYS;
 const mail = u => u.includes('@') ? u : u + MAIL_DOMAIN;
 const fmtDate = iso => new Date(iso).toLocaleString('ro-MD', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
@@ -329,6 +371,7 @@ const fmtDate = iso => new Date(iso).toLocaleString('ro-MD', { day:'2-digit', mo
 const qtyOf  = (o,k) => o['qty_' + k] ?? 0;
 const resOf  = (o,k) => o['res_' + k] ?? 0;
 const leftOf = (o,k) => Math.max(0, qtyOf(o,k) - resOf(o,k));
+const byCode = (a,b) => a.code.localeCompare(b.code, 'ro', { numeric:true });
 
 function timeAgo(iso){
   const s = (Date.now() - new Date(iso)) / 1000;
@@ -360,7 +403,9 @@ $('#loginForm').addEventListener('submit', async e => {
   await start();
 });
 
-$('#logoutBtn').addEventListener('click', async () => { await sb.auth.signOut(); location.reload(); });
+$('#logoutBtn').addEventListener('click', async () => {
+  stopLive(); await sb.auth.signOut(); location.reload();
+});
 
 /* ---------- pornire ---------- */
 async function start(){
@@ -375,55 +420,114 @@ async function start(){
   }
   me = prof;
 
+  const { data:myOff } = await sb.from('user_offices').select('office_id').eq('user_id', user.id);
+  me.offices = new Set((myOff || []).map(r => r.office_id));
+
   $('#login').classList.add('hidden');
   $('#app').classList.remove('hidden');
   $('#whoName').textContent = prof.full_name || user.email;
   $('#whoRole').textContent = ROLE_RO[prof.role] || prof.role;
   $('#adminPanel').classList.toggle('hidden', !isAdmin());
 
-  // comutatorul apare doar la conturile legate de un oficiu
-  const scoped = prof.role === 'office' && prof.office_id;
+  const scoped = prof.role === 'office' && me.offices.size > 0;
   $('#scope').classList.toggle('hidden', !scoped);
+  $('#scope').textContent = me.offices.size > 1 ? 'Vezi toate oficiile' : 'Vezi toate oficiile';
   showAll = !scoped;
 
   await load();
   if (isAdmin()) await loadUsers();
+  startLive();
 }
 
 async function load(){
   const { data, error } = await sb.from('offices').select('*');
   if (error) return toast('Lista nu s-a putut încărca: ' + error.message, true);
   offices = data;
-  render();
-  fillOfficeSelect();
+  safeRender();
+  fillNewOffices();
 }
 
 async function refresh(id){
   const { data, error } = await sb.from('offices').select('*').eq('id', id).single();
-  if (error) return toast('Nu am putut reîncărca oficiul: ' + error.message, true);
-  Object.assign(offices.find(o => o.id === id), data);
+  if (error) return;
+  const row = offices.find(o => o.id === id);
+  if (row) Object.assign(row, data);
+  safeRender();
+}
+
+/* ---------- timp real ---------- */
+function startLive(){
+  stopLive();
+  if (!liveOn) return;
+
+  channel = sb.channel('offices-live')
+    .on('postgres_changes', { event:'*', schema:'public', table:'offices' }, payload => {
+      if (payload.eventType === 'DELETE'){
+        offices = offices.filter(o => o.id !== payload.old.id);
+      } else if (payload.eventType === 'INSERT'){
+        if (!offices.some(o => o.id === payload.new.id)) offices.push(payload.new);
+      } else {
+        const row = offices.find(o => o.id === payload.new.id);
+        if (row) Object.assign(row, payload.new); else offices.push(payload.new);
+      }
+      safeRender();
+    })
+    .subscribe(status => {
+      const b = $('#live');
+      if (status === 'SUBSCRIBED'){ b.classList.add('on'); b.classList.remove('warn'); $('#liveTxt').textContent = 'Live'; }
+      else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT'){
+        b.classList.remove('on'); b.classList.add('warn'); $('#liveTxt').textContent = 'Reconectare';
+      }
+    });
+
+  applyRate();
+}
+
+function stopLive(){
+  if (channel){ sb.removeChannel(channel); channel = null; }
+  if (poller){ clearInterval(poller); poller = null; }
+  const b = $('#live');
+  if (b){ b.classList.remove('on','warn'); $('#liveTxt').textContent = 'Oprit'; }
+}
+
+function applyRate(){
+  if (poller){ clearInterval(poller); poller = null; }
+  const s = Number($('#rate').value);
+  if (liveOn && s > 0) poller = setInterval(() => { if (!busy && !editing) load(); }, s * 1000);
+}
+
+$('#live').addEventListener('click', () => {
+  liveOn = !liveOn;
+  if (liveOn){ startLive(); toast('Actualizare automată pornită.'); }
+  else { stopLive(); toast('Actualizare automată oprită.'); }
+});
+$('#rate').addEventListener('change', applyRate);
+
+// nu redesena lista cât timp cineva scrie o cantitate
+function safeRender(){
+  if (editing){ pendingRender = true; return; }
   render();
 }
 
 /* ---------- filtre & sortare ---------- */
-$('#q').addEventListener('input', e => { query = fold(e.target.value).trim(); render(); });
-$('#sort').addEventListener('change', e => { sortBy = e.target.value; render(); });
+$('#q').addEventListener('input', e => { query = fold(e.target.value).trim(); safeRender(); });
+$('#sort').addEventListener('change', e => { sortBy = e.target.value; safeRender(); });
 $('#chips').addEventListener('click', e => {
   const b = e.target.closest('.chip'); if (!b) return;
   filter = b.dataset.f;
   [...$('#chips').children].forEach(c => c.setAttribute('aria-pressed', c === b));
-  render();
+  safeRender();
 });
 $('#scope').addEventListener('click', () => {
   showAll = !showAll;
   $('#scope').setAttribute('aria-pressed', showAll);
-  $('#scope').textContent = showAll ? 'Doar oficiul meu' : 'Vezi toate oficiile';
-  render();
+  $('#scope').textContent = showAll ? 'Doar oficiile mele' : 'Vezi toate oficiile';
+  safeRender();
 });
 
 function visible(){
   const list = offices.filter(o => {
-    if (!showAll && me.office_id && o.id !== me.office_id) return false;
+    if (!showAll && me.offices.size && !mine(o)) return false;
     const n = ITEMS.filter(i => o[i.key]).length;
     if (filter === 'missing' && n === 3) return false;
     if (filter === 'full'    && n !== 3) return false;
@@ -432,15 +536,17 @@ function visible(){
     return [o.name, o.code, o.city].some(v => fold(v).includes(query));
   });
 
-  const t = o => o.updated_at ? new Date(o.updated_at).getTime() : 0;
-  if (sortBy === 'recent')   list.sort((a,b) => t(b) - t(a));
-  else if (sortBy === 'old') list.sort((a,b) => t(a) - t(b));
-  else list.sort((a,b) => a.code.localeCompare(b.code, 'ro', { numeric:true }));
+  const upd = o => o.updated_at ? new Date(o.updated_at).getTime() : 0;
+  const add = o => o.created_at ? new Date(o.created_at).getTime() : 0;
 
-  // oficiul propriu urcă mereu pe prima poziție
-  const mineIdx = list.findIndex(o => o.id === me.office_id);
-  if (mineIdx > 0) list.unshift(list.splice(mineIdx, 1)[0]);
+  if (sortBy === 'recent')      list.sort((a,b) => upd(b) - upd(a));
+  else if (sortBy === 'old')    list.sort((a,b) => upd(a) - upd(b));
+  else if (sortBy === 'new')    list.sort((a,b) => add(b) - add(a));
+  else if (sortBy === 'name')   list.sort((a,b) => fold(a.name).localeCompare(fold(b.name), 'ro'));
+  else list.sort(byCode);
 
+  // oficiile proprii urcă în capul listei, păstrându-și ordinea
+  list.sort((a,b) => (mine(a) ? 0 : 1) - (mine(b) ? 0 : 1));
   return list;
 }
 
@@ -463,26 +569,30 @@ function cellHTML(o, i){
       aria-label="${esc(i.label)} — ${has ? (qty>0 ? qty + ' bucăți' : 'în stoc') : 'lipsă'}"
       ${edit?'':'disabled'}>${face}</button>`;
 
-  // cantitatea: doar oficiul propriu și adminul o pot schimba
-  const stepper = (has && edit) ? `
-    <div class="qtybar">
-      <button data-id="${o.id}" data-key="${i.key}" data-qty="-1" aria-label="Scade cantitatea">−</button>
-      <span class="v">${qty}<span class="u"> buc</span></span>
-      <button data-id="${o.id}" data-key="${i.key}" data-qty="1" aria-label="Crește cantitatea">+</button>
-    </div>` : '';
+  let qbar = '';
+  if (has && edit){
+    qbar = `<div class="qtybar">
+      <button data-id="${o.id}" data-key="${i.key}" data-qty="-1" aria-label="Scade">−</button>
+      <input class="qv" type="number" min="0" step="1" value="${qty}"
+             data-id="${o.id}" data-key="${i.key}" aria-label="Cantitate ${esc(i.label)}">
+      <button data-id="${o.id}" data-key="${i.key}" data-qty="1" aria-label="Crește">+</button>
+    </div>`;
+  } else if (has && qty > 0){
+    qbar = `<div class="qstatic">${qty} buc</div>`;
+  }
 
-  // solicitările apar doar când stocul e mic
   const res = (has && qty > 0 && qty <= LOW_STOCK) ? `
     <div class="resbar">
       <span class="left ${left === 0 ? 'zero' : ''}">rămas <b>${left}</b></span>
       <button class="ask" data-id="${o.id}" data-key="${i.key}" data-res="1" ${left === 0 ? 'disabled' : ''}>Solicitat</button>
-      ${resOf(o,i.key) > 0 ? `<button class="undo" data-id="${o.id}" data-key="${i.key}" data-res="-1" aria-label="Anulează ultima solicitare">↺</button>` : ''}
+      ${resOf(o,i.key) > 0 ? `<button class="undo" data-id="${o.id}" data-key="${i.key}" data-res="-1" title="Anulează ultima solicitare">↺</button>` : ''}
     </div>` : '';
 
-  return `<div class="cell">${tile}${stepper}${res}</div>`;
+  return `<div class="cell">${tile}${qbar}${res}</div>`;
 }
 
 function render(){
+  pendingRender = false;
   const list = visible();
   const totals = ITEMS.map(i => offices.filter(o => o[i.key]).length);
   const full   = offices.filter(o => ITEMS.every(i => o[i.key])).length;
@@ -507,7 +617,7 @@ function render(){
         <div class="row">
           <div class="spine ${cls}"></div>
           <div class="who-col">
-            <div class="oname">${esc(o.name)}${o.id === me.office_id ? ' <span class="badge-me">oficiul tău</span>' : ''}</div>
+            <div class="oname">${esc(o.name)}${mine(o) ? ' <span class="badge-me">oficiul tău</span>' : ''}</div>
             <div class="ometa"><span class="mono">${esc(o.code)}</span>${o.city ? ' · ' + esc(o.city) : ''}</div>
           </div>
           <div class="tiles">${ITEMS.map(i => cellHTML(o, i)).join('')}</div>
@@ -537,6 +647,21 @@ function histHTML(id){
 }
 
 /* ---------- interacțiuni pe rânduri ---------- */
+$('#rows').addEventListener('focusin', e => { if (e.target.classList.contains('qv')) editing = true; });
+$('#rows').addEventListener('focusout', e => {
+  if (e.target.classList.contains('qv')){
+    editing = false;
+    if (pendingRender) render();
+  }
+});
+$('#rows').addEventListener('change', e => {
+  const inp = e.target.closest('.qv');
+  if (inp) setQty(inp.dataset.id, inp.dataset.key, Math.max(0, Math.floor(Number(inp.value) || 0)));
+});
+$('#rows').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.classList.contains('qv')){ e.preventDefault(); e.target.blur(); }
+});
+
 $('#rows').addEventListener('click', async e => {
   if (busy) return;
 
@@ -555,7 +680,10 @@ $('#rows').addEventListener('click', async e => {
   if (r) return reserve(r.dataset.id, r.dataset.key, Number(r.dataset.res));
 
   const q = e.target.closest('[data-qty]');
-  if (q) return changeQty(q.dataset.id, q.dataset.key, Number(q.dataset.qty));
+  if (q){
+    const o = offices.find(x => x.id === q.dataset.id);
+    return setQty(q.dataset.id, q.dataset.key, Math.max(0, qtyOf(o, q.dataset.key) + Number(q.dataset.qty)));
+  }
 
   const tile = e.target.closest('.tile.editable');
   if (tile) return toggleItem(tile);
@@ -578,23 +706,26 @@ async function toggleItem(tile){
   toast(`${LABEL[key]} · ${office.name}: ${next ? 'în stoc' : 'lipsă'}`);
 }
 
-async function changeQty(id, key, delta){
+async function setQty(id, key, value){
   const office = offices.find(o => o.id === id);
-  const next = Math.max(0, qtyOf(office, key) + delta);
-  if (next === qtyOf(office, key)) return;
+  if (!office || value === qtyOf(office, key)) return render();
 
   busy = true;
   const { data, error } = await sb.from('offices')
-    .update({ ['qty_' + key]: next }).eq('id', id).select().single();
+    .update({ ['qty_' + key]: value }).eq('id', id).select().single();
   busy = false;
 
-  if (error) return toast('Cantitatea nu a fost salvată: ' + error.message, true);
+  if (error){ toast('Cantitatea nu a fost salvată: ' + error.message, true); return render(); }
   Object.assign(office, data);
   render();
+  toast(`${LABEL[key]} · ${office.name}: ${value} buc`);
 }
 
 async function reserve(id, key, delta){
   const office = offices.find(o => o.id === id);
+
+  if (delta < 0 && !confirm(`Anulezi ultima solicitare de ${LABEL[key].toLowerCase()} la ${office.name}?`)) return;
+
   busy = true;
   const { error } = await sb.rpc('reserve_item', { target:id, item:key, delta });
   busy = false;
@@ -645,22 +776,40 @@ $('#bulkBtn').addEventListener('click', async () => {
 
 async function removeOffice(id){
   const o = offices.find(x => x.id === id);
-  if (!confirm(`Ștergi oficiul „${o.name}"?`)) return;
+  if (!confirm(`Ștergi oficiul „${o.name}"? Se pierde și istoricul lui.`)) return;
   const { error } = await sb.from('offices').delete().eq('id', id);
   if (error) return toast('Oficiul nu a fost șters: ' + error.message, true);
   if (openHist === id) openHist = null;
   await load(); toast('Oficiu șters.');
 }
 
-/* ---------- administrare utilizatori ---------- */
-const byCode = (a,b) => a.code.localeCompare(b.code, 'ro', { numeric:true });
-
-function fillOfficeSelect(){
-  $('#nOffice').innerHTML = ['<option value="">— fără oficiu —</option>']
-    .concat(offices.slice().sort(byCode)
-      .map(o => `<option value="${o.id}">${esc(o.code)} · ${esc(o.name)}</option>`)).join('');
+/* ---------- selector de oficii ---------- */
+function officeItems(selected, q, attr){
+  const f = fold(q || '');
+  const list = offices.slice().sort(byCode)
+    .filter(o => !f || fold(o.name).includes(f) || fold(o.code).includes(f) || fold(o.city).includes(f));
+  if (!list.length) return '<p class="pk-empty">Niciun oficiu găsit.</p>';
+  return list.map(o => `
+    <label class="pk-item">
+      <input type="checkbox" ${attr}="${o.id}" ${selected.has(o.id) ? 'checked' : ''}>
+      <span>${esc(o.name)}</span>
+      <span class="c mono">${esc(o.code)}</span>
+    </label>`).join('');
 }
 
+function fillNewOffices(){
+  $('#nOffices').innerHTML = officeItems(newOffices, $('#nSearch').value, 'data-new');
+}
+$('#nSearch').addEventListener('input', fillNewOffices);
+$('#nOffices').addEventListener('change', e => {
+  const cb = e.target.closest('[data-new]'); if (!cb) return;
+  cb.checked ? newOffices.add(cb.dataset.new) : newOffices.delete(cb.dataset.new);
+});
+$('#nRole').addEventListener('change', e => {
+  $('#nPicker').classList.toggle('hidden', e.target.value !== 'office');
+});
+
+/* ---------- administrare utilizatori ---------- */
 async function loadUsers(){
   const { data, error } = await sb.rpc('admin_users');
   if (error) return toast('Utilizatorii nu s-au putut încărca: ' + error.message, true);
@@ -669,31 +818,43 @@ async function loadUsers(){
 }
 
 function renderUsers(){
-  const offOpts = sel => ['<option value="">— fără oficiu —</option>']
-    .concat(offices.slice().sort(byCode)
-      .map(o => `<option value="${o.id}"${o.id===sel?' selected':''}>${esc(o.code)} · ${esc(o.name)}</option>`))
-    .join('');
-
   $('#users').innerHTML = users.map(u => {
     const self = u.id === me.id;
+    const own = new Set(u.office_ids || []);
+    const names = [...own].map(id => offices.find(o => o.id === id)).filter(Boolean).sort(byCode);
+    const label = u.role !== 'office' ? '—'
+      : own.size === 0 ? 'Niciun oficiu'
+      : own.size === 1 ? (names[0] ? names[0].code : '1 oficiu')
+      : `${own.size} oficii`;
+
     return `
-      <div class="urow">
-        <div>
-          <b>${esc(u.full_name || u.email.split('@')[0])} ${self ? '<span class="badge-me">contul tău</span>' : ''}</b>
-          <span class="mail mono">${esc(u.email.split('@')[0])}</span>
+      <div class="ubox">
+        <div class="urow">
+          <div>
+            <b>${esc(u.full_name || u.email.split('@')[0])} ${self ? '<span class="badge-me">contul tău</span>' : ''}</b>
+            <span class="mail mono">${esc(u.email.split('@')[0])}</span>
+          </div>
+          <select data-role="${u.id}" ${self?'disabled':''}>
+            ${Object.entries(ROLE_RO).map(([k,v]) => `<option value="${k}"${u.role===k?' selected':''}>${v}</option>`).join('')}
+          </select>
+          <button class="uoff" data-open="${u.id}" ${u.role!=='office'?'disabled':''}>${esc(label)} ▾</button>
+          <div class="acts">
+            <button class="mini" data-pass="${u.id}">Parolă nouă</button>
+            ${self ? '' : `<button class="mini danger" data-deluser="${u.id}">Șterge</button>`}
+          </div>
         </div>
-        <select data-role="${u.id}" ${self?'disabled':''}>
-          ${Object.entries(ROLE_RO).map(([k,v]) => `<option value="${k}"${u.role===k?' selected':''}>${v}</option>`).join('')}
-        </select>
-        <select data-office="${u.id}" ${self || u.role!=='office' ? 'disabled':''}>
-          ${offOpts(u.office_id)}
-        </select>
-        <div class="acts">
-          <button class="mini" data-pass="${u.id}">Parolă nouă</button>
-          ${self ? '' : `<button class="mini danger" data-deluser="${u.id}">Șterge</button>`}
-        </div>
+        ${openPicker === u.id ? `
+          <div class="upicker">
+            <input class="pk-search" id="uSearch" placeholder="Caută oficiu…" value="${esc(pickerQuery)}" autocomplete="off">
+            <div class="pk-list">${officeItems(own, pickerQuery, 'data-uoff')}</div>
+          </div>` : ''}
       </div>`;
   }).join('') || '<p class="empty-h">Niciun utilizator.</p>';
+
+  if (openPicker){
+    const s = $('#uSearch');
+    if (s){ s.focus(); s.setSelectionRange(s.value.length, s.value.length); }
+  }
 }
 
 $('#userForm').addEventListener('submit', async e => {
@@ -702,22 +863,20 @@ $('#userForm').addEventListener('submit', async e => {
   const uname = $('#nUser').value.trim().toLowerCase();
   const pass  = $('#nPass').value;
   const role  = $('#nRole').value;
-  const office = role === 'office' ? ($('#nOffice').value || null) : null;
+  const list  = role === 'office' ? [...newOffices] : [];
 
-  if (role === 'office' && !office) return toast('Alege oficiul pentru acest cont.', true);
+  if (role === 'office' && !list.length) return toast('Bifează cel puțin un oficiu.', true);
 
   btn.disabled = true; btn.textContent = 'Se creează…';
 
-  // 1. pregătește invitația (doar adminul are voie)
   const { error:e1 } = await sb.from('pending_signups')
-    .upsert({ email: mail(uname), full_name: uname, role, office_id: office });
+    .upsert({ email: mail(uname), full_name: uname, role, office_ids: list, office_id: list[0] || null });
 
   if (e1){
     btn.disabled = false; btn.textContent = 'Creează contul';
     return toast('Nu am putut pregăti contul: ' + e1.message, true);
   }
 
-  // 2. creează contul, fără să deconecteze adminul
   const { error:e2 } = await sbTmp.auth.signUp({ email: mail(uname), password: pass });
   await sbTmp.auth.signOut();
   btn.disabled = false; btn.textContent = 'Creează contul';
@@ -729,33 +888,52 @@ $('#userForm').addEventListener('submit', async e => {
       : 'Contul nu a fost creat: ' + e2.message, true);
   }
 
-  e.target.reset(); fillOfficeSelect();
+  $('#nUser').value = ''; $('#nPass').value = '';
+  newOffices.clear(); fillNewOffices();
   await loadUsers();
   toast(`Cont creat: ${uname}. Notează parola acum.`);
 });
 
+$('#users').addEventListener('input', e => {
+  if (e.target.id === 'uSearch'){
+    pickerQuery = e.target.value;
+    const u = users.find(x => x.id === openPicker);
+    const box = e.target.parentElement.querySelector('.pk-list');
+    if (u && box) box.innerHTML = officeItems(new Set(u.office_ids || []), pickerQuery, 'data-uoff');
+  }
+});
+
 $('#users').addEventListener('change', async e => {
-  const r = e.target.closest('[data-role]'), o = e.target.closest('[data-office]');
-  const id = r ? r.dataset.role : o ? o.dataset.office : null;
-  if (!id) return;
-
-  const u = users.find(x => x.id === id);
-  const role   = r ? r.value : u.role;
-  const office = role === 'office' ? (o ? o.value : u.office_id) : null;
-
-  if (role === 'office' && !office){
-    toast('Alege oficiul pentru acest cont.', true);
-    renderUsers();
+  const cb = e.target.closest('[data-uoff]');
+  if (cb){
+    const { error } = await sb.rpc('admin_toggle_office',
+      { target: openPicker, office: cb.dataset.uoff, active: cb.checked });
+    if (error){ toast('Nu am putut salva: ' + error.message, true); cb.checked = !cb.checked; return; }
+    const u = users.find(x => x.id === openPicker);
+    const set = new Set(u.office_ids || []);
+    cb.checked ? set.add(cb.dataset.uoff) : set.delete(cb.dataset.uoff);
+    u.office_ids = [...set];
+    if (u.id === me.id) me.offices = new Set(u.office_ids);
     return;
   }
 
-  const { error } = await sb.rpc('admin_set_role', { target:id, new_role:role, new_office:office || null });
-  if (error){ toast('Nu am putut salva: ' + error.message, true); renderUsers(); return; }
-  await loadUsers();
-  toast('Permisiuni actualizate.');
+  const r = e.target.closest('[data-role]');
+  if (r){
+    const { error } = await sb.rpc('admin_set_role', { target:r.dataset.role, new_role:r.value });
+    if (error) toast('Nu am putut salva: ' + error.message, true);
+    else toast('Rol actualizat.');
+    await loadUsers();
+  }
 });
 
 $('#users').addEventListener('click', async e => {
+  const op = e.target.closest('[data-open]');
+  if (op){
+    openPicker = openPicker === op.dataset.open ? null : op.dataset.open;
+    pickerQuery = '';
+    return renderUsers();
+  }
+
   const p = e.target.closest('[data-pass]');
   if (p){
     const u = users.find(x => x.id === p.dataset.pass);
@@ -771,6 +949,7 @@ $('#users').addEventListener('click', async e => {
     if (!confirm(`Ștergi contul ${u.email.split('@')[0]}?`)) return;
     const { error } = await sb.rpc('admin_delete_user', { target:u.id });
     if (error) return toast('Contul nu a fost șters: ' + error.message, true);
+    if (openPicker === u.id) openPicker = null;
     await loadUsers(); toast('Cont șters.');
   }
 });
