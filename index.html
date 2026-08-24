@@ -24,7 +24,7 @@ h1,h2{font-family:Archivo,Inter,sans-serif;letter-spacing:-.01em;margin:0}
 button,input,select,textarea{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 .hidden{display:none !important}
-.wrap{max-width:1240px;margin:0 auto;padding:0 18px}
+.wrap{max-width:1760px;margin:0 auto;padding:0 26px}
 
 /* ---------- Login ---------- */
 #login{min-height:100dvh;display:grid;place-items:center;padding:24px}
@@ -45,14 +45,16 @@ input:focus,select:focus{border-color:var(--accent);outline:none}
 
 /* ---------- Header ---------- */
 header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:20}
-.hd{display:flex;align-items:center;gap:10px;min-height:62px;flex-wrap:wrap;padding:8px 0}
-.hd h1{font-size:19px;font-weight:700;flex:1;min-width:120px}
+.hd{display:flex;align-items:center;gap:14px;min-height:66px;flex-wrap:wrap;padding:10px 0}
+.hd h1{font-size:19px;font-weight:700;margin-right:auto}
 .hd h1 em{font-style:normal;color:var(--accent)}
-.who{text-align:right;line-height:1.25;font-size:13px}
+.hd-tools{display:flex;align-items:center;gap:9px;background:var(--bg);border:1px solid var(--line);border-radius:13px;padding:6px 8px}
+.hd-sep{width:1px;height:26px;background:var(--line);flex:none}
+.who{line-height:1.25;font-size:13px;padding:0 2px}
 .who b{display:block;font-weight:600}
 .who small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.07em}
 .hd .btn,.hd select{flex:none;width:auto}
-#live{display:flex;align-items:center;gap:7px;padding:9px 13px;font-size:13px}
+#live{display:flex;align-items:center;gap:7px;padding:8px 12px;font-size:13px}
 #live .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
 #live.on .dot{background:var(--ok);box-shadow:0 0 0 3px rgba(53,196,106,.18)}
 #live.warn .dot{background:var(--accent)}
@@ -78,12 +80,15 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 #sort{width:auto;padding:10px 12px;background:var(--surface);font-size:13px}
 
 /* ---------- Listă oficii ---------- */
-.head-row{display:grid;grid-template-columns:4px 1fr 396px 186px;gap:14px;align-items:end;padding:0 14px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
-.head-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
+.grid{display:grid;grid-template-columns:4px minmax(170px,0.75fr) minmax(470px,1.25fr) 400px 190px;gap:16px}
+.head-row{align-items:end;padding:0 14px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.sub3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center;font-size:10px;margin-top:4px;color:var(--line-2)}
+.hd-res{line-height:1.3}
+.hd-res .h48{color:var(--accent)}
 .rows{display:flex;flex-direction:column;gap:8px}
 .rw{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
 .rw.open{border-color:var(--line-2)}
-.row{display:grid;grid-template-columns:4px 1fr 396px 186px;gap:14px;align-items:center;padding:12px 14px}
+.row{align-items:center;padding:12px 14px}
 .spine{width:4px;height:100%;min-height:44px;border-radius:2px;background:var(--miss)}
 .spine.partial{background:var(--accent)}
 .spine.full{background:var(--ok)}
@@ -91,6 +96,19 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .oname{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ometa{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
+/* rezervări */
+.rz{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:start}
+.rz-col{display:flex;flex-direction:column;gap:4px;min-width:0}
+.rz-chip{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:3px 4px 3px 7px}
+.rz-id{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;flex:none;white-space:nowrap;letter-spacing:.02em}
+.rz-t{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);flex:1 1 auto;text-align:right;min-width:0;overflow:hidden}
+.rz-t.soon{color:var(--accent)}
+.rz-x{flex:none;width:16px;height:16px;padding:0;line-height:1;background:transparent;border:0;color:var(--line-2);font-size:14px;cursor:pointer;border-radius:4px}
+.rz-x:hover{color:var(--miss);background:var(--miss-dim)}
+.rz-none{font-size:11px;color:var(--line-2);text-align:center;padding:2px 0}
+.col-lbl{display:none;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--line-2);font-weight:600;margin-bottom:1px}
+
+/* articole */
 .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .cell{display:flex;flex-direction:column;gap:5px;min-width:0}
 .tile{height:44px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);display:grid;place-items:center;cursor:default;font-family:Archivo;font-size:19px;font-weight:700;transition:transform .12s ease,background .15s ease;width:100%}
@@ -100,14 +118,12 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .tile.editable:hover{transform:translateY(-2px)}
 .tile.busy{opacity:.45}
 .tile.locked{opacity:.62}
-
 .qtybar{display:flex;align-items:center;justify-content:center;gap:3px}
 .qtybar button{width:24px;height:24px;padding:0;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:14px;line-height:1;cursor:pointer;flex:none}
 .qtybar button:hover{border-color:var(--line-2);color:var(--ink)}
 .qv{width:52px;padding:2px 4px;text-align:center;font-family:Archivo;font-weight:700;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:5px;-moz-appearance:textfield}
 .qv::-webkit-outer-spin-button,.qv::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .qstatic{text-align:center;font-size:11px;color:var(--muted);font-weight:600}
-
 .resbar{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap}
 .left{font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;color:var(--muted)}
 .left b{font-family:Archivo;font-size:12px;color:var(--ink)}
@@ -115,8 +131,6 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .ask{padding:2px 7px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:5px;cursor:pointer;width:auto}
 .ask:hover{background:var(--accent);color:var(--on-accent)}
 .ask:disabled{opacity:.35;cursor:default;background:transparent;color:var(--accent)}
-.undo{padding:2px 6px;font-size:11px;background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:5px;cursor:pointer;width:auto}
-.undo:hover{border-color:var(--line-2);color:var(--ink)}
 
 .stamp{font-size:12px;line-height:1.4;min-width:0}
 .stamp .when{font-weight:600}
@@ -149,7 +163,6 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .lbl{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;font-weight:600}
 .hint{font-size:12px;color:var(--muted);margin:10px 0}
 textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);resize:vertical;font-family:'JetBrains Mono',monospace;font-size:13px}
-
 .picker{margin:12px 0 4px}
 .pk-search{margin-bottom:6px}
 .pk-list{max-height:190px;overflow:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--bg);padding:6px}
@@ -158,11 +171,9 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 .pk-item input{width:auto;margin:0;accent-color:var(--accent)}
 .pk-item .c{color:var(--muted);font-size:11px}
 .pk-empty{color:var(--muted);font-size:12px;padding:8px}
-
 .online-bar{font-size:12px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:7px}
 .online-bar .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(53,196,106,.18)}
 .online-bar b{color:var(--ink);font-weight:600}
-
 .utable{display:flex;flex-direction:column;gap:8px}
 .ubox{background:var(--bg);border:1px solid var(--line);border-radius:var(--r)}
 .urow{display:grid;grid-template-columns:1fr 140px 150px auto;gap:10px;align-items:center;padding:10px 12px}
@@ -187,12 +198,14 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.bad{border-color:var(--miss);color:#FFC7BB}
 
-@media (max-width:920px){
+@media (max-width:1200px){
   .head-row{display:none}
-  .row{grid-template-columns:4px 1fr;grid-template-areas:"s n" ". t" ". m";row-gap:12px}
+  .row{grid-template-columns:4px 1fr;grid-template-areas:"s n" ". r" ". t" ". m";row-gap:12px}
   .spine{grid-area:s}
   .who-col{grid-area:n}
+  .rz{grid-area:r}
   .tiles{grid-area:t}
+  .col-lbl{display:block}
   .stamp{grid-area:m}
   .hist{padding-left:18px}
   .urow{grid-template-columns:1fr;gap:8px}
@@ -229,15 +242,18 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
   <header>
     <div class="wrap hd">
       <h1>Stoc <em>Oficii</em></h1>
-      <button class="btn btn-ghost" id="live" title="Actualizare automată"><span class="dot"></span><span id="liveTxt">Live</span></button>
-      <select id="rate" aria-label="Verificare de rezervă">
-        <option value="0">Fără verificare</option>
-        <option value="15">la 15 s</option>
-        <option value="30">la 30 s</option>
-        <option value="60" selected>la 60 s</option>
-      </select>
-      <div class="who"><b id="whoName">—</b><small id="whoRole">—</small></div>
-      <button class="btn btn-ghost" id="logoutBtn">Ieși</button>
+      <div class="hd-tools">
+        <button class="btn btn-ghost" id="live" title="Actualizare automată"><span class="dot"></span><span id="liveTxt">Live</span></button>
+        <select id="rate" aria-label="Verificare de rezervă">
+          <option value="0">Fără verificare</option>
+          <option value="15">la 15 s</option>
+          <option value="30">la 30 s</option>
+          <option value="60" selected>la 60 s</option>
+        </select>
+        <span class="hd-sep"></span>
+        <div class="who"><b id="whoName">—</b><small id="whoRole">—</small></div>
+        <button class="btn btn-ghost" id="logoutBtn">Ieși</button>
+      </div>
     </div>
   </header>
 
@@ -265,10 +281,15 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
       </select>
     </div>
 
-    <div class="head-row">
+    <div class="grid head-row">
       <div></div>
       <div>Oficiu</div>
-      <div class="head-tiles"><div>Telecomenzi</div><div>Blocuri alim.</div><div>Mesh</div></div>
+      <div class="hd-res">Solicitări · <span class="h48">48h</span>
+        <div class="sub3"><div>Telecom.</div><div>Bloc 250</div><div>Bloc 322</div></div>
+      </div>
+      <div>Stoc
+        <div class="sub3"><div>Telecomenzi</div><div>Blocuri 250</div><div>Blocuri 322</div></div>
+      </div>
       <div>Ultima modificare</div>
     </div>
     <div class="rows" id="rows"></div>
@@ -345,14 +366,14 @@ const sbTmp = createClient(SUPABASE_URL, SUPABASE_ANON, {
 const $ = s => document.querySelector(s);
 
 const ITEMS = [
-  { key:'telecomenzi', label:'Telecomenzi'   },
-  { key:'blocuri',     label:'Blocuri alim.' },
-  { key:'mesh',        label:'Mesh'          },
+  { key:'telecomenzi', label:'Telecomenzi' },
+  { key:'bloc250',     label:'Blocuri 250' },
+  { key:'bloc322',     label:'Blocuri 322' },
 ];
 const LABEL   = Object.fromEntries(ITEMS.map(i => [i.key, i.label]));
 const ROLE_RO = { admin:'Administrator', office:'Oficiu', viewer:'Vizualizare' };
 
-let me = null, offices = [], users = [];
+let me = null, offices = [], users = [], rez = [];
 let filter = 'all', query = '', sortBy = 'code', showAll = false;
 let openHist = null, histCache = {}, busy = false;
 let channel = null, poller = null, liveOn = true, editing = false, pendingRender = false;
@@ -380,9 +401,15 @@ const mail = u => u.includes('@') ? u : u + MAIL_DOMAIN;
 const fmtDate = iso => new Date(iso).toLocaleString('ro-MD', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
 
 const qtyOf  = (o,k) => o['qty_' + k] ?? 0;
-const resOf  = (o,k) => o['res_' + k] ?? 0;
-const leftOf = (o,k) => Math.max(0, qtyOf(o,k) - resOf(o,k));
+const rezOf  = (o,k) => rez.filter(r => r.office_id === o.id && r.item === k && new Date(r.expires_at) > new Date());
+const leftOf = (o,k) => Math.max(0, qtyOf(o,k) - rezOf(o,k).length);
 const byCode = (a,b) => a.code.localeCompare(b.code, 'ro', { numeric:true });
+
+function hhmmss(ms){
+  const s = Math.max(0, Math.floor(ms/1000));
+  const h = Math.floor(s/3600), m = Math.floor(s%3600/60), sec = s%60;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
 
 function timeAgo(iso){
   const s = (Date.now() - new Date(iso)) / 1000;
@@ -449,12 +476,17 @@ async function start(){
   if (isAdmin()) await loadUsers();
   startLive();
   startPresence();
+  startTicker();
 }
 
 async function load(){
-  const { data, error } = await sb.from('offices').select('*');
-  if (error) return toast('Lista nu s-a putut încărca: ' + error.message, true);
-  offices = data;
+  const [o, r] = await Promise.all([
+    sb.from('offices').select('*'),
+    sb.from('reservations').select('*').gt('expires_at', new Date().toISOString())
+  ]);
+  if (o.error) return toast('Lista nu s-a putut încărca: ' + o.error.message, true);
+  offices = o.data;
+  if (!r.error) rez = r.data;
   safeRender();
   fillNewOffices();
 }
@@ -467,10 +499,28 @@ async function refresh(id){
   safeRender();
 }
 
+/* ---------- cronometru rezervări ---------- */
+let ticker = null;
+function startTicker(){
+  if (ticker) return;
+  ticker = setInterval(() => {
+    let gata = false;
+    document.querySelectorAll('.rz-t').forEach(el => {
+      const left = Number(el.dataset.exp) - Date.now();
+      if (left <= 0){ gata = true; return; }
+      el.textContent = hhmmss(left);
+      el.classList.toggle('soon', left < 4*3600*1000);
+    });
+    if (gata){
+      rez = rez.filter(r => new Date(r.expires_at) > new Date());
+      safeRender();
+    }
+  }, 1000);
+}
+
 /* ---------- prezență ---------- */
 function startPresence(){
   stopPresence();
-
   sb.rpc('touch_presence');
   beat = setInterval(() => { if (document.visibilityState === 'visible') sb.rpc('touch_presence'); }, BEAT_MIN * 60000);
   document.addEventListener('visibilitychange', onVisible);
@@ -491,7 +541,6 @@ function stopPresence(){
   document.removeEventListener('visibilitychange', onVisible);
   online = new Set();
 }
-
 function onVisible(){ if (document.visibilityState === 'visible') sb.rpc('touch_presence'); }
 
 /* ---------- timp real ---------- */
@@ -499,16 +548,17 @@ function startLive(){
   stopLive();
   if (!liveOn) return;
 
-  channel = sb.channel('offices-live')
-    .on('postgres_changes', { event:'*', schema:'public', table:'offices' }, payload => {
-      if (payload.eventType === 'DELETE'){
-        offices = offices.filter(o => o.id !== payload.old.id);
-      } else if (payload.eventType === 'INSERT'){
-        if (!offices.some(o => o.id === payload.new.id)) offices.push(payload.new);
-      } else {
-        const row = offices.find(o => o.id === payload.new.id);
-        if (row) Object.assign(row, payload.new); else offices.push(payload.new);
-      }
+  channel = sb.channel('stoc-live')
+    .on('postgres_changes', { event:'*', schema:'public', table:'offices' }, p => {
+      if (p.eventType === 'DELETE') offices = offices.filter(o => o.id !== p.old.id);
+      else if (p.eventType === 'INSERT'){ if (!offices.some(o => o.id === p.new.id)) offices.push(p.new); }
+      else { const row = offices.find(o => o.id === p.new.id); if (row) Object.assign(row, p.new); else offices.push(p.new); }
+      safeRender();
+    })
+    .on('postgres_changes', { event:'*', schema:'public', table:'reservations' }, p => {
+      if (p.eventType === 'DELETE') rez = rez.filter(r => r.id !== p.old.id);
+      else if (p.eventType === 'INSERT'){ if (!rez.some(r => r.id === p.new.id)) rez.push(p.new); }
+      else { const row = rez.find(r => r.id === p.new.id); if (row) Object.assign(row, p.new); }
       safeRender();
     })
     .subscribe(status => {
@@ -587,7 +637,7 @@ function visible(){
   return list;
 }
 
-/* ---------- randare oficii ---------- */
+/* ---------- randare ---------- */
 function stampHTML(o){
   if (!o.updated_at)
     return `<span class="never">Fără modificări</span><span class="rel">adăugat ${timeAgo(o.created_at)}</span>`;
@@ -595,6 +645,21 @@ function stampHTML(o){
           <span class="rel">${timeAgo(o.updated_at)}</span>
           ${o.updated_by ? `<span class="by">${esc(o.updated_by)}</span>` : ''}
           ${isStale(o) ? `<span class="stale">peste ${STALE_DAYS} zile</span>` : ''}`;
+}
+
+function rezColHTML(o, i){
+  const list = rezOf(o, i.key).sort((a,b) => new Date(a.expires_at) - new Date(b.expires_at));
+  const lbl = `<span class="col-lbl">${esc(i.label)}</span>`;
+  if (!list.length) return `<div class="rz-col">${lbl}<div class="rz-none">—</div></div>`;
+  return `<div class="rz-col">${lbl}` + list.map(r => {
+    const exp = new Date(r.expires_at).getTime();
+    const left = exp - Date.now();
+    return `<div class="rz-chip" title="${esc(r.created_by || '')} · ${fmtDate(r.created_at)}">
+      <span class="rz-id">${esc(r.client_id)}</span>
+      <span class="rz-t ${left < 4*3600*1000 ? 'soon' : ''}" data-exp="${exp}">${hhmmss(left)}</span>
+      <button class="rz-x" data-rzdel="${r.id}" aria-label="Șterge clientul ${esc(r.client_id)}">×</button>
+    </div>`;
+  }).join('') + `</div>`;
 }
 
 function cellHTML(o, i){
@@ -621,11 +686,10 @@ function cellHTML(o, i){
   const res = (has && qty > 0 && qty <= LOW_STOCK) ? `
     <div class="resbar">
       <span class="left ${left === 0 ? 'zero' : ''}">rămas <b>${left}</b></span>
-      <button class="ask" data-id="${o.id}" data-key="${i.key}" data-res="1" ${left === 0 ? 'disabled' : ''}>Solicitat</button>
-      ${resOf(o,i.key) > 0 ? `<button class="undo" data-id="${o.id}" data-key="${i.key}" data-res="-1" title="Anulează ultima solicitare">↺</button>` : ''}
+      <button class="ask" data-id="${o.id}" data-key="${i.key}" ${left === 0 ? 'disabled' : ''}>Solicitat</button>
     </div>` : '';
 
-  return `<div class="cell">${tile}${qbar}${res}</div>`;
+  return `<div class="cell"><span class="col-lbl">${esc(i.label)}</span>${tile}${qbar}${res}</div>`;
 }
 
 function render(){
@@ -651,12 +715,13 @@ function render(){
     const cls = n === 3 ? 'full' : n === 0 ? '' : 'partial';
     return `
       <div class="rw ${openHist === o.id ? 'open' : ''}">
-        <div class="row">
+        <div class="grid row">
           <div class="spine ${cls}"></div>
           <div class="who-col">
             <div class="oname">${esc(o.name)}${mine(o) ? ' <span class="badge-me">oficiul tău</span>' : ''}</div>
             <div class="ometa"><span class="mono">${esc(o.code)}</span>${o.city ? ' · ' + esc(o.city) : ''}</div>
           </div>
+          <div class="rz">${ITEMS.map(i => rezColHTML(o, i)).join('')}</div>
           <div class="tiles">${ITEMS.map(i => cellHTML(o, i)).join('')}</div>
           <div class="stamp">
             ${stampHTML(o)}
@@ -686,10 +751,7 @@ function histHTML(id){
 /* ---------- interacțiuni pe rânduri ---------- */
 $('#rows').addEventListener('focusin', e => { if (e.target.classList.contains('qv')) editing = true; });
 $('#rows').addEventListener('focusout', e => {
-  if (e.target.classList.contains('qv')){
-    editing = false;
-    if (pendingRender) render();
-  }
+  if (e.target.classList.contains('qv')){ editing = false; if (pendingRender) render(); }
 });
 $('#rows').addEventListener('change', e => {
   const inp = e.target.closest('.qv');
@@ -700,11 +762,6 @@ $('#rows').addEventListener('keydown', e => {
 });
 
 $('#rows').addEventListener('click', async e => {
-  if (busy) return;
-
-  const del = e.target.closest('[data-del]');
-  if (del) return removeOffice(del.dataset.del);
-
   const h = e.target.closest('[data-hist]');
   if (h){
     openHist = (openHist === h.dataset.hist) ? null : h.dataset.hist;
@@ -713,8 +770,16 @@ $('#rows').addEventListener('click', async e => {
     return;
   }
 
-  const r = e.target.closest('[data-res]');
-  if (r) return reserve(r.dataset.id, r.dataset.key, Number(r.dataset.res));
+  if (busy) return;
+
+  const rd = e.target.closest('[data-rzdel]');
+  if (rd) return dropRez(rd.dataset.rzdel);
+
+  const del = e.target.closest('[data-del]');
+  if (del) return removeOffice(del.dataset.del);
+
+  const a = e.target.closest('.ask');
+  if (a) return addRez(a.dataset.id, a.dataset.key);
 
   const q = e.target.closest('[data-qty]');
   if (q){
@@ -758,21 +823,38 @@ async function setQty(id, key, value){
   toast(`${LABEL[key]} · ${office.name}: ${value} buc`);
 }
 
-async function reserve(id, key, delta){
+async function addRez(id, key){
   const office = offices.find(o => o.id === id);
-
-  if (delta < 0 && !confirm(`Anulezi ultima solicitare de ${LABEL[key].toLowerCase()} la ${office.name}?`)) return;
+  const cid = (prompt(`ID client pentru ${LABEL[key].toLowerCase()} · ${office.name}:`) || '').trim();
+  if (!cid) return;
 
   busy = true;
-  const { error } = await sb.rpc('reserve_item', { target:id, item:key, delta });
+  const { data, error } = await sb.from('reservations')
+    .insert({ office_id:id, item:key, client_id:cid.slice(0,40) }).select().single();
   busy = false;
 
-  if (error) return toast('Solicitarea nu a fost înregistrată: ' + error.message, true);
-  await refresh(id);
-  const left = leftOf(office, key);
-  toast(delta > 0
-    ? `${LABEL[key]} · ${office.name} — rămas ${left}`
-    : `Solicitare anulată · ${office.name} — rămas ${left}`);
+  if (error) return toast(/disponibile/i.test(error.message)
+    ? 'Nu mai sunt bucăți disponibile în acest oficiu.'
+    : 'Solicitarea nu a fost salvată: ' + error.message, true);
+
+  if (!rez.some(r => r.id === data.id)) rez.push(data);
+  render();
+  toast(`${cid} · ${LABEL[key]} — rămas ${leftOf(office, key)}`);
+}
+
+async function dropRez(rid){
+  const r = rez.find(x => String(x.id) === String(rid));
+  if (!r) return;
+  if (!confirm(`Ștergi solicitarea clientului ${r.client_id}?`)) return;
+
+  busy = true;
+  const { error } = await sb.from('reservations').delete().eq('id', r.id);
+  busy = false;
+
+  if (error) return toast('Nu am putut șterge: ' + error.message, true);
+  rez = rez.filter(x => x.id !== r.id);
+  render();
+  toast(`Solicitare ștearsă: ${r.client_id}`);
 }
 
 async function fetchHist(id){
@@ -839,6 +921,7 @@ function fillNewOffices(){
   $('#nOffices').innerHTML = officeItems(newOffices, $('#nSearch').value, 'data-new');
 }
 $('#nSearch').addEventListener('input', fillNewOffices);
+$('#nSearch').addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
 $('#nOffices').addEventListener('change', e => {
   const cb = e.target.closest('[data-new]'); if (!cb) return;
   cb.checked ? newOffices.add(cb.dataset.new) : newOffices.delete(cb.dataset.new);
