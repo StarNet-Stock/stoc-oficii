@@ -34,7 +34,7 @@ h1,h2{font-family:Archivo,Inter,sans-serif;letter-spacing:-.01em;margin:0}
 button,input,select,textarea{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 .hidden{display:none !important}
-.wrap{max-width:1760px;margin:0 auto;padding:0 clamp(18px,2.4vw,40px)}
+.wrap{max-width:1760px;margin:0 auto;padding:0 clamp(18px,4vw,64px)}
 
 /* ---------- Login ---------- */
 #login{min-height:100dvh;display:grid;place-items:center;padding:24px}
@@ -75,8 +75,8 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 #live.warn .dot{background:var(--accent)}
 
 /* ---------- Stats ---------- */
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 16px}
-.stat{flex:1 1 140px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:10px;margin:20px 0 16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
 .stat .n{font-family:Archivo;font-size:24px;font-weight:700;line-height:1}
 .stat .n small{color:var(--muted);font-size:15px;font-weight:600}
 .stat .l{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:5px;font-weight:600}
@@ -227,7 +227,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.bad{border-color:var(--miss);color:#FFC7BB}
 
-@media (max-width:1400px){
+@media (max-width:1520px){
   .head-row{display:none}
   .row{grid-template-columns:4px 1fr;grid-template-areas:"s n" ". r" ". t" ". m";row-gap:12px}
   .spine{grid-area:s}
