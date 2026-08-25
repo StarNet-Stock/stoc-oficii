@@ -94,9 +94,9 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 #sort{width:auto;padding:10px 12px;background:var(--surface);font-size:13px}
 
 /* ---------- Listă oficii ---------- */
-.grid{display:grid;grid-template-columns:4px minmax(160px,0.7fr) minmax(440px,1.3fr) 372px 180px;gap:14px}
+.grid{display:grid;grid-template-columns:4px minmax(150px,0.6fr) minmax(560px,1.4fr) 444px 176px;gap:14px}
 .head-row{align-items:end;padding:0 14px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
-.sub3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center;font-size:10px;margin-top:4px;color:var(--line-2)}
+.sub3{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center;font-size:10px;margin-top:4px;color:var(--line-2)}
 .hd-res{line-height:1.3}
 .hd-res .h48{color:var(--accent)}
 .rows{display:flex;flex-direction:column;gap:8px}
@@ -111,7 +111,7 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .ometa{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* rezervări */
-.rz{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:start}
+.rz{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:start}
 .rz-col{display:flex;flex-direction:column;gap:4px;min-width:0}
 .rz-chip{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:3px 4px 3px 7px}
 .rz-id{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;flex:none;white-space:nowrap;letter-spacing:.02em}
@@ -123,7 +123,7 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .col-lbl{display:none;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--line-2);font-weight:600;margin-bottom:1px}
 
 /* articole */
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .cell{display:flex;flex-direction:column;gap:5px;min-width:0}
 .tile{height:44px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);display:grid;place-items:center;cursor:default;font-family:Archivo;font-size:19px;font-weight:700;transition:transform .12s ease,background .15s ease;width:100%}
 .tile.on{background:var(--ok-dim);border-color:var(--ok-line);color:var(--ok)}
@@ -133,9 +133,9 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .tile.busy{opacity:.45}
 .tile.locked{opacity:.62}
 .qtybar{display:flex;align-items:center;justify-content:center;gap:3px}
-.qtybar button{width:24px;height:24px;padding:0;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:14px;line-height:1;cursor:pointer;flex:none}
+.qtybar button{width:22px;height:24px;padding:0;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:14px;line-height:1;cursor:pointer;flex:none}
 .qtybar button:hover{border-color:var(--line-2);color:var(--ink)}
-.qv{width:52px;padding:2px 4px;text-align:center;font-family:Archivo;font-weight:700;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:5px;-moz-appearance:textfield}
+.qv{width:46px;padding:2px 4px;text-align:center;font-family:Archivo;font-weight:700;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:5px;-moz-appearance:textfield}
 .qv::-webkit-outer-spin-button,.qv::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .qstatic{text-align:center;font-size:11px;color:var(--muted);font-weight:600}
 .resbar{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap}
@@ -227,7 +227,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.bad{border-color:var(--miss);color:#FFC7BB}
 
-@media (max-width:1520px){
+@media (max-width:1620px){
   .head-row{display:none}
   .row{grid-template-columns:4px 1fr;grid-template-areas:"s n" ". r" ". t" ". m";row-gap:12px}
   .spine{grid-area:s}
@@ -319,10 +319,10 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
       <div></div>
       <div>Oficiu</div>
       <div class="hd-res">Solicitări · <span class="h48">48h</span>
-        <div class="sub3"><div>Telecom.</div><div>Bloc 250</div><div>Bloc 322</div></div>
+        <div class="sub3"><div>Telecom.</div><div>Bloc 250</div><div>Bloc 322</div><div>Mesh</div></div>
       </div>
       <div>Stoc
-        <div class="sub3"><div>Telecomenzi</div><div>Blocuri 250</div><div>Blocuri 322</div></div>
+        <div class="sub3"><div>Telecomenzi</div><div>Blocuri 250</div><div>Blocuri 322</div><div>Mesh</div></div>
       </div>
       <div>Ultima modificare</div>
     </div>
@@ -416,6 +416,7 @@ const ITEMS = [
   { key:'telecomenzi', label:'Telecomenzi' },
   { key:'bloc250',     label:'Blocuri 250' },
   { key:'bloc322',     label:'Blocuri 322' },
+  { key:'mesh',        label:'Mesh'        },
 ];
 const LABEL   = Object.fromEntries(ITEMS.map(i => [i.key, i.label]));
 const ROLE_RO = { admin:'Administrator', office:'Oficiu', viewer:'Vizualizare' };
@@ -656,8 +657,8 @@ function visible(){
   const list = offices.filter(o => {
     if (!showAll && me.offices.size && !mine(o)) return false;
     const n = ITEMS.filter(i => o[i.key]).length;
-    if (filter === 'missing' && n === 3) return false;
-    if (filter === 'full'    && n !== 3) return false;
+    if (filter === 'missing' && n === ITEMS.length) return false;
+    if (filter === 'full'    && n !== ITEMS.length) return false;
     if (filter === 'stale'   && !isStale(o)) return false;
     if (!query) return true;
     return [o.name, o.code, o.city].some(v => fold(v).includes(query));
@@ -751,7 +752,7 @@ function render(){
 
   $('#rows').innerHTML = list.map(o => {
     const n = ITEMS.filter(i => o[i.key]).length;
-    const cls = n === 3 ? 'full' : n === 0 ? '' : 'partial';
+    const cls = n === ITEMS.length ? 'full' : n === 0 ? '' : 'partial';
     return `
       <div class="rw ${openHist === o.id ? 'open' : ''}">
         <div class="grid row">
