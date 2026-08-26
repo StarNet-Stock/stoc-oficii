@@ -19,12 +19,12 @@
   --r:10px;
 }
 :root[data-theme="light"]{
-  --bg:#F3F5F8; --surface:#FFFFFF; --surface-2:#EDF0F4; --line:#DDE2E9; --line-2:#BFC7D2;
-  --ink:#141922; --muted:#5F6B7C;
-  --ok:#177A3E; --ok-dim:#E4F6EA; --ok-line:#8FD3AC;
-  --miss:#BE3A1E; --miss-dim:#FCEAE5; --miss-line:#EFB0A0;
-  --accent:#E8B400; --on-accent:#1A1600;
-  --hair:rgba(0,0,0,.06); --veil:rgba(30,38,50,.28);
+  --bg:#E7EBF1; --surface:#FFFFFF; --surface-2:#E3E8EF; --line:#C4CDDA; --line-2:#93A1B5;
+  --ink:#0F1620; --muted:#4E5C71;
+  --ok:#15703A; --ok-dim:#DDF3E6; --ok-line:#79C79C;
+  --miss:#B23219; --miss-dim:#FBE2DB; --miss-line:#E79C88;
+  --accent:#E0AC00; --on-accent:#1A1600;
+  --hair:rgba(15,22,32,.09); --veil:rgba(20,28,40,.45);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -66,6 +66,7 @@ table{width:100%;border-collapse:collapse;margin:6px 0 16px;font-size:14px}
 th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--hair);vertical-align:top}
 th{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)}
 tbody tr:last-child td{border-bottom:0}
+td.w{width:34%}
 
 .box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin:16px 0}
 .box.warn{border-color:var(--miss-line);background:var(--miss-dim)}
@@ -75,37 +76,64 @@ tbody tr:last-child td{border-bottom:0}
 .box b{display:block;margin-bottom:4px;font-weight:600}
 
 .demo{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin:10px 0 16px}
-.tile{width:74px;height:42px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);display:grid;place-items:center;font-family:Archivo;font-size:17px;font-weight:700}
+.cap{font-size:12px;color:var(--muted)}
+.tile{width:70px;height:40px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);display:grid;place-items:center;font-family:Archivo;font-size:17px;font-weight:700}
 .tile.on{background:var(--ok-dim);border-color:var(--ok-line);color:var(--ok)}
 .tile.off{background:var(--miss-dim);border-color:var(--miss-line);color:var(--miss)}
-.cap{font-size:12px;color:var(--muted)}
-.spine{width:4px;height:34px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:8px}
+.spine{width:4px;height:32px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:8px}
 .sp-full{background:var(--ok)}.sp-part{background:var(--accent)}.sp-none{background:var(--miss)}
-.chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:3px 5px 3px 7px}
-.chip .id{font-family:'JetBrains Mono',monospace;font-size:12px}
-.chip .t{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
-.chip .x{color:var(--line-2);font-size:14px}
 .stale{display:inline-block;padding:1px 6px;border-radius:5px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;background:var(--miss-dim);border:1px solid var(--miss-line);color:var(--miss)}
 .badge-me{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);font-weight:600}
 .mini{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:3px 8px;font-size:11px}
 .mini.urge{border-color:var(--accent);color:var(--accent)}
-.ask{padding:2px 7px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:5px}
+.ask{padding:2px 6px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:5px}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:inline-block;box-shadow:0 0 0 3px rgba(53,196,106,.18)}
-.qtybar{display:inline-flex;align-items:center;gap:3px;vertical-align:middle}
-.qtybar span.b{width:22px;height:24px;display:grid;place-items:center;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:14px}
-.qv{width:46px;height:24px;display:grid;place-items:center;background:var(--bg);border:1px solid var(--line);border-radius:5px;font-family:Archivo;font-weight:700;font-size:13px}
+.qtybar{display:inline-flex;align-items:center;gap:2px;vertical-align:middle}
+.qtybar span.b{width:21px;height:24px;display:grid;place-items:center;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:14px}
+.qv{width:44px;height:24px;display:grid;place-items:center;background:var(--bg);border:1px solid var(--line);border-radius:5px;font-family:Archivo;font-weight:700;font-size:13px}
+.left{font-size:10px;text-transform:uppercase;letter-spacing:.03em;font-weight:600;color:var(--muted)}
+.left b{display:inline;font-family:Archivo;font-size:12px;color:var(--ink)}
+.left.zero,.left.zero b{color:var(--miss)}
 
-/* mostra ferestrei de avertizare */
-.pop{background:var(--veil);border-radius:14px;padding:26px;margin:12px 0 16px;display:grid;place-items:center}
-.pop-card{width:100%;max-width:430px;background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:22px;box-shadow:0 18px 40px rgba(0,0,0,.28)}
-.pop-card h4{font-family:Archivo;font-size:18px;font-weight:700;margin:0 0 5px}
-.pop-card > p{color:var(--muted);font-size:13px;margin:0 0 14px}
-.mrow{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);margin-bottom:8px}
+/* chip rezervare, cu anatomie */
+.chip{display:inline-grid;grid-template-columns:1fr auto;column-gap:2px;align-items:center;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:3px 3px 3px 6px;min-width:86px}
+.chip .id{grid-column:1;grid-row:1;font-family:'JetBrains Mono',monospace;font-size:12px}
+.chip .t{grid-column:1;grid-row:2;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);line-height:1.3}
+.chip .t.soon{color:var(--accent)}
+.chip .x{grid-column:2;grid-row:1/3;color:var(--line-2);font-size:14px;padding:0 3px}
+
+/* harta paginii */
+.map{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;margin:14px 0 18px;display:flex;flex-direction:column;gap:8px}
+.zone{border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px;position:relative}
+.zone .n{position:absolute;top:-9px;left:10px;background:var(--surface);padding:0 6px;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);font-weight:700}
+.zone p{margin:0;font-size:13px;color:var(--muted)}
+.zone p b{color:var(--ink);font-weight:600}
+
+/* mesaje de jos */
+.toastd{display:inline-block;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);padding:9px 14px;font-size:13.5px;margin:0 8px 8px 0}
+.toastd.bad{border-color:var(--miss);color:#FFC7BB}
+:root[data-theme="light"] .toastd.bad{color:#8A2B14}
+
+/* ferestre */
+.pop{background:var(--veil);border-radius:14px;padding:22px;margin:12px 0 16px;display:grid;place-items:center}
+.pop-card{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:20px;box-shadow:0 18px 40px rgba(0,0,0,.28)}
+.pop-card h4{font-family:Archivo;font-size:17px;font-weight:700;margin:0 0 5px}
+.pop-card > p{color:var(--muted);font-size:13px;margin:0 0 12px}
+.mrow{display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);margin-bottom:8px}
 .mrow div{flex:1;min-width:0}
 .mrow strong{display:block;font-size:14px;font-weight:600}
 .mrow em{font-style:normal;font-size:11px;color:var(--miss)}
-.pop-foot{margin-top:14px}
-.ghost{padding:9px 14px;background:transparent;border:1px solid var(--line);border-radius:10px;font-size:13px;font-weight:600;color:var(--ink)}
+.fld{margin-bottom:10px}
+.fld span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:5px;font-weight:600}
+.fld i{display:block;font-style:normal;padding:9px 11px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:13px}
+.ghost{padding:8px 13px;background:transparent;border:1px solid var(--line);border-radius:9px;font-size:13px;font-weight:600;color:var(--ink)}
+.solid{padding:8px 13px;background:var(--accent);border:0;border-radius:9px;font-size:13px;font-weight:600;color:var(--on-accent)}
+
+/* notificare chrome */
+.chrome{max-width:400px;background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:12px 14px;box-shadow:0 10px 26px rgba(0,0,0,.3);margin:12px 0 16px}
+.chrome .src{font-size:11px;color:var(--muted);margin-bottom:4px}
+.chrome .ttl{font-weight:600;font-size:14px;margin-bottom:2px}
+.chrome .bdy{font-size:13px;color:var(--muted)}
 
 @media (max-width:900px){
   .shell{grid-template-columns:1fr;gap:0}
@@ -113,6 +141,7 @@ tbody tr:last-child td{border-bottom:0}
   nav div{display:flex;flex-wrap:wrap;gap:6px;padding-bottom:18px}
   nav a{border-left:0;border:1px solid var(--line);border-radius:8px}
   .hd h1{font-size:16px}
+  td.w{width:auto}
 }
 </style>
 </head>
@@ -133,258 +162,383 @@ tbody tr:last-child td{border-bottom:0}
   <nav>
     <b>Cuprins</b>
     <div>
-      <a href="#antet">Bara de sus</a>
-      <a href="#sumar">Cifrele din sumar</a>
-      <a href="#cautare">Căutare și filtre</a>
-      <a href="#rand">Cum se citește un rând</a>
-      <a href="#stoc">Actualizarea stocului</a>
-      <a href="#confirmare">Confirmarea stocului</a>
-      <a href="#solicitari">Solicitări (48h)</a>
-      <a href="#istoric">Istoricul modificărilor</a>
-      <a href="#avertizari">Avertizări</a>
-      <a href="#probleme">Probleme frecvente</a>
+      <a href="#prima">Prima intrare</a>
+      <a href="#harta">Harta paginii</a>
+      <a href="#sus">Bara de sus</a>
+      <a href="#sumar">Banda cu cifre</a>
+      <a href="#unelte">Căutare și filtre</a>
+      <a href="#rand">Rândul oficiului</a>
+      <a href="#simboluri">Culori și simboluri</a>
+      <a href="#mesaje">Mesajele de jos</a>
+      <a href="#ferestre">Ferestrele care apar</a>
+      <a href="#notificare">Notificarea din Chrome</a>
+      <a href="#zilnic">Ce faci zilnic</a>
+      <a href="#solicitari">Solicitările clienților</a>
+      <a href="#butoane">Toate butoanele</a>
+      <a href="#probleme">Când ceva nu merge</a>
     </div>
   </nav>
 
   <main>
-    <p class="lede" style="padding-top:8px">Se urmăresc patru articole în fiecare oficiu: <b>telecomenzi</b>, <b>blocuri de alimentare 250</b>, <b>blocuri de alimentare 322</b> și <b>mesh</b>. Tot ce modifici se vede instantaneu la toți ceilalți, fără reîncărcarea paginii.</p>
+    <p class="lede" style="padding-top:8px">Ghid de folosire: ce se află unde pe ecran, ce înseamnă fiecare culoare și cifră, ce ferestre și mesaje apar și de ce.</p>
 
-    <section id="antet">
+    <section id="prima">
+      <h2>Prima intrare</h2>
+      <p>Scrii doar numele de utilizator primit, fără nimic după el, și parola temporară.</p>
+      <p>Imediat ce intri, apare o fereastră peste tot ecranul care îți cere să-ți alegi o parolă proprie. <b>Nu are buton de închidere</b> — până nu o completezi, nu vezi lista de oficii. E normal, nu e o eroare.</p>
+      <div class="pop">
+        <div class="pop-card">
+          <h4>Alege-ți o parolă</h4>
+          <p>Parola pe care ai primit-o este temporară. Alege una proprie ca să poți folosi aplicația.</p>
+          <div class="fld"><span>Parolă nouă</span><i>••••••••</i></div>
+          <div class="fld"><span>Repetă parola</span><i>••••••••</i></div>
+          <button class="solid">Salvează parola</button>
+        </div>
+      </div>
+      <p>Parola nouă trebuie să aibă minimum 8 caractere, cel puțin o literă și o cifră, și să fie diferită de cea primită. Aceeași fereastră reapare dacă administratorul îți resetează parola.</p>
+    </section>
+
+    <hr>
+    <section id="harta">
+      <h2>Harta paginii</h2>
+      <p>Ecranul are patru zone, de sus în jos:</p>
+
+      <div class="map">
+        <div class="zone"><span class="n">1 · sus, fixă</span>
+          <p><b>Bara de sus</b> — numele aplicației, butoanele de parolă, temă și ghid, indicatorul Live, contul tău și butonul Ieși. Rămâne pe ecran oricât ai derula.</p>
+        </div>
+        <div class="zone"><span class="n">2 · banda cu cifre</span>
+          <p><b>Sumarul</b> — șapte casete cu situația pe toată rețeaua: câte oficii sunt, câte au tot, câte au fiecare articol, câte n-au raportat.</p>
+        </div>
+        <div class="zone"><span class="n">3 · unelte</span>
+          <p><b>Căutare, filtre, ordonare</b> — și, pentru conturile de oficiu, butonul care comută între oficiile tale și toate oficiile.</p>
+        </div>
+        <div class="zone"><span class="n">4 · lista</span>
+          <p><b>Tabelul</b> — un rând pentru fiecare oficiu. Deasupra, o linie cu denumirile coloanelor care rămâne lipită sub bara de sus când derulezi, ca să știi mereu ce coloană privești.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+    <section id="sus">
       <h2>Bara de sus</h2>
       <table>
-        <thead><tr><th style="width:32%">Element</th><th>Ce face</th></tr></thead>
+        <thead><tr><th class="w">Ce vezi</th><th>Ce înseamnă</th></tr></thead>
         <tbody>
-          <tr><td><b>Lună / soare</b></td><td>Schimbă între tema închisă și cea deschisă. Alegerea se ține minte pe calculatorul tău.</td></tr>
+          <tr><td><b>Lacăt</b></td><td>Îți schimbi parola oricând. Nu apare la conturile de vizualizare, care sunt folosite în comun.</td></tr>
+          <tr><td><b>Lună / soare</b></td><td>Comută între tema închisă și cea deschisă. Alegerea rămâne pe calculatorul tău.</td></tr>
           <tr><td><b>Cerc cu „i"</b></td><td>Deschide acest ghid într-o filă nouă.</td></tr>
-          <tr><td><b><span class="dot"></span> Live</b></td><td>Indicator, nu buton. Verde înseamnă că ești conectat și primești modificările instantaneu. Dacă scrie „Reconectare…", legătura s-a întrerupt și se reface singură în câteva secunde — nu se pierde nimic.</td></tr>
-          <tr><td><b>Numele tău</b></td><td>Contul cu care ești conectat.</td></tr>
-          <tr><td><b>Ieși</b></td><td>Închide sesiunea.</td></tr>
+          <tr><td><b><span class="dot"></span> Live</b></td><td>Ești conectat, vezi modificările celorlalți pe loc. Nu e buton, nu se apasă.</td></tr>
+          <tr><td><b>Reconectare…</b></td><td>Punctul devine galben: legătura s-a rupt, de obicei din cauza rețelei. Se reface singură în câteva secunde. Nu pierzi nimic.</td></tr>
+          <tr><td><b>Numele tău</b></td><td>Contul cu care ești conectat și rolul lui.</td></tr>
         </tbody>
       </table>
     </section>
 
     <hr>
     <section id="sumar">
-      <h2>Cifrele din sumar</h2>
-      <p>Banda de sus arată situația pe toată rețeaua, indiferent ce filtru ai activ:</p>
-      <ul>
-        <li><b>Oficii</b> — câte sunt în total.</li>
-        <li><b>Complet dotate</b> — oficii care au bifate toate patru articolele.</li>
-        <li><b>Telecomenzi / Blocuri 250 / Blocuri 322 / Mesh</b> — în câte oficii există fiecare articol.</li>
-        <li><b>Neactualizate</b> — oficii care n-au raportat de peste 3 zile. Dacă cifra e roșie, sunt întârzieri.</li>
-      </ul>
+      <h2>Banda cu cifre</h2>
+      <p>Arată situația pe toată rețeaua, <b>indiferent ce filtru sau căutare ai activ</b>. Nu se schimbă când cauți ceva.</p>
+      <table>
+        <thead><tr><th class="w">Caseta</th><th>Ce numără</th></tr></thead>
+        <tbody>
+          <tr><td><b>Oficii</b></td><td>Câte oficii există în total.</td></tr>
+          <tr><td><b>Complet dotate</b></td><td>Câte au bifate toate cinci articolele.</td></tr>
+          <tr><td><b>Telecomenzi MAG</b> și celelalte</td><td>În câte oficii există articolul. Cifra mică de după bară este totalul de oficii — de exemplu <b>12</b>/41.</td></tr>
+          <tr><td><b>Neactualizate</b></td><td>Câte oficii n-au raportat de peste 3 zile. Roșu înseamnă că sunt întârzieri.</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <hr>
-    <section id="cautare">
+    <section id="unelte">
       <h2>Căutare și filtre</h2>
-      <p>Caseta de căutare merge după denumire, cod sau regiune și <b>nu ține cont de diacritice</b> — scrii „balti" și găsești Bălți, scrii „strasen" și găsești Strășeni.</p>
-      <h3>Filtre</h3>
-      <ul>
-        <li><b>Toate</b> — fără filtru.</li>
-        <li><b>Cu lipsuri</b> — oficii cărora le lipsește cel puțin un articol.</li>
-        <li><b>Complete</b> — oficii care au tot.</li>
-        <li><b>Neactualizate</b> — oficii fără nicio raportare de peste 3 zile.</li>
-      </ul>
-      <h3>Ordonare</h3>
-      <p>Din lista derulantă din dreapta: după cod (implicit), după nume, cele mai nou adăugate, cele modificate recent sau cele mai vechi. Oficiul tău urcă întotdeauna primul, indiferent de ordonarea aleasă.</p>
+
+      <h3>Caseta de căutare</h3>
+      <p>Caută după denumire, cod sau regiune, pe măsură ce scrii. <b>Nu ține cont de diacritice</b>: „balti" găsește Bălți, „strasen" găsește Strășeni, „hincesti" găsește Hîncești.</p>
+
+      <h3>Cele patru filtre</h3>
+      <table>
+        <tbody>
+          <tr><td class="w"><b>Toate</b></td><td>Fără filtru.</td></tr>
+          <tr><td><b>Cu lipsuri</b></td><td>Oficii cărora le lipsește cel puțin un articol.</td></tr>
+          <tr><td><b>Complete</b></td><td>Oficii care au toate cinci.</td></tr>
+          <tr><td><b>Neactualizate</b></td><td>Oficii fără raportare de peste 3 zile.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Ordonarea</h3>
+      <p>Lista derulantă din dreapta: după cod, după nume, cele mai nou adăugate, cele modificate recent, cele mai vechi. <b>Oficiul tău urcă întotdeauna primul</b>, indiferent ce alegi.</p>
+
       <h3>Butonul de vizualizare</h3>
-      <p>Primul buton din bară comută între <b>„Vezi toate oficiile"</b> și <b>„Doar oficiile mele"</b>. Implicit vezi doar ce ține de tine, ca să nu cauți printre zeci de rânduri. Trece pe „toate" când vrei să verifici dacă un alt oficiu are un echipament.</p>
+      <p>Primul buton din bară. Când e galben, vezi doar oficiile tale. Apăsat, arată toată rețeaua — folosește-l când vrei să verifici dacă un alt oficiu are un echipament.</p>
+
+      <div class="box tip">
+        <b>Dacă lista pare goală</b>
+        <p>Verifică întâi filtrul activ și caseta de căutare. Un filtru rămas apăsat e cea mai frecventă cauză a unei liste „dispărute".</p>
+      </div>
     </section>
 
     <hr>
     <section id="rand">
-      <h2>Cum se citește un rând</h2>
+      <h2>Rândul oficiului</h2>
+      <p>Fiecare rând are cinci zone, de la stânga la dreapta:</p>
 
-      <h3>Bara colorată din stânga</h3>
+      <div class="map">
+        <div class="zone"><span class="n">1</span><p><b>Bara colorată</b> — cât de dotat e oficiul, dintr-o privire.</p></div>
+        <div class="zone"><span class="n">2</span><p><b>Denumirea, codul și regiunea</b>. Dacă e oficiul tău, apare eticheta galbenă.</p></div>
+        <div class="zone"><span class="n">3</span><p><b>Solicitări · 48h</b> — cinci coloane cu ID-urile clienților cărora li s-a promis echipamentul.</p></div>
+        <div class="zone"><span class="n">4</span><p><b>Stoc</b> — cinci pătrate, câte unul pe articol, cu cantitatea sub ele.</p></div>
+        <div class="zone"><span class="n">5</span><p><b>Ultima modificare</b> — data, ora, cine, cât timp a trecut, plus butoanele Istoric și Confirmă stocul.</p></div>
+      </div>
+
+      <h3>Zona „Ultima modificare", descifrată</h3>
+      <table>
+        <tbody>
+          <tr><td class="w"><b>24.08.2026, 16:04</b></td><td>Momentul exact al ultimei schimbări.</td></tr>
+          <tr><td><b>acum 17 min</b></td><td>Același lucru, exprimat mai ușor de citit.</td></tr>
+          <tr><td><b>cvrascani</b></td><td>Cine a făcut-o.</td></tr>
+          <tr><td><span class="stale">peste 3 zile</span></td><td>Oficiul e în întârziere. Apare la toată lumea, nu doar la tine.</td></tr>
+          <tr><td><b>Fără modificări</b></td><td>Oficiul a fost adăugat, dar n-a raportat niciodată.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr>
+    <section id="simboluri">
+      <h2>Culori și simboluri</h2>
+
+      <h3>Bara din stânga rândului</h3>
       <p>
-        <span class="spine sp-full"></span><span class="cap">verde — oficiul are toate patru articolele</span><br>
+        <span class="spine sp-full"></span><span class="cap">verde — oficiul are toate cinci articolele</span><br>
         <span class="spine sp-part"></span><span class="cap">galben — are unele, îi lipsesc altele</span><br>
         <span class="spine sp-none"></span><span class="cap">roșu — nu are niciunul</span>
       </p>
 
       <h3>Pătratele de stoc</h3>
       <div class="demo">
-        <div class="tile off">✕</div><span class="cap">Nu există în oficiu</span>
-        <div class="tile on">✓</div><span class="cap">Există, dar cantitatea nu a fost introdusă</span>
-        <div class="tile on">7</div><span class="cap">Există, 7 bucăți</span>
+        <div class="tile off">✕</div><span class="cap">roșu — articolul nu există în oficiu</span>
       </div>
+      <div class="demo">
+        <div class="tile on">✓</div><span class="cap">verde cu bifă — există, dar nimeni n-a pus cantitatea</span>
+      </div>
+      <div class="demo">
+        <div class="tile on">7</div><span class="cap">verde cu cifră — există, 7 bucăți</span>
+      </div>
+      <p>Pătratele estompate, care nu răspund la clic, sunt ale altor oficii. Le vezi, dar nu le poți schimba.</p>
 
-      <h3>Eticheta „oficiul tău"</h3>
-      <p>Rândurile pe care le poți modifica sunt marcate cu <span class="badge-me">oficiul tău</span> și apar primele în listă. La celelalte oficii pătratele sunt estompate și nu răspund la clic — le vezi, dar nu le poți schimba.</p>
-
-      <h3>Ultima modificare</h3>
-      <p>Data, ora, cine a făcut-o și cât timp a trecut. Dacă un oficiu n-a fost atins de peste 3 zile, apare <span class="stale">peste 3 zile</span>. Oficiile care n-au raportat niciodată apar cu textul „Fără modificări".</p>
+      <h3>Etichete</h3>
+      <table>
+        <tbody>
+          <tr><td class="w"><span class="badge-me">oficiul tău</span></td><td>Rândul pe care ai voie să-l modifici. Apare primul în listă.</td></tr>
+          <tr><td><span class="stale">peste 3 zile</span></td><td>Oficiul n-a raportat de trei zile sau mai mult.</td></tr>
+          <tr><td><span class="left">rămas <b>4</b></span></td><td>Câte bucăți mai poți promite: cantitatea din stoc minus solicitările active.</td></tr>
+          <tr><td><span class="left zero">rămas <b>0</b></span></td><td>Roșu: toate bucățile sunt deja promise altor clienți.</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <hr>
-    <section id="stoc">
-      <h2>Actualizarea stocului</h2>
-      <p class="lede">Asta e treaba ta zilnică. Durează sub un minut.</p>
+    <section id="mesaje">
+      <h2>Mesajele de jos</h2>
+      <p>După fiecare acțiune apare, pentru câteva secunde, un mesaj scurt <b>jos, în centrul ecranului</b>. Acolo afli dacă s-a salvat sau nu. Nu trebuie să-l închizi, dispare singur.</p>
 
-      <h3>Ce ai de făcut</h3>
-      <ol>
-        <li>Numeri fizic ce ai în oficiu, pe fiecare din cele patru articole.</li>
-        <li>Deschizi aplicația — oficiul tău e primul rând din listă.</li>
-        <li>Pui cifra reală în dreptul fiecărui articol.</li>
-        <li>Dacă nu s-a schimbat nimic, apeși <b>Confirmă stocul</b> și ai terminat.</li>
-      </ol>
-
-      <h3>Pasul 1 — spui dacă articolul există sau nu</h3>
-      <p>Un clic pe pătrat comută între cele două stări:</p>
-      <div class="demo">
-        <div class="tile off">✕</div>
-        <span class="cap">clic</span>
-        <div class="tile on">✓</div>
-        <span class="cap">clic din nou</span>
-        <div class="tile off">✕</div>
-      </div>
-      <p>Când treci pe ✕, cantitatea se șterge automat — nu trebuie s-o pui tu pe zero.</p>
-
-      <h3>Pasul 2 — pui cantitatea</h3>
-      <p>Sub pătratul verde apar butoanele de cantitate:</p>
-      <div class="demo">
-        <span class="qtybar"><span class="b">−</span><span class="qv">7</span><span class="b">+</span></span>
-        <span class="cap">apeși <b>−</b> sau <b>+</b> pentru o bucată, sau scrii direct cifra în casetă</span>
-      </div>
-      <p>Dacă scrii cifra cu tastatura, apeși <b>Enter</b> sau dai clic în altă parte ca să se salveze. Jos, în centrul ecranului, apare un mesaj scurt care confirmă salvarea.</p>
-
-      <h3>Exemplu</h3>
-      <div class="box">
-        <b>Dimineață ai numărat: 3 telecomenzi, 0 blocuri 250, 12 blocuri 322, niciun mesh.</b>
-        <ul>
-          <li><b>Telecomenzi</b> — pătratul e deja verde, schimbi cifra din 5 în <code>3</code>.</li>
-          <li><b>Blocuri 250</b> — erau 2, acum nu mai ai. Dai clic pe pătrat, devine roșu ✕, cantitatea se golește singură.</li>
-          <li><b>Blocuri 322</b> — pui <code>12</code>.</li>
-          <li><b>Mesh</b> — pătratul e deja roșu, nu atingi nimic.</li>
-        </ul>
+      <h3>Mesaje de confirmare</h3>
+      <div class="demo" style="display:block">
+        <span class="toastd">Blocuri 250 · Centrul Regional Orhei: în stoc</span>
+        <span class="toastd">Telecomenzi MAG · Centrul Regional Orhei: 7 buc</span>
+        <span class="toastd">Stoc confirmat · Centrul Regional Orhei</span>
+        <span class="toastd">104582 · Telecomenzi SML — rămas 3</span>
       </div>
 
-      <h3>De reținut</h3>
-      <ul>
-        <li>Nu există buton de „salvează" — fiecare modificare se scrie pe loc.</li>
-        <li>Nu există „anulează". Dacă ai greșit, pui valoarea corectă la loc.</li>
-        <li>Poți modifica doar oficiul tău. Dacă un pătrat nu răspunde la clic, nu e al tău.</li>
-        <li>Cât timp scrii o cifră, lista stă pe loc chiar dacă altcineva modifică ceva — altfel ți-ar dispărea cifra din mână.</li>
-      </ul>
+      <h3>Mesaje de eroare</h3>
+      <div class="demo" style="display:block">
+        <span class="toastd bad">Modificarea nu a fost salvată: …</span>
+        <span class="toastd bad">Nu mai sunt bucăți disponibile în acest oficiu.</span>
+      </div>
+      <p>Un mesaj roșu înseamnă că <b>nimic nu s-a salvat</b>. Cea mai frecventă cauză: încerci să modifici un oficiu care nu e al tău.</p>
 
       <div class="box warn">
-        <b>Cifra ta ajunge direct la client</b>
-        <p>Call center-ul se uită la ce ai scris tu și promite echipamentul unui om care apoi vine la ghișeu. Dacă scrie 3 și în realitate e 0, clientul face drumul degeaba.</p>
+        <b>Dacă n-a apărut niciun mesaj, modificarea n-a plecat</b>
+        <p>Fiecare salvare reușită produce un mesaj. Lipsa lui înseamnă că apăsarea nu a fost înregistrată — încearcă din nou.</p>
       </div>
     </section>
 
     <hr>
-    <section id="confirmare">
-      <h2>Confirmarea stocului</h2>
-      <p>Apare situația în care au trecut trei zile, dar nimic nu s-a schimbat — stocul e exact același. N-ai ce bifa, totuși oficiul apare ca neactualizat.</p>
-      <p>Pentru asta există butonul <button class="mini urge">Confirmă stocul</button> de pe rândul tău.</p>
-      <ul>
-        <li>Mută data ultimei modificări la momentul actual, fără să atingă cantitățile.</li>
-        <li>Scoate oficiul din lista celor neactualizate.</li>
-        <li>Devine galben când oficiul a intrat în întârziere.</li>
-        <li>Rămâne urmă în istoric, separat de modificările reale.</li>
-      </ul>
-      <div class="box warn">
-        <b>Confirmă doar după ce chiar ai numărat</b>
-        <p>Butonul spune „am verificat, e la fel". Apăsat mecanic, transformă toată evidența într-o formalitate, iar call center-ul va promite clienților echipamente care nu mai există.</p>
-      </div>
-    </section>
+    <section id="ferestre">
+      <h2>Ferestrele care apar</h2>
+      <p>Sunt doar trei, și fiecare apare dintr-un motiv precis.</p>
 
-    <hr>
-    <section id="solicitari">
-      <h2>Solicitări — rezervări de 48 de ore</h2>
-      <p>Când call center-ul îi spune unui client că la un anumit oficiu există echipamentul, bucata aceea trebuie ținută deoparte. Altfel doi operatori promit aceeași ultimă telecomandă la doi clienți diferiți.</p>
+      <h3>1. Alegerea parolei</h3>
+      <p><b>Când:</b> la prima autentificare și după fiecare resetare făcută de administrator.<br>
+         <b>De ce:</b> parola primită e temporară și o cunosc și alte persoane.<br>
+         <b>Se poate închide?</b> Nu. Aplicația nu se deschide până nu o completezi.</p>
 
-      <h3>Cum se face o rezervare</h3>
-      <p>Butonul <button class="ask">Solicitat</button> apare sub pătrat <b>doar când mai sunt 5 bucăți sau mai puțin</b> — la stocuri mari nu are rost să ții evidența. Apăsat, îți cere ID-ul clientului și îl adaugă în tabelul din stânga rândului, pe coloana articolului.</p>
-
-      <h3>Cum arată o rezervare</h3>
-      <div class="demo">
-        <span class="chip"><span class="id">104582</span><span class="t">47:12:38</span><span class="x">×</span></span>
-        <span class="cap">ID-ul clientului, timpul rămas și butonul de ștergere</span>
-      </div>
-      <ul>
-        <li>Cronometrul pornește de la <b>48:00:00</b> și scade din secundă în secundă.</li>
-        <li>În ultimele 4 ore devine galben.</li>
-        <li>La zero, rezervarea dispare singură și bucata redevine disponibilă.</li>
-        <li><b>×</b> o șterge imediat, cu confirmare — folosește-l când clientul a ridicat echipamentul sau a renunțat.</li>
-        <li>Dacă treci cu mouse-ul peste ea, vezi cine a făcut-o și când.</li>
-      </ul>
-
-      <h3>Cifra „rămas"</h3>
-      <p>Sub pătrat scrie câte bucăți mai sunt disponibile: cantitatea din stoc minus rezervările active. Când ajunge la <b>0</b> devine roșie și butonul se blochează — nu mai ai ce promite, deși fizic echipamentele sunt încă acolo.</p>
-
-      <div class="box tip">
-        <b>Modificarea stocului nu șterge rezervările</b>
-        <p>Dacă primești marfă nouă și schimbi cantitatea, rezervările existente rămân. Ele dispar doar la expirare sau când le șterge cineva manual.</p>
-      </div>
-    </section>
-
-    <hr>
-    <section id="istoric">
-      <h2>Istoricul modificărilor</h2>
-      <p>Butonul <button class="mini">Istoric</button> de pe fiecare rând deschide ultimele 30 de schimbări ale acelui oficiu: ce s-a bifat sau debifat, când și de cine, plus confirmările de stoc.</p>
-      <p>Istoricul e vizibil tuturor și nu poate fi modificat sau șters de nimeni — se scrie automat în baza de date.</p>
-      <p>Nu se înregistrează schimbările de cantitate și nici solicitările.</p>
-    </section>
-
-    <hr>
-    <section id="avertizari">
-      <h2>Avertizări</h2>
-      <p>Când oficiul tău trece de 3 zile fără raportare, primești două tipuri de avertizare.</p>
-
-      <h3>Fereastra de la intrarea în aplicație</h3>
-      <p>Apare peste ecran imediat ce te loghezi și arată așa:</p>
+      <h3>2. Avertizarea de stoc neactualizat</h3>
+      <p><b>Când:</b> la intrarea în aplicație, dacă unul din oficiile tale a depășit 3 zile fără raportare.<br>
+         <b>De ce:</b> call center-ul se uită la cifrele tale când promite echipamente clienților.<br>
+         <b>Se poate închide?</b> Da, cu „Mai târziu". Reapare la următoarea intrare dacă situația rămâne aceeași.</p>
 
       <div class="pop">
         <div class="pop-card">
           <h4>Stocul trebuie confirmat</h4>
           <p>Acest oficiu nu a fost actualizat de peste 3 zile. Dacă stocul a rămas la fel, confirmă-l.</p>
           <div class="mrow">
-            <div>
-              <strong>Centrul Regional Bălți 1</strong>
-              <em>ultima dată acum 5 zile</em>
-            </div>
+            <div><strong>Centrul Regional Bălți 1</strong><em>ultima dată acum 5 zile</em></div>
             <button class="mini urge">Confirmă stocul</button>
           </div>
-          <div class="pop-foot"><button class="ghost">Mai târziu</button></div>
+          <button class="ghost">Mai târziu</button>
         </div>
       </div>
+      <p>Poți rezolva direct din fereastră, fără să cauți rândul. Dacă ai mai multe oficii în întârziere, apar toate, fiecare cu butonul lui.</p>
 
-      <p>Poți rezolva direct din fereastră, fără să cauți rândul în listă. Dacă ai mai multe oficii în întârziere, apar toate, fiecare cu butonul lui.</p>
-      <p><b>Mai târziu</b> închide fereastra pentru sesiunea curentă. Reapare data viitoare când intri, dacă situația nu s-a rezolvat.</p>
+      <h3>3. Întrebările scurte ale browserului</h3>
+      <p>Ferestruici mici, în partea de sus a ecranului, cu <b>OK</b> și <b>Anulare</b>. Apar când:</p>
+      <ul>
+        <li>apeși <b>Solicitat</b> — ți se cere ID-ul clientului;</li>
+        <li>apeși <b>×</b> pe o solicitare — ți se cere confirmarea ștergerii.</li>
+      </ul>
+      <p>Dacă apeși Anulare, nu se întâmplă nimic.</p>
+    </section>
 
-      <h3>Notificarea din browser</h3>
-      <p>La prima autentificare browserul îți cere permisiunea pentru notificări. Dacă o accepți, primești o notificare cel mult o dată la 4 ore, cât timp oficiul rămâne neactualizat.</p>
+    <hr>
+    <section id="notificare">
+      <h2>Notificarea din Chrome</h2>
+      <p>La prima autentificare, browserul te întreabă dacă permiți notificări. Dacă accepți, primești în colțul ecranului un mesaj de acest fel:</p>
+
+      <div class="chrome">
+        <div class="src">Google Chrome</div>
+        <div class="ttl">Stoc Oficii — actualizare necesară</div>
+        <div class="bdy">Centrul Regional Bălți 1 nu a fost actualizat de peste 3 zile.</div>
+      </div>
+
+      <p><b>Când apare:</b> cât timp oficiul rămâne neactualizat, cel mult o dată la 4 ore.<br>
+         <b>Unde apare:</b> în afara browserului, peste orice altă aplicație ai deschisă.</p>
 
       <div class="box warn">
-        <b>Notificările merg doar cu aplicația deschisă</b>
-        <p>Dacă închizi browserul, nu primești nimic. Notificările nu înlocuiesc verificarea zilnică.</p>
+        <b>Funcționează doar cu aplicația deschisă</b>
+        <p>Dacă închizi fila sau browserul, nu mai primești nimic. Notificarea e un ajutor, nu o garanție — verificarea zilnică rămâne obligatorie.</p>
+      </div>
+      <p>Dacă ai refuzat permisiunea din greșeală, o repari din iconița din stânga barei de adrese a Chrome, la „Notificări".</p>
+    </section>
+
+    <hr>
+    <section id="zilnic">
+      <h2>Ce faci zilnic</h2>
+      <p class="lede">Durează sub un minut.</p>
+      <ol>
+        <li>Numeri fizic ce ai în oficiu, pe cele cinci articole.</li>
+        <li>Deschizi aplicația — oficiul tău e primul rând.</li>
+        <li>Pui cifrele reale.</li>
+        <li>Dacă nu s-a schimbat nimic față de ieri, apeși <b>Confirmă stocul</b> și ai terminat.</li>
+      </ol>
+
+      <h3>Cum spui că un articol există sau nu</h3>
+      <div class="demo">
+        <div class="tile off">✕</div><span class="cap">clic</span>
+        <div class="tile on">✓</div><span class="cap">clic din nou</span>
+        <div class="tile off">✕</div>
+      </div>
+      <p>Când treci pe ✕, cantitatea se șterge automat. Nu trebuie s-o pui tu pe zero.</p>
+
+      <h3>Cum pui cantitatea</h3>
+      <div class="demo">
+        <span class="qtybar"><span class="b">−</span><span class="qv">7</span><span class="b">+</span></span>
+        <span class="cap">apeși <b>−</b> sau <b>+</b> pentru o bucată, sau scrii direct cifra în casetă</span>
+      </div>
+      <p>Dacă scrii cifra cu tastatura, apeși <b>Enter</b> sau dai clic în altă parte ca să se salveze. Jos apare mesajul de confirmare.</p>
+
+      <h3>Butonul „Confirmă stocul"</h3>
+      <p>Se folosește când n-ai ce modifica, dar trebuie să arăți că ai verificat. Mută data ultimei modificări la momentul actual, fără să atingă cantitățile, și scoate oficiul din lista celor în întârziere. Devine galben când oficiul a depășit cele 3 zile.</p>
+
+      <div class="box warn">
+        <b>Cifra ta ajunge direct la client</b>
+        <p>Call center-ul promite echipamentul pe baza a ce ai scris tu, iar clientul vine la ghișeu. Dacă scrie 3 și în realitate e 0, omul face drumul degeaba.</p>
       </div>
     </section>
 
     <hr>
-    <section id="probleme">
-      <h2>Probleme frecvente</h2>
+    <section id="solicitari">
+      <h2>Solicitările clienților</h2>
+      <p>Când call center-ul îi spune unui client că la un oficiu există echipamentul, bucata aceea se rezervă pe 48 de ore. Altfel doi operatori ar promite aceeași ultimă telecomandă la doi clienți diferiți.</p>
 
-      <h3>Am modificat ceva și nu s-a salvat</h3>
-      <p>Fiecare salvare reușită afișează un mesaj scurt jos, în centrul ecranului. Dacă apare unul roșu, acolo scrie motivul. Cel mai des: încerci să modifici un oficiu care nu-ți aparține.</p>
+      <h3>Butonul „Solicitat"</h3>
+      <p>Apare sub pătrat <b>doar când mai sunt 5 bucăți sau mai puțin</b>. La stocuri mari nu are rost evidența. Apăsat, cere ID-ul clientului.</p>
+      <div class="demo">
+        <span class="left">rămas <b>4</b></span>
+        <button class="ask">Solicitat</button>
+        <span class="cap">așa arată sub pătratul de stoc</span>
+      </div>
+
+      <h3>Cum se citește o solicitare</h3>
+      <div class="demo">
+        <span class="chip"><span class="id">104582</span><span class="t">47:12:38</span><span class="x">×</span></span>
+        <span class="cap"><b>104582</b> — ID-ul clientului &nbsp;·&nbsp; <b>47:12:38</b> — ore, minute, secunde până expiră &nbsp;·&nbsp; <b>×</b> — șterge</span>
+      </div>
+      <ul>
+        <li>Cronometrul pornește de la <b>48:00:00</b> și scade din secundă în secundă.</li>
+        <li>Devine galben în ultimele 4 ore.</li>
+        <li>La zero dispare singur, iar bucata redevine disponibilă.</li>
+        <li><b>×</b> o șterge imediat, cu confirmare — când clientul a ridicat echipamentul sau a renunțat.</li>
+        <li>Ține mouse-ul peste ea și vezi cine a făcut-o și când.</li>
+      </ul>
+
+      <div class="box tip">
+        <b>Modificarea stocului nu șterge solicitările</b>
+        <p>Dacă primești marfă nouă și schimbi cantitatea, solicitările rămân. Dispar doar la expirare sau când le șterge cineva.</p>
+      </div>
+    </section>
+
+    <hr>
+    <section id="butoane">
+      <h2>Toate butoanele</h2>
+      <table>
+        <thead><tr><th class="w">Buton</th><th>Unde e și ce face</th></tr></thead>
+        <tbody>
+          <tr><td><b>Lacăt</b></td><td>Bara de sus. Îți schimbi parola.</td></tr>
+          <tr><td><b>Lună / soare</b></td><td>Bara de sus. Schimbă tema.</td></tr>
+          <tr><td><b>„i" în cerc</b></td><td>Bara de sus. Deschide acest ghid.</td></tr>
+          <tr><td><b>Ieși</b></td><td>Bara de sus, dreapta. Închide sesiunea.</td></tr>
+          <tr><td><b>Vezi toate oficiile</b></td><td>Stânga barei de unelte. Comută între oficiile tale și toată rețeaua.</td></tr>
+          <tr><td><b>Pătratul de stoc</b></td><td>În rând. Comută între „există" și „nu există".</td></tr>
+          <tr><td><b>− și +</b></td><td>Sub pătrat. Scad sau cresc cantitatea cu o bucată.</td></tr>
+          <tr><td><b>Caseta cu cifra</b></td><td>Între − și +. Scrii direct cantitatea, apoi Enter.</td></tr>
+          <tr><td><b>Solicitat</b></td><td>Sub pătrat, când sunt 5 bucăți sau mai puțin. Rezervă o bucată pe 48h.</td></tr>
+          <tr><td><b>× pe o solicitare</b></td><td>În tabelul de solicitări. Șterge rezervarea unui client.</td></tr>
+          <tr><td><b>Confirmă stocul</b></td><td>Dreapta rândului. Spune „am verificat, e la fel".</td></tr>
+          <tr><td><b>Istoric</b></td><td>Dreapta rândului. Arată ultimele 30 de schimbări ale oficiului.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Ce arată Istoricul</h3>
+      <p>Ce s-a bifat sau debifat, când și de cine, plus confirmările de stoc, marcate separat cu textul „Stoc verificat — fără schimbări". Se scrie automat și nu poate fi modificat de nimeni.</p>
+      <p>Nu apar acolo schimbările de cantitate și nici solicitările.</p>
+    </section>
+
+    <hr>
+    <section id="probleme">
+      <h2>Când ceva nu merge</h2>
+
+      <h3>Am modificat și nu s-a salvat</h3>
+      <p>Uită-te jos, în centrul ecranului. Dacă mesajul e roșu, acolo scrie motivul. Dacă n-a apărut niciun mesaj, apăsarea nu s-a înregistrat.</p>
 
       <h3>Pătratele nu răspund la clic</h3>
-      <p>Poți modifica doar oficiile marcate cu <span class="badge-me">oficiul tău</span>. Dacă rândul tău nu e marcat așa, anunță administratorul — probabil contul nu are oficiul atribuit.</p>
+      <p>Poți modifica doar rândurile marcate cu <span class="badge-me">oficiul tău</span>. Dacă rândul tău nu e marcat așa, contul nu are oficiul atribuit — anunță administratorul.</p>
 
       <h3>Butonul „Solicitat" nu apare</h3>
-      <p>Apare doar când cantitatea e între 1 și 5. Peste 5 bucăți nu se ține evidența rezervărilor, iar la 0 nu ai ce rezerva.</p>
+      <p>Apare doar între 1 și 5 bucăți. Peste 5 nu se ține evidența, la 0 nu ai ce rezerva.</p>
 
-      <h3>Scrie „Reconectare…" în bara de sus</h3>
-      <p>Legătura în timp real s-a întrerupt, de obicei din cauza rețelei. Se reface singură în câteva secunde. Între timp aplicația verifică oricum datele o dată pe minut, deci nu rămâi cu informații vechi.</p>
+      <h3>Lista e goală</h3>
+      <p>Ai un filtru apăsat sau text rămas în caseta de căutare. Apasă <b>Toate</b> și golește căutarea.</p>
 
-      <h3>Nu primesc notificări în browser</h3>
-      <p>Verifică dacă ai acceptat permisiunea — în Chrome, iconița din stânga barei de adrese, la „Notificări". Ține minte că funcționează doar cu aplicația deschisă într-o filă.</p>
+      <h3>Scrie „Reconectare…" sus</h3>
+      <p>Legătura în timp real s-a întrerupt. Se reface singură în câteva secunde, iar între timp aplicația verifică datele o dată pe minut.</p>
+
+      <h3>Nu primesc notificări</h3>
+      <p>Verifică permisiunea din iconița din stânga barei de adrese, la „Notificări". Funcționează doar cu aplicația deschisă.</p>
 
       <h3>Am uitat parola</h3>
-      <p>Parolele nu pot fi citite de nimeni, nici de administrator. Ceri administratorului să-ți genereze una nouă.</p>
+      <p>Nu poate fi citită de nimeni, nici de administrator. Ceri una nouă, temporară, pe care o schimbi la intrare.</p>
 
       <h3>Ceva arată complet greșit</h3>
       <p>Reîncarcă pagina cu <code>Ctrl + Shift + R</code>. Dacă tot nu se rezolvă, anunță administratorul.</p>
