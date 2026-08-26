@@ -19,13 +19,19 @@
   --r:10px;
 }
 :root[data-theme="light"]{
-  --bg:#F3F5F8; --surface:#FFFFFF; --surface-2:#EDF0F4; --line:#DDE2E9; --line-2:#BFC7D2;
-  --ink:#141922; --muted:#5F6B7C;
-  --ok:#177A3E; --ok-dim:#E4F6EA; --ok-line:#8FD3AC;
-  --miss:#BE3A1E; --miss-dim:#FCEAE5; --miss-line:#EFB0A0;
-  --accent:#E8B400; --on-accent:#1A1600;
-  --hair:rgba(0,0,0,.06); --veil:rgba(30,38,50,.42);
+  --bg:#E7EBF1; --surface:#FFFFFF; --surface-2:#E3E8EF; --line:#C4CDDA; --line-2:#93A1B5;
+  --ink:#0F1620; --muted:#4E5C71;
+  --ok:#15703A; --ok-dim:#DDF3E6; --ok-line:#79C79C;
+  --miss:#B23219; --miss-dim:#FBE2DB; --miss-line:#E79C88;
+  --accent:#E0AC00; --on-accent:#1A1600;
+  --hair:rgba(15,22,32,.09); --veil:rgba(20,28,40,.45);
 }
+:root[data-theme="light"] header,
+:root[data-theme="light"] .rw,
+:root[data-theme="light"] .stat,
+:root[data-theme="light"] .panel,
+:root[data-theme="light"] .card,
+:root[data-theme="light"] .modal-card{box-shadow:0 1px 2px rgba(15,22,32,.07)}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font:400 15px/1.5 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
@@ -94,11 +100,14 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 #sort{width:auto;padding:10px 12px;background:var(--surface);font-size:13px}
 
 /* ---------- Listă oficii ---------- */
-.grid{display:grid;grid-template-columns:4px minmax(150px,0.6fr) minmax(560px,1.4fr) 444px 176px;gap:14px}
-.head-row{align-items:end;padding:0 14px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
-.sub3{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center;font-size:10px;margin-top:4px;color:var(--line-2)}
+.grid{display:grid;grid-template-columns:4px minmax(160px,1fr) 500px 500px 168px;gap:14px}
+.head-row{position:sticky;top:var(--hdh,73px);z-index:15;align-items:start;padding:9px 14px 10px;margin-bottom:2px;background:var(--bg);border-bottom:1px solid var(--line);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);font-weight:700}
+.sub3{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;text-align:center;font-size:10px;margin-top:5px;color:var(--muted);font-weight:600;letter-spacing:.04em}
+.head-row::before{content:"";position:absolute;left:0;right:0;top:-12px;height:12px;background:var(--bg)}
+.head-row > div{line-height:1.3}
 .hd-res{line-height:1.3}
 .hd-res .h48{color:var(--accent)}
+.col-lbl{color:var(--muted)}
 .rows{display:flex;flex-direction:column;gap:8px}
 .rw{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
 .rw.open{border-color:var(--line-2)}
@@ -111,38 +120,38 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .ometa{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* rezervări */
-.rz{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:start}
+.rz{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:start}
 .rz-col{display:flex;flex-direction:column;gap:4px;min-width:0}
-.rz-chip{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:3px 4px 3px 7px}
-.rz-id{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;flex:none;white-space:nowrap;letter-spacing:.02em}
-.rz-t{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);flex:1 1 auto;text-align:right;min-width:0;overflow:hidden}
+.rz-chip{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:2px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:3px 3px 3px 6px}
+.rz-id{grid-column:1;grid-row:1;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.02em}
+.rz-t{grid-column:1;grid-row:2;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);line-height:1.3}
 .rz-t.soon{color:var(--accent)}
-.rz-x{flex:none;width:16px;height:16px;padding:0;line-height:1;background:transparent;border:0;color:var(--line-2);font-size:14px;cursor:pointer;border-radius:4px}
+.rz-x{grid-column:2;grid-row:1/3;width:16px;height:16px;padding:0;line-height:1;background:transparent;border:0;color:var(--line-2);font-size:14px;cursor:pointer;border-radius:4px}
 .rz-x:hover{color:var(--miss);background:var(--miss-dim)}
 .rz-none{font-size:11px;color:var(--line-2);text-align:center;padding:2px 0}
 .col-lbl{display:none;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--line-2);font-weight:600;margin-bottom:1px}
 
 /* articole */
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 .cell{display:flex;flex-direction:column;gap:5px;min-width:0}
-.tile{height:44px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);display:grid;place-items:center;cursor:default;font-family:Archivo;font-size:19px;font-weight:700;transition:transform .12s ease,background .15s ease;width:100%}
+.tile{height:42px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);display:grid;place-items:center;cursor:default;font-family:Archivo;font-size:18px;font-weight:700;transition:transform .12s ease,background .15s ease;width:100%}
 .tile.on{background:var(--ok-dim);border-color:var(--ok-line);color:var(--ok)}
 .tile.off{background:var(--miss-dim);border-color:var(--miss-line);color:var(--miss)}
 .tile.editable{cursor:pointer}
 .tile.editable:hover{transform:translateY(-2px)}
 .tile.busy{opacity:.45}
 .tile.locked{opacity:.62}
-.qtybar{display:flex;align-items:center;justify-content:center;gap:3px}
-.qtybar button{width:22px;height:24px;padding:0;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:14px;line-height:1;cursor:pointer;flex:none}
+.qtybar{display:flex;align-items:center;justify-content:center;gap:2px}
+.qtybar button{width:21px;height:24px;padding:0;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:14px;line-height:1;cursor:pointer;flex:none}
 .qtybar button:hover{border-color:var(--line-2);color:var(--ink)}
-.qv{width:46px;padding:2px 4px;text-align:center;font-family:Archivo;font-weight:700;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:5px;-moz-appearance:textfield}
+.qv{width:44px;padding:2px 4px;text-align:center;font-family:Archivo;font-weight:700;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:5px;-moz-appearance:textfield}
 .qv::-webkit-outer-spin-button,.qv::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .qstatic{text-align:center;font-size:11px;color:var(--muted);font-weight:600}
-.resbar{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap}
+.resbar{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap}
 .left{font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;color:var(--muted)}
 .left b{font-family:Archivo;font-size:12px;color:var(--ink)}
 .left.zero,.left.zero b{color:var(--miss)}
-.ask{padding:2px 7px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:5px;cursor:pointer;width:auto}
+.ask{padding:2px 6px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:5px;cursor:pointer;width:auto}
 .ask:hover{background:var(--accent);color:var(--on-accent)}
 .ask:disabled{opacity:.35;cursor:default;background:transparent;color:var(--accent)}
 
@@ -331,10 +340,10 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
       <div></div>
       <div>Oficiu</div>
       <div class="hd-res">Solicitări · <span class="h48">48h</span>
-        <div class="sub3"><div>Telecom.</div><div>Bloc 250</div><div>Bloc 322</div><div>Mesh</div></div>
+        <div class="sub3" id="hdRez"></div>
       </div>
       <div>Stoc
-        <div class="sub3"><div>Telecomenzi</div><div>Blocuri 250</div><div>Blocuri 322</div><div>Mesh</div></div>
+        <div class="sub3" id="hdStoc"></div>
       </div>
       <div>Ultima modificare</div>
     </div>
@@ -460,10 +469,11 @@ const sbTmp = createClient(SUPABASE_URL, SUPABASE_ANON, {
 const $ = s => document.querySelector(s);
 
 const ITEMS = [
-  { key:'telecomenzi', label:'Telecomenzi' },
-  { key:'bloc250',     label:'Blocuri 250' },
-  { key:'bloc322',     label:'Blocuri 322' },
-  { key:'mesh',        label:'Mesh'        },
+  { key:'mag',     label:'Telecomenzi MAG', scurt:'Telec. MAG' },
+  { key:'sml',     label:'Telecomenzi SML', scurt:'Telec. SML' },
+  { key:'bloc250', label:'Blocuri 250',     scurt:'Bloc 250'   },
+  { key:'bloc322', label:'Blocuri 322',     scurt:'Bloc 322'   },
+  { key:'mesh',    label:'Mesh',            scurt:'Mesh'       },
 ];
 const LABEL   = Object.fromEntries(ITEMS.map(i => [i.key, i.label]));
 const ROLE_RO = { admin:'Administrator', office:'Oficiu', viewer:'Vizualizare' };
@@ -543,6 +553,9 @@ $('#logoutBtn').addEventListener('click', async () => {
 });
 
 /* ---------- pornire ---------- */
+$('#hdRez').innerHTML  = ITEMS.map(i => `<div>${esc(i.label)}</div>`).join('');
+$('#hdStoc').innerHTML = ITEMS.map(i => `<div>${esc(i.label)}</div>`).join('');
+
 async function start(){
   const { data:{ user } } = await sb.auth.getUser();
   if (!user) return;
@@ -563,10 +576,13 @@ async function start(){
   $('#whoName').textContent = prof.full_name || user.email;
   $('#whoRole').textContent = ROLE_RO[prof.role] || prof.role;
   $('#adminPanel').classList.toggle('hidden', !isAdmin());
+  $('#pwBtn').classList.toggle('hidden', prof.role === 'viewer');
 
   const scoped = prof.role === 'office' && me.offices.size > 0;
   $('#scope').classList.toggle('hidden', !scoped);
   showAll = !scoped;
+
+  masoaraAntet();
 
   await load();
   if (isAdmin()) await loadUsers();
@@ -574,7 +590,7 @@ async function start(){
   startPresence();
   startTicker();
 
-  if (me.must_change_password){
+  if (me.must_change_password && me.role !== 'viewer'){
     openPw(true);
     return;
   }
@@ -682,6 +698,17 @@ function startLive(){
 function stopLive(){
   if (channel){ sb.removeChannel(channel); channel = null; }
   if (poller){ clearInterval(poller); poller = null; }
+}
+
+function masoaraAntet(){
+  const h = document.querySelector('header');
+  if (!h || !h.offsetHeight) return;          // bara încă ascunsă — ignoră măsurătoarea
+  document.documentElement.style.setProperty('--hdh', h.offsetHeight + 'px');
+}
+window.addEventListener('resize', masoaraAntet);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(masoaraAntet);
+if (window.ResizeObserver){
+  new ResizeObserver(masoaraAntet).observe(document.querySelector('header'));
 }
 
 function safeRender(){
@@ -1074,7 +1101,7 @@ function renderUsers(){
       <div class="ubox">
         <div class="urow">
           <div>
-            <b>${esc(u.full_name || u.email.split('@')[0])} ${self ? '<span class="badge-me">contul tău</span>' : ''}${u.temp_pass ? '<span class="temp">parolă temporară</span>' : ''}</b>
+            <b>${esc(u.full_name || u.email.split('@')[0])} ${self ? '<span class="badge-me">contul tău</span>' : ''}${u.temp_pass && u.role !== 'viewer' ? '<span class="temp">parolă temporară</span>' : ''}</b>
             <span class="mail mono">${esc(u.email.split('@')[0])}</span>
             ${presenceHTML(u)}
           </div>
