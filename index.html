@@ -567,6 +567,10 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
         <p class="hint">Import în masă — câte un oficiu pe linie: <span class="mono">cod | denumire | regiune</span></p>
         <textarea id="bulk" placeholder="OF-042 | Centrul Regional Orhei | Regiuni Centru&#10;OF-043 | Centrul Regional Criuleni | Regiuni Centru"></textarea>
         <div style="margin-top:10px"><button class="btn btn-ghost" id="bulkBtn" type="button">Importă lista</button></div>
+        <div class="divider"></div>
+        <p class="hint">Marchează toate oficiile ca neactualizate. Fiecare va primi, la intrarea în aplicație,
+          o avertizare care nu se poate amâna, până raportează sau confirmă stocul.</p>
+        <button class="btn btn-ghost" id="askAllBtn" type="button">Cere actualizare de la toate oficiile</button>
       </div>
 
       <div class="pane hidden" id="paneUsers">
@@ -816,7 +820,7 @@ const fold = s => String(s ?? '').toLowerCase()
 const isAdmin = () => me && me.role === 'admin';
 const mine    = o => me && me.offices && me.offices.has(o.id);
 const canEdit = o => isAdmin() || mine(o);
-const isStale = o => !o.updated_at || (Date.now() - new Date(o.updated_at)) / 86400000 > STALE_DAYS;
+const isStale = o => o.stale_forced || !o.updated_at || (Date.now() - new Date(o.updated_at)) / 86400000 > STALE_DAYS;
 const mail = u => u.includes('@') ? u : u + MAIL_DOMAIN;
 const fmtDate = iso => new Date(iso).toLocaleString('ro-MD', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
 
@@ -993,6 +997,7 @@ function startLive(){
       else if (p.eventType === 'INSERT'){ if (!offices.some(o => o.id === p.new.id)) offices.push(p.new); }
       else { const row = offices.find(o => o.id === p.new.id); if (row) Object.assign(row, p.new); else offices.push(p.new); }
       safeRender();
+      if (me && !ackCur && staleMine().some(x => x.stale_forced)) showModal();
     })
     .on('postgres_changes', { event:'*', schema:'public', table:'messages' }, async () => {
       await loadMsgs();
@@ -1088,11 +1093,12 @@ function visible(){
 /* ---------- randare ---------- */
 function stampHTML(o){
   if (!o.updated_at)
-    return `<span class="stale">Neactualizat</span><span class="rel">adăugat ${timeAgo(o.created_at)}</span>`;
+    return `<span class="stale">${o.stale_forced ? 'Actualizare cerută' : 'Neactualizat'}</span><span class="rel">adăugat ${timeAgo(o.created_at)}</span>`;
   return `<span class="when">${fmtDate(o.updated_at)}</span>
           <span class="rel">${timeAgo(o.updated_at)}</span>
           ${o.updated_by ? `<span class="by">${esc(o.updated_by)}</span>` : ''}
-          ${isStale(o) ? `<span class="stale">peste ${STALE_DAYS} zile</span>` : ''}`;
+          ${o.stale_forced ? '<span class="stale">actualizare cerută</span>'
+            : isStale(o) ? `<span class="stale">peste ${STALE_DAYS} zile</span>` : ''}`;
 }
 
 function rezColHTML(o, i){
@@ -1178,6 +1184,7 @@ function render(){
             <div class="rowacts">
               ${canEdit(o) ? `<button class="mini keep ${isStale(o) ? 'urge' : ''}" data-keep="${o.id}" title="Stocul a rămas neschimbat — prelungește">Confirmă stocul</button>` : ''}
               <button class="mini" data-hist="${o.id}">${openHist === o.id ? 'Ascunde' : 'Istoric'}</button>
+              ${isAdmin() && !o.stale_forced ? `<button class="mini" data-ask="${o.id}" title="Marchează oficiul ca neactualizat și cere raportare">Cere actualizare</button>` : ''}
               ${isAdmin() ? `<button class="mini danger" data-del="${o.id}">Șterge</button>` : ''}
             </div>
           </div>
@@ -1239,6 +1246,9 @@ $('#rows').addEventListener('click', async e => {
   }
 
   if (busy) return;
+
+  const ak = e.target.closest('[data-ask]');
+  if (ak) return cereActualizare([ak.dataset.ask]);
 
   const kp = e.target.closest('[data-keep]');
   if (kp) return keepStock(kp.dataset.keep);
@@ -1388,6 +1398,19 @@ async function dropRez(rid){
   toast(`Solicitare ștearsă: ${r.client_id}`);
 }
 
+async function cereActualizare(lista){
+  const tot = lista === null;
+  if (tot && !confirm('Ceri actualizarea stocului de la toate oficiile?')) return;
+
+  busy = true;
+  const { error } = await sb.rpc('request_update', { targets: lista });
+  busy = false;
+
+  if (error) return toast('Cererea nu a fost trimisă: ' + error.message, true);
+  await load();
+  toast(tot ? 'Cerere trimisă către toate oficiile.' : 'Actualizare cerută.');
+}
+
 async function keepStock(id){
   const o = offices.find(x => x.id === id);
   busy = true;
@@ -1425,6 +1448,8 @@ $('#addForm').addEventListener('submit', async e => {
   if (error) return toast('Oficiul nu a fost adăugat: ' + error.message, true);
   e.target.reset(); await load(); toast('Oficiu adăugat.');
 });
+
+$('#askAllBtn').addEventListener('click', () => cereActualizare(null));
 
 $('#bulkBtn').addEventListener('click', async () => {
   const rows = $('#bulk').value.split('\n').map(l => l.trim()).filter(Boolean).map(l => {
@@ -2170,15 +2195,20 @@ function buildModal(){
   const list = staleMine();
   if (!list.length){ $('#modal').classList.add('hidden'); return; }
 
-  $('#modalSub').textContent = list.length === 1
-    ? `Acest oficiu nu a fost actualizat de peste ${STALE_DAYS} zile. Dacă stocul a rămas la fel, confirmă-l.`
-    : `Aceste oficii nu au fost actualizate de peste ${STALE_DAYS} zile. Dacă stocul a rămas la fel, confirmă-l.`;
+  const cerut = list.some(o => o.stale_forced);
+  $('#modalClose').classList.toggle('hidden', cerut);
+  $('#modalSub').textContent = cerut
+    ? 'Administratorul a cerut verificarea stocului. Confirmă-l sau actualizează-l ca să poți continua.'
+    : list.length === 1
+      ? `Acest oficiu nu a fost actualizat de peste ${STALE_DAYS} zile. Dacă stocul a rămas la fel, confirmă-l.`
+      : `Aceste oficii nu au fost actualizate de peste ${STALE_DAYS} zile. Dacă stocul a rămas la fel, confirmă-l.`;
 
   $('#modalList').innerHTML = list.map(o => `
     <div class="mrow">
       <div>
         <b>${esc(o.name)}</b>
-        <span>${o.updated_at ? 'ultima dată ' + timeAgo(o.updated_at) : 'niciodată actualizat'}</span>
+        <span>${o.stale_forced ? 'actualizare cerută de administrator'
+          : o.updated_at ? 'ultima dată ' + timeAgo(o.updated_at) : 'niciodată actualizat'}</span>
       </div>
       <button class="mini keep urge" data-keep="${o.id}">Confirmă stocul</button>
     </div>`).join('');
