@@ -2198,7 +2198,7 @@ function buildModal(){
   const cerut = list.some(o => o.stale_forced);
   $('#modalClose').classList.toggle('hidden', cerut);
   $('#modalSub').textContent = cerut
-    ? 'Administratorul a cerut verificarea stocului. Confirmă-l sau actualizează-l ca să poți continua.'
+    ? 'Superiorul a cerut verificarea stocului. Confirmă-l sau actualizează-l ca să poți continua.'
     : list.length === 1
       ? `Acest oficiu nu a fost actualizat de peste ${STALE_DAYS} zile. Dacă stocul a rămas la fel, confirmă-l.`
       : `Aceste oficii nu au fost actualizate de peste ${STALE_DAYS} zile. Dacă stocul a rămas la fel, confirmă-l.`;
@@ -2207,7 +2207,7 @@ function buildModal(){
     <div class="mrow">
       <div>
         <b>${esc(o.name)}</b>
-        <span>${o.stale_forced ? 'actualizare cerută de administrator'
+        <span>${o.stale_forced ? 'actualizare cerută de superior'
           : o.updated_at ? 'ultima dată ' + timeAgo(o.updated_at) : 'niciodată actualizat'}</span>
       </div>
       <button class="mini keep urge" data-keep="${o.id}">Confirmă stocul</button>
