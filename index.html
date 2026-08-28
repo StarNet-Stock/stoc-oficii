@@ -147,6 +147,7 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .qv{width:44px;padding:2px 4px;text-align:center;font-family:Archivo;font-weight:700;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:5px;-moz-appearance:textfield}
 .qv::-webkit-outer-spin-button,.qv::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .qstatic{text-align:center;font-size:11px;color:var(--muted);font-weight:600}
+.unl{text-align:center;font-size:10px;letter-spacing:.04em;color:var(--ok);font-weight:600;text-transform:uppercase}
 .resbar{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap}
 .left{font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;color:var(--muted)}
 .left b{font-family:Archivo;font-size:12px;color:var(--ink)}
@@ -342,7 +343,8 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
   .cell .qtybar{grid-column:1/3;grid-row:2;justify-content:flex-start}
   .cell .qtybar button{width:32px;height:30px;font-size:16px}
   .cell .qv{width:62px;height:30px;font-size:14px}
-  .cell .resbar{grid-column:1/3;grid-row:3;justify-content:flex-start;gap:8px}
+  .cell .unl{grid-column:1/3;grid-row:3;text-align:left}
+  .cell .resbar{grid-column:1/3;grid-row:4;justify-content:flex-start;gap:8px}
   .cell .ask{padding:5px 10px;font-size:11px}
 
   /* solicitări: doar articolele care chiar au rezervări */
@@ -932,12 +934,12 @@ function cellHTML(o, i){
   if (has && edit){
     qbar = `<div class="qtybar">
       <button data-id="${o.id}" data-key="${i.key}" data-qty="-1" aria-label="Scade">−</button>
-      <input class="qv" type="number" min="0" step="1" value="${qty}"
+      <input class="qv" type="number" min="0" step="1" value="${qty || ''}" placeholder="∞"
              data-id="${o.id}" data-key="${i.key}" aria-label="Cantitate ${esc(i.label)}">
       <button data-id="${o.id}" data-key="${i.key}" data-qty="1" aria-label="Crește">+</button>
-    </div>`;
-  } else if (has && qty > 0){
-    qbar = `<div class="qstatic">${qty} buc</div>`;
+    </div>` + (qty === 0 ? `<div class="unl">nelimitat</div>` : '');
+  } else if (has){
+    qbar = qty > 0 ? `<div class="qstatic">${qty} buc</div>` : `<div class="unl">nelimitat</div>`;
   }
 
   const res = (has && qty > 0 && qty <= LOW_STOCK) ? `
@@ -1098,7 +1100,7 @@ async function setQty(id, key, value){
   if (error){ toast('Cantitatea nu a fost salvată: ' + error.message, true); return render(); }
   Object.assign(office, data);
   render();
-  toast(`${LABEL[key]} · ${office.name}: ${value} buc`);
+  toast(`${LABEL[key]} · ${office.name}: ${value > 0 ? value + ' buc' : 'articol scos din stoc'}`);
 }
 
 function openId(id, key){
