@@ -54,6 +54,7 @@ input:focus,select:focus{border-color:var(--accent);outline:none}
 .btn{padding:11px 16px;background:var(--accent);color:var(--on-accent);border:0;border-radius:var(--r);font-weight:600;cursor:pointer;width:auto}
 .btn:hover{filter:brightness(1.08)}
 .btn:disabled{opacity:.5;cursor:default}
+.btn.wait{background:var(--surface-2);color:var(--muted);opacity:1}
 .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .btn-ghost:hover{background:var(--surface-2);filter:none}
 .btn-full{width:100%}
@@ -141,6 +142,8 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .tile.editable:hover{transform:translateY(-2px)}
 .tile.busy{opacity:.45}
 .tile.locked{opacity:.62}
+.tile.unk{background:var(--surface-2);border-color:var(--line-2);color:var(--muted)}
+.tile.unk.editable:hover{transform:translateY(-2px)}
 .qtybar{display:flex;align-items:center;justify-content:center;gap:2px}
 .qtybar button{width:21px;height:24px;padding:0;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:14px;line-height:1;cursor:pointer;flex:none}
 .qtybar button:hover{border-color:var(--line-2);color:var(--ink)}
@@ -499,7 +502,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
           <span class="ubadge hidden" id="msgDot">0</span>
         </button>
         <button class="icon-btn" id="prBtn" type="button" title="Prețuri" aria-label="Prețuri">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 10v4M18 10v4"/></svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 12 22l-9-9V3h10z"/><circle cx="7.6" cy="7.6" r="1.4"/></svg>
         </button>
         <div id="live" title="Actualizare în timp real"><span class="dot"></span><span id="liveTxt">Se conectează…</span></div>
         <span class="hd-sep"></span>
@@ -650,6 +653,13 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
         <button type="button" data-cmd="removeFormat" title="Curăță">⌫</button>
       </div>
       <div class="edit" id="cBody" contenteditable="true" data-ph="Scrie mesajul…"></div>
+
+      <label class="pk-item" style="margin-top:14px;padding:9px 10px;border:1px solid var(--line);border-radius:var(--r)">
+        <input type="checkbox" id="cBlock">
+        <span><b style="font-weight:600">Mesaj obligatoriu</b><br>
+          <small style="color:var(--muted);font-size:12px">Apare peste ecran și blochează aplicația până la confirmare.
+          Nebifat, ajunge doar în lista de mesaje.</small></span>
+      </label>
 
       <div class="picker" style="margin-top:16px">
         <span class="lbl">Destinatari</span>
@@ -1102,11 +1112,13 @@ function rezColHTML(o, i){
 
 function cellHTML(o, i){
   const has = o[i.key], qty = qtyOf(o, i.key), left = leftOf(o, i.key), edit = canEdit(o);
+  const vechi = isStale(o);   // stoc neconfirmat: nu se mai afișează ca sigur
 
-  const face = !has ? '✕' : (qty > 0 ? qty : '✓');
-  const tile = `<button class="tile ${has?'on':'off'} ${edit?'editable':'locked'}"
+  const face = vechi ? '?' : (!has ? '✕' : (qty > 0 ? qty : '✓'));
+  const cls  = vechi ? 'unk' : (has ? 'on' : 'off');
+  const tile = `<button class="tile ${cls} ${edit?'editable':'locked'}"
       data-id="${o.id}" data-key="${i.key}"
-      aria-label="${esc(i.label)} — ${has ? (qty>0 ? qty + ' bucăți' : 'în stoc') : 'lipsă'}"
+      aria-label="${esc(i.label)} — ${vechi ? 'stoc neconfirmat' : (has ? (qty>0 ? qty + ' bucăți' : 'în stoc') : 'lipsă')}"
       ${edit?'':'disabled'}>${face}</button>`;
 
   let qbar = '';
@@ -1117,11 +1129,11 @@ function cellHTML(o, i){
              data-id="${o.id}" data-key="${i.key}" aria-label="Cantitate ${esc(i.label)}">
       <button data-id="${o.id}" data-key="${i.key}" data-qty="1" aria-label="Crește">+</button>
     </div>` + (qty === 0 ? `<div class="unl">nelimitat</div>` : '');
-  } else if (has){
+  } else if (has && !vechi){
     qbar = qty > 0 ? `<div class="qstatic">${qty} buc</div>` : `<div class="unl">nelimitat</div>`;
   }
 
-  const res = (has && qty > 0 && qty <= LOW_STOCK) ? `
+  const res = (!vechi && has && qty > 0 && qty <= LOW_STOCK) ? `
     <div class="resbar">
       <span class="left ${left === 0 ? 'zero' : ''}">rămas <b>${left}</b></span>
       <button class="ask" data-id="${o.id}" data-key="${i.key}" ${left === 0 ? 'disabled' : ''}>Solicitat</button>
@@ -1795,6 +1807,7 @@ async function loadMsgs(){
 const msgForMe = m => m.active && (m.to_all ||
   msgTargets.some(t => t.message_id === m.id && me.offices.has(t.office_id)));
 const neconfirmate = () => msgs.filter(m => msgForMe(m) && !myAcks.has(m.id));
+const deBlocat     = () => neconfirmate().filter(m => m.blocking);
 
 function paintDot(){
   const n = neconfirmate().length;
@@ -1803,9 +1816,29 @@ function paintDot(){
   d.classList.toggle('hidden', n === 0);
 }
 
-/* fereastra blocantă */
+let ackTimer = null;
+function porneșteNumărătoarea(){
+  const b = $('#ackOk');
+  let n = 5;
+  clearInterval(ackTimer);
+  b.disabled = true; b.classList.add('wait');
+  b.textContent = `Am luat cunoștință (${n})`;
+
+  ackTimer = setInterval(() => {
+    n--;
+    if (n <= 0){
+      clearInterval(ackTimer); ackTimer = null;
+      b.disabled = false; b.classList.remove('wait');
+      b.textContent = 'Am luat cunoștință';
+    } else {
+      b.textContent = `Am luat cunoștință (${n})`;
+    }
+  }, 1000);
+}
+
+/* fereastra blocantă — doar mesajele obligatorii */
 function showNextMsg(){
-  const list = neconfirmate();
+  const list = deBlocat();
   if (!list.length){ $('#ackModal').classList.add('hidden'); ackCur = null; return false; }
 
   ackCur = list[list.length - 1];          // cel mai vechi întâi
@@ -1813,6 +1846,7 @@ function showNextMsg(){
   $('#ackMeta').textContent  = `${fmtDate(ackCur.created_at)} · ${ackCur.created_by || ''}`;
   $('#ackBody').innerHTML    = ackCur.body;
   $('#ackModal').classList.remove('hidden');
+  porneșteNumărătoarea();
   return true;
 }
 
@@ -1844,7 +1878,13 @@ async function openInbox(){
 }
 
 function renderInbox(){
-  const list = isAdmin() ? msgs : msgs.filter(msgForMe);
+  const list = (isAdmin() ? msgs.slice() : msgs.filter(msgForMe))
+    .sort((a,b) => {
+      const na = msgForMe(a) && !myAcks.has(a.id) ? 0 : 1;
+      const nb = msgForMe(b) && !myAcks.has(b.id) ? 0 : 1;
+      if (na !== nb) return na - nb;
+      return new Date(b.created_at) - new Date(a.created_at);
+    });
   if (!list.length){
     $('#inboxBody').innerHTML = '<p class="empty-h">Niciun mesaj.</p>';
     return;
@@ -1853,11 +1893,12 @@ function renderInbox(){
     const nou = msgForMe(m) && !myAcks.has(m.id);
     const tinte = m.to_all ? 'toate oficiile'
       : `${msgTargets.filter(t => t.message_id === m.id).length} oficii`;
+    const fel = m.blocking ? ' · obligatoriu' : '';
     return `<div class="mitem" data-msg="${m.id}">
-      ${nou ? '<span class="tag nou">neconfirmat</span>'
-            : (msgForMe(m) ? '<span class="tag ok">confirmat</span>' : '')}
+      ${nou ? '<span class="tag nou">necitit</span>'
+            : (msgForMe(m) ? '<span class="tag ok">citit</span>' : '')}
       <b>${esc(m.title)}</b>
-      <span class="mm">${fmtDate(m.created_at)} · ${esc(m.created_by || '')} · ${tinte}</span>
+      <span class="mm">${fmtDate(m.created_at)} · ${esc(m.created_by || '')} · ${tinte}${fel}</span>
     </div>`;
   }).join('') + '</div>';
 }
@@ -1867,6 +1908,14 @@ $('#inboxBody').addEventListener('click', async e => {
   if (!it) return;
   const m = msgs.find(x => String(x.id) === it.dataset.msg);
   if (!m) return;
+
+  if (msgForMe(m) && !myAcks.has(m.id)){
+    const { error } = await sb.from('message_acks').insert({ message_id: m.id, user_id: me.id });
+    if (!error || /duplicate|conflict/i.test(error.message)){
+      myAcks.add(m.id);
+      paintDot();
+    }
+  }
 
   let rep = '';
   if (isAdmin()){
@@ -1908,6 +1957,7 @@ $('#inboxBody').addEventListener('click', async e => {
 $('#newMsg').addEventListener('click', () => {
   $('#cTitle').value = '';
   $('#cBody').innerHTML = '';
+  $('#cBlock').checked = false;
   tgSel = new Set(); tgAll = true;
   $('#tgAll').setAttribute('aria-pressed', 'true');
   $('#tgSome').setAttribute('aria-pressed', 'false');
@@ -1981,7 +2031,7 @@ $('#compSend').addEventListener('click', async () => {
 
   btn.disabled = true; btn.textContent = 'Se trimite…';
   const { data, error } = await sb.from('messages')
-    .insert({ title: titlu, body: corp, to_all: tgAll,
+    .insert({ title: titlu, body: corp, to_all: tgAll, blocking: $('#cBlock').checked,
               created_by: me.full_name || 'Administrator', author_id: me.id })
     .select().single();
 
