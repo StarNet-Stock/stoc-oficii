@@ -976,19 +976,31 @@ function render(){
   }).join('');
 }
 
+function tipLog(r){
+  if (r.kind) return r.kind;
+  if (r.item === 'confirmare' || r.item === 'predare') return r.item;
+  return 'stoc';
+}
+
+function textLog(r){
+  const tip = tipLog(r);
+  if (tip === 'confirmare') return 'Stoc verificat — fără schimbări';
+  if (tip === 'predare'){
+    const art = LABEL[r.item] ? esc(LABEL[r.item]) + ' — ' : '';
+    return `${art}predat clientului ${esc(r.note || '')}`;
+  }
+  return `${esc(LABEL[r.item] || r.item)} — ${r.new_value ? 'marcat în stoc' : 'marcat lipsă'}`;
+}
+
 function histHTML(id){
   const rows = histCache[id];
   if (!rows) return `<div class="hist"><p class="empty-h">Se încarcă istoricul…</p></div>`;
   if (!rows.length) return `<div class="hist"><h2>Istoric modificări</h2><p class="empty-h">Nicio modificare înregistrată.</p></div>`;
   return `<div class="hist"><h2>Istoric modificări</h2>` + rows.map(r => `
     <div class="hline">
-      <span class="mark ${r.item === 'confirmare' || r.item === 'predare' ? '' : (r.new_value?'on':'off')}">${
-        r.item === 'confirmare' ? '↻' : r.item === 'predare' ? '→' : (r.new_value?'✓':'✕')}</span>
-      <span>${r.item === 'confirmare'
-        ? 'Stoc verificat — fără schimbări'
-        : r.item === 'predare'
-          ? `Predat clientului ${esc(r.note || '')}`
-          : `${esc(LABEL[r.item] || r.item)} — ${r.new_value ? 'marcat în stoc' : 'marcat lipsă'}`}</span>
+      <span class="mark ${tipLog(r) === 'stoc' ? (r.new_value?'on':'off') : ''}">${
+        tipLog(r) === 'confirmare' ? '↻' : tipLog(r) === 'predare' ? '→' : (r.new_value?'✓':'✕')}</span>
+      <span>${textLog(r)}</span>
       <span class="meta">${fmtDate(r.changed_at)}${r.changed_by ? ' · ' + esc(r.changed_by) : ''}</span>
     </div>`).join('') + `</div>`;
 }
