@@ -231,11 +231,13 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 /* raport confirmări */
 .rep{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
 .rep h3{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:9px;font-weight:700}
-.rep-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--hair);font-size:13px}
+.rep-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px}
 .rep-row:last-child{border-bottom:0}
-.rep-row span:first-child{flex:1;min-width:0}
-.rep-row .no{color:var(--miss);font-size:11px;font-weight:600}
-.rep-row .yes{color:var(--muted);font-size:11px}
+.rep-row .cine{flex:1;min-width:0}
+.rep-row .cine b{display:block;font-weight:600}
+.rep-row .cine small{color:var(--muted);font-size:11px;font-family:'JetBrains Mono',monospace}
+.rep-row .no{color:var(--miss);font-size:11px;font-weight:600;white-space:nowrap}
+.rep-row .yes{color:var(--muted);font-size:11px;white-space:nowrap}
 
 /* editor */
 .tbar{display:flex;flex-wrap:wrap;align-items:center;gap:4px;border:1px solid var(--line);border-bottom:0;
@@ -2288,9 +2290,9 @@ $('#inboxBody').addEventListener('click', async e => {
     const { data, error } = await sb.rpc('admin_msg_status', { mid: m.id });
     if (!error && data){
       const nu = data.filter(r => !r.acked_at).length;
-      rep = `<div class="rep"><h3>Confirmări — ${data.length - nu} din ${data.length}</h3>` +
+      rep = `<div class="rep"><h3>Confirmări — ${data.length - nu} din ${data.length} conturi</h3>` +
         data.map(r => `<div class="rep-row">
-            <span>${esc(r.name)}</span>
+            <span class="cine"><b>${esc(r.nume)}</b><small>${esc(r.cont)} · ${esc(r.oficii)}</small></span>
             ${r.acked_at ? `<span class="yes">${fmtDate(r.acked_at)}</span>`
                          : '<span class="no">în așteptare</span>'}
           </div>`).join('') + '</div>';
