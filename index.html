@@ -302,6 +302,11 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 .ubox{background:var(--bg);border:1px solid var(--line);border-radius:var(--r)}
 .urow{display:grid;grid-template-columns:1fr 140px 150px auto;gap:10px;align-items:center;padding:10px 12px}
 .urow b{display:block;font-weight:600;font-size:14px}
+.uhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:1px}
+.uname{flex:1 1 130px;min-width:0;padding:5px 8px;font-size:14px;font-weight:600;
+       background:transparent;border:1px solid transparent;border-radius:7px}
+.uname:hover{border-color:var(--line)}
+.uname:focus{border-color:var(--accent);background:var(--surface)}
 .urow .mail{font-size:11px;color:var(--muted)}
 .urow select{padding:8px 10px;font-size:13px}
 .urow .acts{display:flex;gap:6px}
@@ -1490,7 +1495,11 @@ function renderUsers(){
       <div class="ubox">
         <div class="urow">
           <div>
-            <b>${esc(u.full_name || u.email.split('@')[0])} ${self ? '<span class="badge-me">contul tău</span>' : ''}${u.temp_pass && u.role !== 'viewer' ? '<span class="temp">parolă temporară</span>' : ''}</b>
+            <div class="uhead">
+              <input class="uname" data-uname="${u.id}" value="${esc(u.full_name || '')}"
+                     placeholder="Nume Prenume" autocomplete="off" aria-label="Nume afișat">
+              ${self ? '<span class="badge-me">contul tău</span>' : ''}${u.temp_pass && u.role !== 'viewer' ? '<span class="temp">parolă temporară</span>' : ''}
+            </div>
             <span class="mail mono">${esc(u.email.split('@')[0])}</span>
             ${presenceHTML(u)}
           </div>
@@ -1644,6 +1653,18 @@ $('#users').addEventListener('input', e => {
 });
 
 $('#users').addEventListener('change', async e => {
+  const nm = e.target.closest('[data-uname]');
+  if (nm){
+    const nume = nm.value.trim();
+    const { error } = await sb.rpc('admin_set_name', { target: nm.dataset.uname, new_name: nume });
+    if (error){ toast('Numele nu a fost salvat: ' + error.message, true); return; }
+    const u = users.find(x => x.id === nm.dataset.uname);
+    if (u) u.full_name = nume || null;
+    if (nm.dataset.uname === me.id) me.full_name = nume || null;
+    $('#whoName').textContent = me.full_name || '—';
+    return toast('Nume actualizat.');
+  }
+
   const cb = e.target.closest('[data-uoff]');
   if (cb){
     const { error } = await sb.rpc('admin_toggle_office',
@@ -1862,12 +1883,25 @@ $('#inboxBody').addEventListener('click', async e => {
   }
 
   $('#inboxBody').innerHTML = `
-    <button class="mini" id="backInbox" style="margin-bottom:14px">← Înapoi la listă</button>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <button class="mini" id="backInbox">← Înapoi la listă</button>
+      ${isAdmin() ? `<button class="mini danger" id="delMsg" style="margin-left:auto">Șterge mesajul</button>` : ''}
+    </div>
     <h2 style="font-size:19px;font-weight:700;margin-bottom:4px">${esc(m.title)}</h2>
     <div class="msent">${fmtDate(m.created_at)} · ${esc(m.created_by || '')}</div>
     <div class="mbody">${m.body}</div>${rep}`;
 
   $('#backInbox').addEventListener('click', renderInbox);
+
+  const dm = $('#delMsg');
+  if (dm) dm.addEventListener('click', async () => {
+    if (!confirm(`Ștergi mesajul „${m.title}"? Se pierd și confirmările primite.`)) return;
+    const { error } = await sb.from('messages').delete().eq('id', m.id);
+    if (error) return toast('Mesajul nu a fost șters: ' + error.message, true);
+    await loadMsgs();
+    renderInbox();
+    toast('Mesaj șters.');
+  });
 });
 
 /* compunere */
