@@ -899,7 +899,7 @@ function visible(){
 /* ---------- randare ---------- */
 function stampHTML(o){
   if (!o.updated_at)
-    return `<span class="never">Fără modificări</span><span class="rel">adăugat ${timeAgo(o.created_at)}</span>`;
+    return `<span class="stale">Neactualizat</span><span class="rel">adăugat ${timeAgo(o.created_at)}</span>`;
   return `<span class="when">${fmtDate(o.updated_at)}</span>
           <span class="rel">${timeAgo(o.updated_at)}</span>
           ${o.updated_by ? `<span class="by">${esc(o.updated_by)}</span>` : ''}
