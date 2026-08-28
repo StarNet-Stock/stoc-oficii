@@ -219,6 +219,11 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .mbody ul,.mbody ol{margin:0 0 10px;padding-left:20px}
 .mbody a{color:var(--accent)}
 .mbody b,.mbody strong{font-weight:600}
+.mbody.rosu{border:1px solid var(--miss-line);background:var(--miss-dim);border-radius:10px;padding:14px 16px}
+.tag.imp{background:var(--miss-dim);border:1px solid var(--miss-line);color:var(--miss)}
+.hd-imp{color:var(--miss)}
+.sec-in{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:var(--muted)}
+.sec-in input{width:76px;padding:8px 10px}
 .msent{font-size:12px;color:var(--muted);margin-bottom:14px}
 
 /* raport confirmări */
@@ -741,6 +746,19 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
           <small style="color:var(--muted);font-size:12px">Apare peste ecran și blochează aplicația până la confirmare.
           Nebifat, ajunge doar în lista de mesaje.</small></span>
       </label>
+
+      <label class="pk-item" style="margin-top:8px;padding:9px 10px;border:1px solid var(--miss-line);border-radius:var(--r)">
+        <input type="checkbox" id="cImp">
+        <span><b style="font-weight:600;color:var(--miss)">Mesaj important</b><br>
+          <small style="color:var(--muted);font-size:12px">Conținutul apare într-o casetă roșie. Se afișează peste ecran,
+          la fel ca mesajul obligatoriu.</small></span>
+      </label>
+
+      <div class="sec-in" id="cSecWrap">
+        <span>Butonul de confirmare devine activ după</span>
+        <input type="number" id="cSec" min="0" max="120" value="5">
+        <span>secunde</span>
+      </div>
 
       <div class="picker" style="margin-top:16px">
         <span class="lbl">Destinatari</span>
@@ -2079,7 +2097,7 @@ async function loadMsgs(){
 const msgForMe = m => m.active && (m.to_all ||
   msgTargets.some(t => t.message_id === m.id && me.offices.has(t.office_id)));
 const neconfirmate = () => msgs.filter(m => msgForMe(m) && !myAcks.has(m.id));
-const deBlocat     = () => neconfirmate().filter(m => m.blocking);
+const deBlocat     = () => neconfirmate().filter(m => m.blocking || m.important);
 
 function paintDot(){
   const n = neconfirmate().length;
@@ -2089,10 +2107,16 @@ function paintDot(){
 }
 
 let ackTimer = null;
-function porneșteNumărătoarea(){
+function porneșteNumărătoarea(sec){
   const b = $('#ackOk');
-  let n = 5;
+  let n = Math.max(0, Number(sec ?? 5));
   clearInterval(ackTimer);
+
+  if (n === 0){
+    b.disabled = false; b.classList.remove('wait');
+    b.textContent = 'Am luat cunoștință';
+    return;
+  }
   b.disabled = true; b.classList.add('wait');
   b.textContent = `Am luat cunoștință (${n})`;
 
@@ -2117,8 +2141,10 @@ function showNextMsg(){
   $('#ackTitle').textContent = ackCur.title;
   $('#ackMeta').textContent  = `${fmtDate(ackCur.created_at)} · ${ackCur.created_by || ''}`;
   $('#ackBody').innerHTML    = ackCur.body;
+  $('#ackBody').classList.toggle('rosu', !!ackCur.important);
+  $('#ackTitle').classList.toggle('hd-imp', !!ackCur.important);
   $('#ackModal').classList.remove('hidden');
-  porneșteNumărătoarea();
+  porneșteNumărătoarea(ackCur.ack_seconds);
   return true;
 }
 
@@ -2165,9 +2191,9 @@ function renderInbox(){
     const nou = msgForMe(m) && !myAcks.has(m.id);
     const tinte = m.to_all ? 'toate oficiile'
       : `${msgTargets.filter(t => t.message_id === m.id).length} oficii`;
-    const fel = m.blocking ? ' · obligatoriu' : '';
+    const fel = (m.important ? ' · important' : '') + (m.blocking ? ' · obligatoriu' : '');
     return `<div class="mitem" data-msg="${m.id}">
-      ${nou ? '<span class="tag nou">necitit</span>'
+      ${m.important ? '<span class="tag imp">important</span> ' : ''}${nou ? '<span class="tag nou">necitit</span>'
             : (msgForMe(m) ? '<span class="tag ok">citit</span>' : '')}
       <b>${esc(m.title)}</b>
       <span class="mm">${fmtDate(m.created_at)} · ${esc(m.created_by || '')} · ${tinte}${fel}</span>
@@ -2210,7 +2236,7 @@ $('#inboxBody').addEventListener('click', async e => {
     </div>
     <h2 style="font-size:19px;font-weight:700;margin-bottom:4px">${esc(m.title)}</h2>
     <div class="msent">${fmtDate(m.created_at)} · ${esc(m.created_by || '')}</div>
-    <div class="mbody">${m.body}</div>${rep}`;
+    <div class="mbody${m.important ? ' rosu' : ''}">${m.body}</div>${rep}`;
 
   $('#backInbox').addEventListener('click', renderInbox);
 
@@ -2230,7 +2256,9 @@ $('#newMsg').addEventListener('click', () => {
   $('#cTitle').value = '';
   $('#cBody').innerHTML = '';
   $('#cBlock').checked = false;
+  $('#cImp').checked = false;
   $('#cMail').checked = false;
+  $('#cSec').value = 5;
   tgSel = new Set(); tgAll = true;
   $('#tgAll').setAttribute('aria-pressed', 'true');
   $('#tgSome').setAttribute('aria-pressed', 'false');
@@ -2304,7 +2332,9 @@ $('#compSend').addEventListener('click', async () => {
 
   btn.disabled = true; btn.textContent = 'Se trimite…';
   const { data, error } = await sb.from('messages')
-    .insert({ title: titlu, body: corp, to_all: tgAll, blocking: $('#cBlock').checked,
+    .insert({ title: titlu, body: corp, to_all: tgAll,
+              blocking: $('#cBlock').checked, important: $('#cImp').checked,
+              ack_seconds: Math.min(120, Math.max(0, Number($('#cSec').value) || 0)),
               created_by: me.full_name || 'Administrator', author_id: me.id })
     .select().single();
 
