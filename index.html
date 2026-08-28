@@ -570,7 +570,10 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
         <div class="divider"></div>
         <p class="hint">Marchează toate oficiile ca neactualizate. Fiecare va primi, la intrarea în aplicație,
           o avertizare care nu se poate amâna, până raportează sau confirmă stocul.</p>
-        <button class="btn btn-ghost" id="askAllBtn" type="button">Cere actualizare de la toate oficiile</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost" id="askAllBtn" type="button">Cere actualizare de la toate oficiile</button>
+          <button class="btn btn-ghost" id="unaskAllBtn" type="button">Anulează toate cererile</button>
+        </div>
       </div>
 
       <div class="pane hidden" id="paneUsers">
@@ -1184,7 +1187,9 @@ function render(){
             <div class="rowacts">
               ${canEdit(o) ? `<button class="mini keep ${isStale(o) ? 'urge' : ''}" data-keep="${o.id}" title="Stocul a rămas neschimbat — prelungește">Confirmă stocul</button>` : ''}
               <button class="mini" data-hist="${o.id}">${openHist === o.id ? 'Ascunde' : 'Istoric'}</button>
-              ${isAdmin() && !o.stale_forced ? `<button class="mini" data-ask="${o.id}" title="Marchează oficiul ca neactualizat și cere raportare">Cere actualizare</button>` : ''}
+              ${isAdmin() ? (o.stale_forced
+                ? `<button class="mini keep" data-unask="${o.id}" title="Ridică marcajul pus manual">Anulează cererea</button>`
+                : `<button class="mini" data-ask="${o.id}" title="Marchează oficiul ca neactualizat și cere raportare">Cere actualizare</button>`) : ''}
               ${isAdmin() ? `<button class="mini danger" data-del="${o.id}">Șterge</button>` : ''}
             </div>
           </div>
@@ -1249,6 +1254,9 @@ $('#rows').addEventListener('click', async e => {
 
   const ak = e.target.closest('[data-ask]');
   if (ak) return cereActualizare([ak.dataset.ask]);
+
+  const un = e.target.closest('[data-unask]');
+  if (un) return anuleazaCererea([un.dataset.unask]);
 
   const kp = e.target.closest('[data-keep]');
   if (kp) return keepStock(kp.dataset.keep);
@@ -1411,6 +1419,19 @@ async function cereActualizare(lista){
   toast(tot ? 'Cerere trimisă către toate oficiile.' : 'Actualizare cerută.');
 }
 
+async function anuleazaCererea(lista){
+  const tot = lista === null;
+  if (tot && !confirm('Anulezi cererea de actualizare pentru toate oficiile?')) return;
+
+  busy = true;
+  const { data, error } = await sb.rpc('cancel_update', { targets: lista });
+  busy = false;
+
+  if (error) return toast('Cererea nu a fost anulată: ' + error.message, true);
+  await load();
+  toast(tot ? `Cerere anulată la ${data} oficii.` : 'Cerere anulată.');
+}
+
 async function keepStock(id){
   const o = offices.find(x => x.id === id);
   busy = true;
@@ -1450,6 +1471,7 @@ $('#addForm').addEventListener('submit', async e => {
 });
 
 $('#askAllBtn').addEventListener('click', () => cereActualizare(null));
+$('#unaskAllBtn').addEventListener('click', () => anuleazaCererea(null));
 
 $('#bulkBtn').addEventListener('click', async () => {
   const rows = $('#bulk').value.split('\n').map(l => l.trim()).filter(Boolean).map(l => {
