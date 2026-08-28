@@ -169,7 +169,7 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .mini.keep.urge:hover{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
 
 /* fereastra de avertizare la intrare */
-#modal,#pwModal{position:fixed;inset:0;background:var(--veil);display:grid;place-items:center;padding:24px;z-index:60}
+#modal,#pwModal,#rzModal{position:fixed;inset:0;background:var(--veil);display:grid;place-items:center;padding:24px;z-index:60}
 .modal-card{width:100%;max-width:460px;background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:24px}
 .modal-card h2{font-size:19px;font-weight:700;margin-bottom:6px}
 .modal-card p{color:var(--muted);font-size:13px;margin:0 0 16px}
@@ -179,7 +179,11 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .mrow span{font-size:11px;color:var(--miss)}
 .mrow button{flex:none}
 .modal-foot{display:flex;gap:8px;margin-top:16px}
-#pwModal{z-index:70}
+#pwModal,#rzModal{z-index:70}
+#rzModal .modal-card{max-width:380px}
+#rzModal .who-r{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:500;margin-bottom:2px}
+.stack{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.stack .btn{width:100%;text-align:center}
 #pwModal .modal-card{max-width:400px}
 #pwModal .field{margin-bottom:12px}
 .pw-rules{font-size:12px;color:var(--muted);margin:0 0 14px;padding-left:18px}
@@ -511,6 +515,18 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
   </main>
 </div>
 
+<div id="rzModal" class="hidden">
+  <div class="modal-card">
+    <div class="who-r" id="rzTitle">—</div>
+    <p id="rzSub"></p>
+    <div class="stack">
+      <button class="btn hidden" id="rzGive" type="button">Predat clientului</button>
+      <button class="btn btn-ghost" id="rzDrop" type="button">Anulează rezervarea</button>
+      <button class="btn btn-ghost" id="rzCancel" type="button">Renunță</button>
+    </div>
+  </div>
+</div>
+
 <div id="pwModal" class="hidden">
   <div class="modal-card">
     <h2 id="pwTitle">Schimbă parola</h2>
@@ -586,7 +602,7 @@ let me = null, offices = [], users = [], rez = [];
 let filter = 'all', query = '', sortBy = 'code', showAll = false;
 let openHist = null, histCache = {}, busy = false;
 let channel = null, poller = null, editing = false, pendingRender = false;
-let lastNotify = 0, modalShown = false, pwForced = false;
+let lastNotify = 0, modalShown = false, pwForced = false, rzSel = null;
 let presence = null, beat = null, online = new Set();
 let openPicker = null, pickerQuery = '', newOffices = new Set();
 
@@ -966,10 +982,13 @@ function histHTML(id){
   if (!rows.length) return `<div class="hist"><h2>Istoric modificări</h2><p class="empty-h">Nicio modificare înregistrată.</p></div>`;
   return `<div class="hist"><h2>Istoric modificări</h2>` + rows.map(r => `
     <div class="hline">
-      <span class="mark ${r.item === 'confirmare' ? '' : (r.new_value?'on':'off')}">${r.item === 'confirmare' ? '↻' : (r.new_value?'✓':'✕')}</span>
+      <span class="mark ${r.item === 'confirmare' || r.item === 'predare' ? '' : (r.new_value?'on':'off')}">${
+        r.item === 'confirmare' ? '↻' : r.item === 'predare' ? '→' : (r.new_value?'✓':'✕')}</span>
       <span>${r.item === 'confirmare'
         ? 'Stoc verificat — fără schimbări'
-        : `${esc(LABEL[r.item] || r.item)} — ${r.new_value ? 'marcat în stoc' : 'marcat lipsă'}`}</span>
+        : r.item === 'predare'
+          ? `Predat clientului ${esc(r.note || '')}`
+          : `${esc(LABEL[r.item] || r.item)} — ${r.new_value ? 'marcat în stoc' : 'marcat lipsă'}`}</span>
       <span class="meta">${fmtDate(r.changed_at)}${r.changed_by ? ' · ' + esc(r.changed_by) : ''}</span>
     </div>`).join('') + `</div>`;
 }
@@ -1002,7 +1021,7 @@ $('#rows').addEventListener('click', async e => {
   if (kp) return keepStock(kp.dataset.keep);
 
   const rd = e.target.closest('[data-rzdel]');
-  if (rd) return dropRez(rd.dataset.rzdel);
+  if (rd) return openRz(rd.dataset.rzdel);
 
   const del = e.target.closest('[data-del]');
   if (del) return removeOffice(del.dataset.del);
@@ -1071,10 +1090,43 @@ async function addRez(id, key){
   toast(`${cid} · ${LABEL[key]} — rămas ${leftOf(office, key)}`);
 }
 
+function openRz(rid){
+  const r = rez.find(x => String(x.id) === String(rid));
+  if (!r) return;
+  const o = offices.find(x => x.id === r.office_id);
+  rzSel = r.id;
+
+  $('#rzTitle').textContent = r.client_id;
+  $('#rzSub').textContent = `${LABEL[r.item] || r.item} · ${o ? o.name : ''}`;
+  $('#rzGive').classList.toggle('hidden', !(o && canEdit(o)));
+  $('#rzModal').classList.remove('hidden');
+}
+
+$('#rzCancel').addEventListener('click', () => $('#rzModal').classList.add('hidden'));
+$('#rzDrop').addEventListener('click', () => { $('#rzModal').classList.add('hidden'); dropRez(rzSel); });
+$('#rzGive').addEventListener('click', () => { $('#rzModal').classList.add('hidden'); handOver(rzSel); });
+
+async function handOver(rid){
+  const r = rez.find(x => String(x.id) === String(rid));
+  if (!r) return;
+  const o = offices.find(x => x.id === r.office_id);
+
+  busy = true;
+  const { error } = await sb.rpc('hand_over', { res_id: r.id });
+  busy = false;
+
+  if (error) return toast('Predarea nu a fost salvată: ' + error.message, true);
+
+  rez = rez.filter(x => x.id !== r.id);
+  delete histCache[r.office_id];
+  await refresh(r.office_id);
+  if (openHist === r.office_id) fetchHist(r.office_id);
+  toast(`Predat ${r.client_id} · ${LABEL[r.item]} — au rămas ${qtyOf(o, r.item)} buc`);
+}
+
 async function dropRez(rid){
   const r = rez.find(x => String(x.id) === String(rid));
   if (!r) return;
-  if (!confirm(`Ștergi solicitarea clientului ${r.client_id}?`)) return;
 
   busy = true;
   const { error } = await sb.from('reservations').delete().eq('id', r.id);
