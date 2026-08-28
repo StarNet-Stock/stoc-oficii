@@ -155,7 +155,7 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .left{font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;color:var(--muted)}
 .left b{font-family:Archivo;font-size:12px;color:var(--ink)}
 .left.zero,.left.zero b{color:var(--miss)}
-.ask{padding:2px 6px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:5px;cursor:pointer;width:auto}
+.ask{padding:2px 5px;font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:5px;cursor:pointer;width:auto}
 .ask:hover{background:var(--accent);color:var(--on-accent)}
 .ask:disabled{opacity:.35;cursor:default;background:transparent;color:var(--accent)}
 
@@ -327,6 +327,21 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 .replog{margin-top:12px;max-height:230px;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;white-space:pre-wrap}
 .replog .ok{color:var(--ok)}
 .replog .bad{color:var(--miss)}
+.set-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--hair);font-size:14px}
+.set-row:last-child{border-bottom:0}
+.set-row span{flex:1}
+.set-row input[type=checkbox]{width:auto;accent-color:var(--accent)}
+.set-row input[type=number]{width:80px;padding:7px 9px}
+.ob{display:flex;flex-direction:column;gap:6px;margin-top:10px;max-height:300px;overflow:auto}
+.ob-row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:baseline;
+        background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 11px;font-size:13px}
+.ob-row .st{font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;padding:1px 7px;border-radius:5px}
+.st.pending{background:var(--surface-2);border:1px solid var(--line-2);color:var(--muted)}
+.st.sent{background:var(--ok-dim);border:1px solid var(--ok-line);color:var(--ok)}
+.st.failed{background:var(--miss-dim);border:1px solid var(--miss-line);color:var(--miss)}
+.ob-row .who-m{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ob-row .dt{font-size:11px;color:var(--muted);white-space:nowrap}
+.uemail{width:100%;padding:6px 9px;font-size:12px;margin-top:4px}
 
 /* ---------- Toast ---------- */
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);padding:11px 16px;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:50;max-width:90vw}
@@ -350,7 +365,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
   .rz,.tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:start}
 
   /* banda de solicitări: un slot pentru fiecare articol, aliniat cu cel de dedesubt */
-  .rz::before{content:"Solicitări · 48h";grid-column:1/-1;font-size:10px;text-transform:uppercase;
+  .rz::before{content:"Rezervări · 48h";grid-column:1/-1;font-size:10px;text-transform:uppercase;
               letter-spacing:.07em;color:var(--muted);font-weight:700;margin-bottom:-2px}
   .rz-col{gap:4px}
   .rz-col .col-lbl{display:none}
@@ -539,7 +554,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
     <div class="grid head-row">
       <div></div>
       <div>Oficiu</div>
-      <div class="hd-res">Solicitări · <span class="h48">48h</span>
+      <div class="hd-res">Rezervări · <span class="h48">48h</span>
         <div class="sub3" id="hdRez"></div>
       </div>
       <div>Stoc
@@ -554,6 +569,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
       <div class="tabs">
         <button class="tab" data-tab="offices" aria-selected="true">Oficii</button>
         <button class="tab" data-tab="users" aria-selected="false">Utilizatori</button>
+        <button class="tab" data-tab="mail" aria-selected="false">Email</button>
       </div>
 
       <div class="pane" id="paneOffices">
@@ -609,6 +625,58 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
         <div class="divider"></div>
         <div class="online-bar" id="onlineBar"></div>
         <div class="utable" id="users"></div>
+
+        <div class="divider"></div>
+        <p class="hint">Import adrese — câte una pe linie: <span class="mono">utilizator | adresa@starnet.md</span></p>
+        <textarea id="mailBulk" placeholder="cvrascani | ion.popescu@starnet.md&#10;crorhei | maria.ionescu@starnet.md"></textarea>
+        <div style="margin-top:10px"><button class="btn btn-ghost" id="mailBulkBtn" type="button">Salvează adresele</button></div>
+        <div class="replog hidden" id="mailBulkLog"></div>
+      </div>
+
+      <div class="pane hidden" id="paneMail">
+        <p class="hint" style="margin-top:0">Aplicația scrie mailurile într-o coadă. Trimiterea propriu-zisă
+          se conectează separat, după ce se stabilește serviciul de mail — până atunci totul rămâne „în așteptare".</p>
+
+        <div class="grid-form">
+          <div><span class="lbl">Expeditor — nume</span><input id="sFromName" placeholder="Stoc Oficii"></div>
+          <div><span class="lbl">Expeditor — adresă</span><input id="sFromMail" placeholder="stoc@starnet.md"></div>
+          <div><span class="lbl">Adresa aplicației</span><input id="sAppUrl" placeholder="https://…"></div>
+          <div><span class="lbl">Adresă în copie</span><input id="sCc" placeholder="opțional"></div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="set-row">
+          <span>Memento zilnic către oficiile neactualizate</span>
+          <input type="number" id="sDays" min="1" max="30" title="După câte zile">
+          <span style="flex:none;color:var(--muted);font-size:12px">zile, la ora</span>
+          <input type="number" id="sHour" min="0" max="23">
+          <input type="checkbox" id="sStale">
+        </div>
+        <div class="set-row">
+          <span>Când cer actualizarea unui oficiu</span>
+          <input type="checkbox" id="sRequest">
+        </div>
+        <div class="set-row">
+          <span>Când trimit un mesaj cu bifa „trimite și pe email"</span>
+          <input type="checkbox" id="sMessage">
+        </div>
+        <div style="margin-top:14px"><button class="btn" id="saveSet" type="button">Salvează setările</button></div>
+
+        <div class="divider"></div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <b style="font-size:14px">Coada de trimitere</b>
+          <span class="hint" id="obCount" style="margin:0"></span>
+          <button class="mini" id="obRefresh" type="button" style="margin-left:auto">Reîmprospătează</button>
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn" id="obExport" type="button">Descarcă lista pentru Word</button>
+          <button class="btn btn-ghost" id="obDone" type="button">Marchează coada ca trimisă</button>
+        </div>
+        <p class="hint">Descarci fișierul, îl deschizi în Word cu <b>Mailings → Start Mail Merge → E-mail Messages</b>,
+          alegi coloana <span class="mono">Email</span> la destinatar, trimiți — apoi te întorci aici și marchezi coada ca trimisă.</p>
+
+        <div class="ob" id="obList"></div>
       </div>
     </section>
   </main>
@@ -661,6 +729,12 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
       </div>
       <div class="edit" id="cBody" contenteditable="true" data-ph="Scrie mesajul…"></div>
 
+      <label class="pk-item" style="margin-top:10px;padding:9px 10px;border:1px solid var(--line);border-radius:var(--r)">
+        <input type="checkbox" id="cMail">
+        <span><b style="font-weight:600">Trimite și pe email</b><br>
+          <small style="color:var(--muted);font-size:12px">Ajunge la adresele oficiilor destinatare, pe lângă aplicație.</small></span>
+      </label>
+
       <label class="pk-item" style="margin-top:14px;padding:9px 10px;border:1px solid var(--line);border-radius:var(--r)">
         <input type="checkbox" id="cBlock">
         <span><b style="font-weight:600">Mesaj obligatoriu</b><br>
@@ -700,7 +774,7 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
 
 <div id="idModal" class="hidden">
   <div class="modal-card">
-    <h2>Solicitare echipament</h2>
+    <h2>Rezervare echipament</h2>
     <p id="idSub"></p>
     <div class="note hidden" id="idErr"></div>
     <div class="field">
@@ -774,7 +848,7 @@ const SUPABASE_URL  = 'https://tjliqsomoulsemofdoyb.supabase.co';
 const SUPABASE_ANON = 'sb_publishable_mYJ7zrTGfhWYtKMv5e2OYw_BdlLmM9v';
 const MAIL_DOMAIN   = '@stoc.starnet.md';  // userii scriu doar "of014"
 const STALE_DAYS    = 3;    // după câte zile un oficiu e marcat neactualizat
-const LOW_STOCK     = 5;    // sub ce cantitate apare butonul „Solicitat"
+const LOW_STOCK     = 5;    // sub ce cantitate apare butonul „Rezervare"
 const BEAT_MIN      = 2;    // la câte minute se salvează semnalul de activitate
 const POLL_S        = 60;   // verificare de rezervă, dacă legătura live cade
 const NOTIFY_H      = 4;    // la câte ore se poate repeta notificarea din browser
@@ -1145,7 +1219,7 @@ function cellHTML(o, i){
   const res = (!vechi && has && qty > 0 && qty <= LOW_STOCK) ? `
     <div class="resbar">
       <span class="left ${left === 0 ? 'zero' : ''}">rămas <b>${left}</b></span>
-      <button class="ask" data-id="${o.id}" data-key="${i.key}" ${left === 0 ? 'disabled' : ''}>Solicitat</button>
+      <button class="ask" data-id="${o.id}" data-key="${i.key}" ${left === 0 ? 'disabled' : ''}>Rezervare</button>
     </div>` : '';
 
   return `<div class="cell"><span class="col-lbl">${esc(i.label)}</span>${tile}${qbar}${res}</div>`;
@@ -1351,7 +1425,7 @@ async function addRez(id, key, cid){
 
   if (error) return toast(/disponibile/i.test(error.message)
     ? 'Nu mai sunt bucăți disponibile în acest oficiu.'
-    : 'Solicitarea nu a fost salvată: ' + error.message, true);
+    : 'Rezervarea nu a fost salvată: ' + error.message, true);
 
   if (!rez.some(r => r.id === data.id)) rez.push(data);
   render();
@@ -1403,7 +1477,7 @@ async function dropRez(rid){
   if (error) return toast('Nu am putut șterge: ' + error.message, true);
   rez = rez.filter(x => x.id !== r.id);
   render();
-  toast(`Solicitare ștearsă: ${r.client_id}`);
+  toast(`Rezervare ștearsă: ${r.client_id}`);
 }
 
 async function cereActualizare(lista){
@@ -1459,6 +1533,8 @@ document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () =>
   document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === t));
   $('#paneOffices').classList.toggle('hidden', t.dataset.tab !== 'offices');
   $('#paneUsers').classList.toggle('hidden', t.dataset.tab !== 'users');
+  $('#paneMail').classList.toggle('hidden', t.dataset.tab !== 'mail');
+  if (t.dataset.tab === 'mail') loadMail();
 }));
 
 /* ---------- administrare oficii ---------- */
@@ -1561,6 +1637,8 @@ function renderUsers(){
             </div>
             <span class="mail mono">${esc(u.email.split('@')[0])}</span>
             ${presenceHTML(u)}
+            <input class="uemail" data-umail="${u.id}" value="${esc(u.contact_email || '')}"
+                   placeholder="adresă pentru mailuri" autocomplete="off" aria-label="Adresă de email">
           </div>
           <select data-role="${u.id}" ${self?'disabled':''}>
             ${Object.entries(ROLE_RO).map(([k,v]) => `<option value="${k}"${u.role===k?' selected':''}>${v}</option>`).join('')}
@@ -1712,6 +1790,15 @@ $('#users').addEventListener('input', e => {
 });
 
 $('#users').addEventListener('change', async e => {
+  const em = e.target.closest('[data-umail]');
+  if (em){
+    const { error } = await sb.rpc('admin_set_email', { target: em.dataset.umail, new_email: em.value });
+    if (error) return toast('Adresa nu a fost salvată: ' + error.message, true);
+    const u = users.find(x => x.id === em.dataset.umail);
+    if (u) u.contact_email = em.value.trim().toLowerCase() || null;
+    return toast('Adresă salvată.');
+  }
+
   const nm = e.target.closest('[data-uname]');
   if (nm){
     const nume = nm.value.trim();
@@ -1834,6 +1921,144 @@ $('#tema').addEventListener('click', () => {
   if (light) delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme = 'light';
   try { localStorage.setItem('stoc-tema', light ? 'dark' : 'light'); } catch {}
+});
+
+/* ---------- import adrese în masă ---------- */
+$('#mailBulkBtn').addEventListener('click', async () => {
+  const btn = $('#mailBulkBtn'), log = $('#mailBulkLog');
+  const linii = $('#mailBulk').value.split('\n').map(l => l.trim()).filter(Boolean)
+    .map(l => { const [u, m] = l.split('|').map(x => (x||'').trim()); return { u:(u||'').toLowerCase(), m }; });
+
+  if (!linii.length) return toast('Nu am găsit nicio linie validă.', true);
+
+  log.classList.remove('hidden'); log.innerHTML = '';
+  btn.disabled = true;
+  let ok = 0;
+
+  for (const c of linii){
+    const u = users.find(x => x.email.split('@')[0].toLowerCase() === c.u);
+    if (!u){ log.innerHTML += `<span class="bad">✕ ${esc(c.u)} — cont inexistent</span>\n`; continue; }
+
+    const { error } = await sb.rpc('admin_set_email', { target: u.id, new_email: c.m });
+    if (error){ log.innerHTML += `<span class="bad">✕ ${esc(c.u)} — ${esc(error.message)}</span>\n`; continue; }
+    log.innerHTML += `<span class="ok">✓ ${esc(c.u)}</span>   ${esc(c.m)}\n`;
+    ok++;
+  }
+
+  btn.disabled = false;
+  log.innerHTML += `\n${ok} din ${linii.length} adrese salvate.\n`;
+  $('#mailBulk').value = '';
+  await loadUsers();
+  toast(`${ok} din ${linii.length} adrese salvate.`, ok < linii.length);
+});
+
+/* ==========================================================
+   EMAIL — setări și coadă
+   ========================================================== */
+async function loadMail(){
+  const [s, o] = await Promise.all([
+    sb.from('email_settings').select('*').eq('id', 1).maybeSingle(),
+    sb.from('email_outbox').select('*').order('created_at', { ascending:false }).limit(60)
+  ]);
+
+  if (s.data){
+    $('#sFromName').value = s.data.from_name || '';
+    $('#sFromMail').value = s.data.from_email || '';
+    $('#sAppUrl').value   = s.data.app_url || '';
+    $('#sCc').value       = s.data.cc_email || '';
+    $('#sDays').value     = s.data.stale_days;
+    $('#sHour').value     = s.data.stale_hour;
+    $('#sStale').checked  = s.data.on_stale;
+    $('#sRequest').checked= s.data.on_request;
+    $('#sMessage').checked= s.data.on_message;
+  }
+
+  const list = o.data || [];
+  const asteptare = list.filter(x => x.status === 'pending').length;
+  $('#obCount').textContent = list.length
+    ? `${asteptare} în așteptare din ultimele ${list.length}`
+    : 'coada este goală';
+
+  const RO = { pending:'în așteptare', sent:'trimis', failed:'eșuat' };
+  $('#obList').innerHTML = list.map(x => `
+    <div class="ob-row">
+      <span class="st ${x.status}">${RO[x.status]}</span>
+      <span class="who-m">${esc(x.subject)}<br>
+        <span style="color:var(--muted);font-size:11px">${esc(x.to_email)}${x.error ? ' · ' + esc(x.error) : ''}</span></span>
+      <span class="dt">${fmtDate(x.created_at)}</span>
+    </div>`).join('') || '<p class="empty-h">Nimic în coadă.</p>';
+}
+
+$('#obRefresh').addEventListener('click', loadMail);
+
+// conținutul mesajului devine text simplu, pentru câmpul din Word
+function textDinHtml(html){
+  const d = document.createElement('div');
+  d.innerHTML = String(html || '').replace(/<\/(p|div|h\d|li)>/gi, '\n').replace(/<br\s*\/?>/gi, '\n');
+  return (d.textContent || '').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+const csvCelula = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+
+$('#obExport').addEventListener('click', async () => {
+  const [o, s] = await Promise.all([
+    sb.from('email_outbox').select('*').eq('status', 'pending').order('created_at'),
+    sb.from('email_settings').select('cc_email').eq('id', 1).maybeSingle()
+  ]);
+
+  const list = o.data || [];
+  if (!list.length) return toast('Nu e nimic în așteptare.', true);
+
+  const cc = (s.data && s.data.cc_email) ? s.data.cc_email : '';
+
+  const grupe = new Map();
+  list.forEach(x => {
+    const cheie = `${x.ref_id || ''}|${x.subject}`;
+    if (!grupe.has(cheie))
+      grupe.set(cheie, { subiect:x.subject, corp:x.body_html, adrese:new Set(), nume:x.to_name });
+    grupe.get(cheie).adrese.add(x.to_email);
+  });
+
+  const randuri = [['Email','Destinatar','Subiect','Mesaj']];
+  grupe.forEach(g => {
+    const adrese = [...g.adrese];
+    if (cc) adrese.push(cc);
+    randuri.push([adrese.join('; '), g.nume || '', g.subiect, textDinHtml(g.corp)]);
+  });
+
+  const csv = '\uFEFF' + randuri.map(r => r.map(csvCelula).join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type:'text/csv;charset=utf-8' }));
+  a.download = `mailuri-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+
+  toast(`${randuri.length - 1} mesaje exportate, către ${list.length} adrese.`);
+});
+
+$('#obDone').addEventListener('click', async () => {
+  if (!confirm('Marchezi toate mailurile în așteptare drept trimise?')) return;
+  const { data, error } = await sb.rpc('mark_outbox_sent');
+  if (error) return toast('Nu am putut marca: ' + error.message, true);
+  await loadMail();
+  toast(`${data} mailuri marcate ca trimise.`);
+});
+
+$('#saveSet').addEventListener('click', async () => {
+  const rec = {
+    from_name:  $('#sFromName').value.trim() || 'Stoc Oficii',
+    from_email: $('#sFromMail').value.trim() || null,
+    app_url:    $('#sAppUrl').value.trim().replace(/\/+$/, '') || null,
+    cc_email:   $('#sCc').value.trim().toLowerCase() || null,
+    stale_days: Math.max(1, Number($('#sDays').value) || 3),
+    stale_hour: Math.min(23, Math.max(0, Number($('#sHour').value) || 9)),
+    on_stale:   $('#sStale').checked,
+    on_request: $('#sRequest').checked,
+    on_message: $('#sMessage').checked,
+    updated_at: new Date().toISOString()
+  };
+  const { error } = await sb.from('email_settings').update(rec).eq('id', 1);
+  toast(error ? 'Setările nu au fost salvate: ' + error.message : 'Setări salvate.', !!error);
 });
 
 /* ==========================================================
@@ -2005,6 +2230,7 @@ $('#newMsg').addEventListener('click', () => {
   $('#cTitle').value = '';
   $('#cBody').innerHTML = '';
   $('#cBlock').checked = false;
+  $('#cMail').checked = false;
   tgSel = new Set(); tgAll = true;
   $('#tgAll').setAttribute('aria-pressed', 'true');
   $('#tgSome').setAttribute('aria-pressed', 'false');
@@ -2101,10 +2327,18 @@ $('#compSend').addEventListener('click', async () => {
     return;
   }
 
+  let peMail = 0;
+  if ($('#cMail').checked){
+    const r = await sb.rpc('queue_message_mails', { mid: data.id });
+    if (r.error) toast('Mesajul a plecat, dar mailurile nu: ' + r.error.message, true);
+    else peMail = r.data || 0;
+  }
+
   $('#compose').classList.add('hidden');
   await loadMsgs();
   renderInbox();
-  toast(`Mesaj trimis către ${tgAll ? 'toate oficiile' : tgSel.size + ' oficii'}.`);
+  toast(`Mesaj trimis către ${tgAll ? 'toate oficiile' : tgSel.size + ' oficii'}` +
+        (peMail ? ` · ${peMail} mailuri în coadă.` : '.'));
 });
 
 /* ==========================================================
