@@ -119,6 +119,9 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .who-col{min-width:0}
 .oname{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ometa{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oadr{font-size:11.5px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:5px;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oadr svg{flex:none;opacity:.7}
 
 /* rezervări */
 .rz{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:start}
@@ -173,7 +176,7 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .mini.keep.urge:hover{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
 
 /* fereastra de avertizare la intrare */
-#modal,#pwModal,#rzModal,#idModal,#lnkModal,#ackModal,#inbox,#compose,#priceModal{position:fixed;inset:0;background:var(--veil);display:grid;place-items:center;padding:24px;z-index:60}
+#modal,#pwModal,#rzModal,#idModal,#lnkModal,#ackModal,#inbox,#compose,#priceModal,#rapModal,#ofcModal,#tickModal{position:fixed;inset:0;background:var(--veil);display:grid;place-items:center;padding:24px;z-index:60}
 .modal-card{width:100%;max-width:460px;background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:24px}
 .modal-card h2{font-size:19px;font-weight:700;margin-bottom:6px}
 .modal-card p{color:var(--muted);font-size:13px;margin:0 0 16px}
@@ -185,9 +188,50 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .modal-foot{display:flex;gap:8px;margin-top:16px}
 #pwModal,#rzModal,#idModal{z-index:70}
 #lnkModal{z-index:90}
+#rapModal,#ofcModal{z-index:78}
+#rapModal .modal-card,#ofcModal .modal-card{max-width:440px}
+/* buton plutitor pentru raportări */
+#rapBtn{position:fixed;right:20px;bottom:20px;z-index:40;display:flex;align-items:center;gap:8px;
+        padding:11px 16px;background:var(--surface);border:1px solid var(--line-2);border-radius:26px;
+        color:var(--ink);font-size:13.5px;font-weight:600;cursor:pointer;
+        box-shadow:0 6px 20px rgba(0,0,0,.28)}
+#rapBtn:hover{border-color:var(--accent);color:var(--accent)}
+#rapBtn svg{flex:none}
+.tabbadge{display:inline-grid;place-items:center;min-width:17px;height:17px;padding:0 5px;margin-left:7px;
+          border-radius:9px;background:var(--miss);color:#fff;font-size:10px;font-weight:700;vertical-align:1px}
+
+/* raportări în panou */
+.tk{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin-bottom:8px}
+.tk.rez{opacity:.6}
+.tk-hd{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:6px}
+.tk-hd b{font-size:14px;font-weight:600}
+.tk-hd .who-t{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.tk-hd .dt{margin-left:auto;font-size:11px;color:var(--muted);white-space:nowrap}
+.tk-txt{font-size:13.5px;line-height:1.55;white-space:pre-wrap}
+.tk-ft{display:flex;gap:7px;margin-top:9px}
+.tk .st{font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;padding:1px 7px;border-radius:5px}
+.st.nou{background:var(--miss-dim);border:1px solid var(--miss-line);color:var(--miss)}
+.st.rezolvat{background:var(--ok-dim);border:1px solid var(--ok-line);color:var(--ok)}
+
+#rezOk{position:fixed;inset:0;background:var(--veil);display:grid;place-items:center;padding:24px;z-index:85}
+#rezOk .card2{width:100%;max-width:410px;background:var(--surface);border:1px solid var(--ok-line);
+              border-radius:14px;padding:24px 24px 0;overflow:hidden;text-align:center}
+#rezOk .semn{width:46px;height:46px;margin:0 auto 12px;border-radius:50%;background:var(--ok-dim);
+             border:1px solid var(--ok-line);color:var(--ok);display:grid;place-items:center;
+             font-family:Archivo;font-size:22px;font-weight:700}
+#rezOk h2{font-size:19px;font-weight:700;margin-bottom:6px}
+#rezOk p{color:var(--muted);font-size:13.5px;margin:0 0 4px}
+#rezOk .cid{font-family:'JetBrains Mono',monospace;color:var(--ink);font-size:15px;font-weight:500}
+#rezOk .ore{display:inline-block;margin-top:12px;padding:7px 14px;border-radius:8px;
+            background:var(--ok-dim);border:1px solid var(--ok-line);color:var(--ok);
+            font-size:13px;font-weight:600}
+.bara{height:4px;background:var(--line);margin:22px -24px 0}
+.bara i{display:block;height:100%;width:100%;background:var(--ok)}
+.bara.merge i{animation:scurge 5s linear forwards}
+@keyframes scurge{to{width:0}}
 #lnkModal .modal-card{max-width:400px}
 #ackModal{z-index:80}
-#inbox,#compose,#priceModal{z-index:75}
+#inbox,#compose,#priceModal,#tickModal{z-index:75}
 .icon-btn{position:relative}
 .ubadge{position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;padding:0 4px;border-radius:9px;
         background:var(--miss);color:#fff;font-size:10px;font-weight:700;display:grid;place-items:center;line-height:1}
@@ -541,6 +585,10 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg>
           <span class="ubadge hidden" id="msgDot">0</span>
         </button>
+        <button class="icon-btn hidden" id="tickBtn" type="button" title="Raportări" aria-label="Raportări">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4.5a3 3 0 0 1 6 0"/><rect x="7" y="7" width="10" height="12" rx="5"/><path d="M7 11H4M20 11h-3M7 16H4.5M19.5 16H17M12 19v2"/></svg>
+          <span class="ubadge hidden" id="tkBadge">0</span>
+        </button>
         <button class="icon-btn" id="prBtn" type="button" title="Prețuri" aria-label="Prețuri">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.7 8a3 3 0 0 0-2.8-2h-3.8a2.9 2.9 0 0 0-.6 5.7l4.9 1.1a2.9 2.9 0 0 1-.6 5.7h-3.8A3 3 0 0 1 7.2 16"/><path d="M12 3v3M12 18v3"/></svg>
         </button>
@@ -618,6 +666,18 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
       </div>
 
       <div class="pane hidden" id="paneUsers">
+        <p class="hint">Import nume — câte unul pe linie: <span class="mono">utilizator | Nume Prenume</span></p>
+        <textarea id="numeBulk" placeholder="cvrascani | Ion Popescu&#10;crorhei | Maria Ionescu"></textarea>
+        <div style="margin-top:10px"><button class="btn btn-ghost" id="numeBulkBtn" type="button">Salvează numele</button></div>
+        <div class="replog hidden" id="numeBulkLog"></div>
+
+        <div class="divider"></div>
+        <p class="hint">Import adrese — câte una pe linie: <span class="mono">utilizator | adresa@starnet.md</span></p>
+        <textarea id="mailBulk" placeholder="cvrascani | ion.popescu@starnet.md&#10;crorhei | maria.ionescu@starnet.md"></textarea>
+        <div style="margin-top:10px"><button class="btn btn-ghost" id="mailBulkBtn" type="button">Salvează adresele</button></div>
+        <div class="replog hidden" id="mailBulkLog"></div>
+
+        <div class="divider"></div>
         <form id="userForm">
           <div class="grid-form">
             <div><span class="lbl">Utilizator</span><input id="nUser" placeholder="of014" required autocapitalize="off" spellcheck="false"></div>
@@ -652,13 +712,10 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
         <div class="utable" id="users"></div>
 
         <div class="divider"></div>
-        <p class="hint">Import adrese — câte una pe linie: <span class="mono">utilizator | adresa@starnet.md</span></p>
-        <textarea id="mailBulk" placeholder="cvrascani | ion.popescu@starnet.md&#10;crorhei | maria.ionescu@starnet.md"></textarea>
-        <div style="margin-top:10px"><button class="btn btn-ghost" id="mailBulkBtn" type="button">Salvează adresele</button></div>
-        <div class="replog hidden" id="mailBulkLog"></div>
       </div>
 
       <div class="pane hidden" id="paneMail">
+
         <p class="hint" style="margin-top:0">Aplicația scrie mailurile într-o coadă. Trimiterea propriu-zisă
           se conectează separat, după ce se stabilește serviciul de mail — până atunci totul rămâne „în așteptare".</p>
 
@@ -840,6 +897,73 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
   </div>
 </div>
 
+<button id="rapBtn" class="hidden" type="button" title="Raportează o problemă">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17v.01"/><path d="M10.3 3.9 2.4 17.4a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+  <span>Raportează o problemă</span>
+</button>
+
+<div id="tickModal" class="hidden">
+  <div class="wide">
+    <div class="wide-hd">
+      <h2>Raportări</h2>
+      <button class="x-btn" id="tickX" type="button" aria-label="Închide">✕</button>
+    </div>
+    <div class="wide-bd">
+        <p class="hint" style="margin-top:0">Problemele raportate din aplicație, cele mai noi primele.</p>
+        <div class="chips" style="margin-bottom:12px">
+          <button class="chip" id="tkNoi" aria-pressed="true">Nerezolvate</button>
+          <button class="chip" id="tkToate" aria-pressed="false">Toate</button>
+        </div>
+        <div id="tkList"></div>
+    </div>
+  </div>
+</div>
+
+<div id="rapModal" class="hidden">
+  <div class="modal-card">
+    <h2>Raportează o problemă</h2>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:14px">Descrie ce nu funcționează sau ce ai nevoie.</p>
+    <div class="note hidden" id="rapErr"></div>
+    <div class="field">
+      <label for="rapNume">Nume și prenume</label>
+      <input id="rapNume" autocomplete="name" maxlength="60">
+    </div>
+    <div class="field">
+      <label for="rapText">Problema</label>
+      <textarea id="rapText" maxlength="1200" style="min-height:120px;font-family:inherit;font-size:14px"></textarea>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="rapSend" type="button">Trimite</button>
+      <button class="btn btn-ghost" id="rapCancel" type="button">Renunță</button>
+    </div>
+  </div>
+</div>
+
+<div id="ofcModal" class="hidden">
+  <div class="modal-card">
+    <h2>Editează oficiul</h2>
+    <div class="note hidden" id="ofcErr"></div>
+    <div class="field"><label for="ofcCod">Cod</label><input id="ofcCod" autocomplete="off"></div>
+    <div class="field"><label for="ofcNume">Denumire</label><input id="ofcNume" autocomplete="off"></div>
+    <div class="field"><label for="ofcReg">Regiune</label><input id="ofcReg" autocomplete="off"></div>
+    <div class="field"><label for="ofcAdr">Adresă</label><input id="ofcAdr" autocomplete="off" placeholder="str. Ismail 33, Chișinău"></div>
+    <div class="modal-foot">
+      <button class="btn" id="ofcSave" type="button">Salvează</button>
+      <button class="btn btn-ghost" id="ofcCancel" type="button">Renunță</button>
+    </div>
+  </div>
+</div>
+
+<div id="rezOk" class="hidden">
+  <div class="card2">
+    <div class="semn">✓</div>
+    <h2>Rezervare făcută</h2>
+    <p id="rezOkSub">—</p>
+    <span class="ore">Valabilă 48 de ore</span>
+    <div class="bara" id="rezBara"><i></i></div>
+  </div>
+</div>
+
 <div id="lnkModal" class="hidden">
   <div class="modal-card">
     <h2 id="lnkTitle">Adaugă link</h2>
@@ -935,7 +1059,8 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL  = 'https://tjliqsomoulsemofdoyb.supabase.co';
 const SUPABASE_ANON = 'sb_publishable_mYJ7zrTGfhWYtKMv5e2OYw_BdlLmM9v';
 const MAIL_DOMAIN   = '@stoc.starnet.md';  // userii scriu doar "of014"
-const STALE_DAYS    = 3;    // după câte zile un oficiu e marcat neactualizat
+const STALE_DAYS    = 3;    // după câte zile oficiul e marcat „neactualizat"
+const UNKNOWN_DAYS  = 5;    // după câte zile stocul nu mai e afișat, ci cu semnul întrebării
 const LOW_STOCK     = 5;    // sub ce cantitate apare butonul „Rezervare"
 const BEAT_MIN      = 2;    // la câte minute se salvează semnalul de activitate
 const POLL_S        = 60;   // verificare de rezervă, dacă legătura live cade
@@ -985,7 +1110,9 @@ const fold = s => String(s ?? '').toLowerCase()
 const isAdmin = () => me && me.role === 'admin';
 const mine    = o => me && me.offices && me.offices.has(o.id);
 const canEdit = o => isAdmin() || mine(o);
-const isStale = o => o.stale_forced || !o.updated_at || (Date.now() - new Date(o.updated_at)) / 86400000 > STALE_DAYS;
+const zileDe  = o => o.updated_at ? (Date.now() - new Date(o.updated_at)) / 86400000 : Infinity;
+const isStale = o => o.stale_forced || zileDe(o) > STALE_DAYS;
+const isUnknown = o => o.stale_forced || zileDe(o) > UNKNOWN_DAYS;
 const mail = u => u.includes('@') ? u : u + MAIL_DOMAIN;
 const fmtDate = iso => new Date(iso).toLocaleString('ro-MD', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
 
@@ -1059,6 +1186,7 @@ async function start(){
   $('#whoName').textContent = prof.full_name || user.email;
   $('#whoRole').textContent = ROLE_RO[prof.role] || prof.role;
   $('#adminPanel').classList.toggle('hidden', !isAdmin());
+  $('#tickBtn').classList.toggle('hidden', !isAdmin());
   $('#pwBtn').classList.toggle('hidden', prof.role === 'viewer');
 
   const scoped = prof.role === 'office' && me.offices.size > 0;
@@ -1081,6 +1209,9 @@ async function start(){
   if ('Notification' in window && Notification.permission === 'default'){
     try { await Notification.requestPermission(); } catch {}
   }
+
+  $('#rapBtn').classList.remove('hidden');
+  if (isAdmin()) await loadTickets();
 
   await loadMsgs();
   if (showNextMsg()) return;   // aplicația rămâne blocată până la confirmare
@@ -1171,6 +1302,9 @@ function startLive(){
     .on('postgres_changes', { event:'*', schema:'public', table:'message_targets' }, async () => {
       await loadMsgs();
       if (!ackCur) showNextMsg();
+    })
+    .on('postgres_changes', { event:'*', schema:'public', table:'tickets' }, async () => {
+      if (isAdmin()) await loadTickets();
     })
     .on('postgres_changes', { event:'*', schema:'public', table:'prices' }, async () => {
       if (!$('#priceModal').classList.contains('hidden')){ await loadPrices(); renderPrices(); }
@@ -1283,7 +1417,7 @@ function rezColHTML(o, i){
 
 function cellHTML(o, i){
   const has = o[i.key], qty = qtyOf(o, i.key), left = leftOf(o, i.key), edit = canEdit(o);
-  const vechi = isStale(o);   // stoc neconfirmat: nu se mai afișează ca sigur
+  const vechi = isUnknown(o);   // stoc prea vechi: nu se mai afișează ca sigur
 
   const face = vechi ? '?' : (!has ? '✕' : (qty > 0 ? qty : '✓'));
   const cls  = vechi ? 'unk' : (has ? 'on' : 'off');
@@ -1341,6 +1475,7 @@ function render(){
           <div class="who-col">
             <div class="oname">${esc(o.name)}${mine(o) ? ' <span class="badge-me">oficiul tău</span>' : ''}</div>
             <div class="ometa"><span class="mono">${esc(o.code)}</span>${o.city ? ' · ' + esc(o.city) : ''}</div>
+            ${o.address ? `<div class="oadr" title="${esc(o.address)}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>${esc(o.address)}</div>` : ''}
           </div>
           <div class="rz">${ITEMS.map(i => rezColHTML(o, i)).join('')}</div>
           <div class="tiles">${ITEMS.map(i => cellHTML(o, i)).join('')}</div>
@@ -1352,6 +1487,7 @@ function render(){
               ${isAdmin() ? (o.stale_forced
                 ? `<button class="mini keep" data-unask="${o.id}" title="Ridică marcajul pus manual">Anulează cererea</button>`
                 : `<button class="mini" data-ask="${o.id}" title="Marchează oficiul ca neactualizat și cere raportare">Cere actualizare</button>`) : ''}
+              ${isAdmin() ? `<button class="mini" data-edit="${o.id}">Editează</button>` : ''}
               ${isAdmin() ? `<button class="mini danger" data-del="${o.id}">Șterge</button>` : ''}
             </div>
           </div>
@@ -1425,6 +1561,9 @@ $('#rows').addEventListener('click', async e => {
 
   const rd = e.target.closest('[data-rzdel]');
   if (rd) return openRz(rd.dataset.rzdel);
+
+  const ed = e.target.closest('[data-edit]');
+  if (ed) return openOfc(ed.dataset.edit);
 
   const del = e.target.closest('[data-del]');
   if (del) return removeOffice(del.dataset.del);
@@ -1517,7 +1656,7 @@ async function addRez(id, key, cid){
 
   if (!rez.some(r => r.id === data.id)) rez.push(data);
   render();
-  toast(`${cid} · ${LABEL[key]} — rămas ${leftOf(office, key)}`);
+  aratăRezervare(cid, LABEL[key], office.name);
 }
 
 function openRz(rid){
@@ -2347,7 +2486,26 @@ document.querySelectorAll('input[name="cFel"]').forEach(r => r.addEventListener(
 }));
 $('#compCancel').addEventListener('click', () => $('#compose').classList.add('hidden'));
 
-let lnkRange = null, lnkButon = false;
+let lnkRange = null, lnkButon = false, rezOkT = null;
+
+function aratăRezervare(cid, articol, oficiu){
+  $('#rezOkSub').innerHTML =
+    `<span class="cid">${esc(cid)}</span> · ${esc(articol)}<br>${esc(oficiu)}`;
+
+  const b = $('#rezBara');
+  b.classList.remove('merge');
+  void b.offsetWidth;              // repornește bara de la capăt
+  b.classList.add('merge');
+
+  $('#rezOk').classList.remove('hidden');
+  clearTimeout(rezOkT);
+  rezOkT = setTimeout(() => $('#rezOk').classList.add('hidden'), 5000);
+}
+
+$('#rezOk').addEventListener('click', () => {
+  clearTimeout(rezOkT);
+  $('#rezOk').classList.add('hidden');
+});
 
 document.querySelectorAll('.tbar button').forEach(b => b.addEventListener('mousedown', e => e.preventDefault()));
 
@@ -2528,6 +2686,12 @@ async function loadPrices(){
   if (!error) prices = data;
 }
 
+$('#tickBtn').addEventListener('click', async () => {
+  await loadTickets();
+  $('#tickModal').classList.remove('hidden');
+});
+$('#tickX').addEventListener('click', () => $('#tickModal').classList.add('hidden'));
+
 $('#prBtn').addEventListener('click', async () => {
   await loadPrices();
   renderPrices();
@@ -2617,6 +2781,193 @@ $('#prBody').addEventListener('click', async e => {
   const { error } = await sb.from('prices').delete().eq('id', d.dataset.pd);
   if (error) return toast('Nu am putut șterge: ' + error.message, true);
   await loadPrices(); renderPrices();
+});
+
+/* ==========================================================
+   EDITAREA OFICIULUI
+   ========================================================== */
+let ofcSel = null;
+
+function openOfc(id){
+  const o = offices.find(x => x.id === id);
+  if (!o) return;
+  ofcSel = id;
+  $('#ofcCod').value  = o.code || '';
+  $('#ofcNume').value = o.name || '';
+  $('#ofcReg').value  = o.city || '';
+  $('#ofcAdr').value  = o.address || '';
+  $('#ofcErr').classList.add('hidden');
+  $('#ofcModal').classList.remove('hidden');
+  setTimeout(() => $('#ofcAdr').focus(), 30);
+}
+
+$('#ofcCancel').addEventListener('click', () => $('#ofcModal').classList.add('hidden'));
+$('#ofcModal').addEventListener('keydown', e => {
+  if (e.key === 'Escape') $('#ofcModal').classList.add('hidden');
+});
+
+$('#ofcSave').addEventListener('click', async () => {
+  const cod = $('#ofcCod').value.trim(), nume = $('#ofcNume').value.trim();
+  const box = $('#ofcErr');
+  if (!cod || !nume){
+    box.textContent = 'Codul și denumirea sunt obligatorii.';
+    return box.classList.remove('hidden');
+  }
+
+  const { data, error } = await sb.from('offices').update({
+    code: cod, name: nume,
+    city: $('#ofcReg').value.trim() || null,
+    address: $('#ofcAdr').value.trim() || null
+  }).eq('id', ofcSel).select().single();
+
+  if (error){
+    box.textContent = 'Nu am putut salva: ' + error.message;
+    return box.classList.remove('hidden');
+  }
+
+  Object.assign(offices.find(o => o.id === ofcSel), data);
+  $('#ofcModal').classList.add('hidden');
+  render();
+  toast('Oficiu actualizat.');
+});
+
+/* ==========================================================
+   RAPORTAREA PROBLEMELOR
+   ========================================================== */
+let tickets = [], tkDoarNoi = true;
+
+$('#rapBtn').addEventListener('click', () => {
+  $('#rapNume').value = me.full_name || '';
+  $('#rapText').value = '';
+  $('#rapErr').classList.add('hidden');
+  $('#rapModal').classList.remove('hidden');
+  setTimeout(() => ($('#rapNume').value ? $('#rapText') : $('#rapNume')).focus(), 30);
+});
+$('#rapCancel').addEventListener('click', () => $('#rapModal').classList.add('hidden'));
+$('#rapModal').addEventListener('keydown', e => {
+  if (e.key === 'Escape') $('#rapModal').classList.add('hidden');
+});
+
+$('#rapSend').addEventListener('click', async () => {
+  const nume = $('#rapNume').value.trim();
+  const text = $('#rapText').value.trim();
+  const box = $('#rapErr'), btn = $('#rapSend');
+
+  if (!nume || !text){
+    box.textContent = !nume ? 'Scrie numele și prenumele.' : 'Descrie problema.';
+    return box.classList.remove('hidden');
+  }
+
+  btn.disabled = true; btn.textContent = 'Se trimite…';
+  const { error } = await sb.from('tickets').insert({
+    reporter_name: nume, body: text,
+    created_by: me.id, login: (me.full_name || '')
+  });
+  btn.disabled = false; btn.textContent = 'Trimite';
+
+  if (error){
+    box.textContent = 'Nu am putut trimite: ' + error.message;
+    return box.classList.remove('hidden');
+  }
+
+  $('#rapModal').classList.add('hidden');
+  toast('Raportare trimisă. Mulțumesc.');
+});
+
+async function loadTickets(){
+  const { data, error } = await sb.from('tickets').select('*').order('created_at', { ascending:false }).limit(200);
+  if (error) return toast('Raportările nu s-au putut încărca: ' + error.message, true);
+  tickets = data;
+  renderTickets();
+}
+
+function paintTkBadge(){
+  const n = tickets.filter(t => t.status === 'nou').length;
+  const b = $('#tkBadge');
+  if (!b) return;
+  b.textContent = n;
+  b.classList.toggle('hidden', n === 0);
+}
+
+function renderTickets(){
+  paintTkBadge();
+  const list = tkDoarNoi ? tickets.filter(t => t.status === 'nou') : tickets;
+
+  $('#tkList').innerHTML = list.map(t => `
+    <div class="tk ${t.status === 'rezolvat' ? 'rez' : ''}">
+      <div class="tk-hd">
+        <span class="st ${t.status}">${t.status}</span>
+        <b>${esc(t.reporter_name)}</b>
+        <span class="who-t">${esc(t.login || '')}</span>
+        <span class="dt">${fmtDate(t.created_at)}</span>
+      </div>
+      <div class="tk-txt">${esc(t.body)}</div>
+      <div class="tk-ft">
+        ${t.status === 'nou'
+          ? `<button class="mini" data-tkdone="${t.id}">Marchează rezolvat</button>`
+          : `<button class="mini" data-tkopen="${t.id}">Redeschide</button>
+             <span class="dt" style="align-self:center">rezolvat de ${esc(t.resolved_by || '')}</span>`}
+        <button class="mini danger" data-tkdel="${t.id}" style="margin-left:auto">Șterge</button>
+      </div>
+    </div>`).join('') || '<p class="empty-h">Nicio raportare.</p>';
+}
+
+$('#tkNoi').addEventListener('click', () => {
+  tkDoarNoi = true;
+  $('#tkNoi').setAttribute('aria-pressed','true');
+  $('#tkToate').setAttribute('aria-pressed','false');
+  renderTickets();
+});
+$('#tkToate').addEventListener('click', () => {
+  tkDoarNoi = false;
+  $('#tkNoi').setAttribute('aria-pressed','false');
+  $('#tkToate').setAttribute('aria-pressed','true');
+  renderTickets();
+});
+
+$('#tkList').addEventListener('click', async e => {
+  const d = e.target.closest('[data-tkdone]'), o = e.target.closest('[data-tkopen]'), x = e.target.closest('[data-tkdel]');
+
+  if (d || o){
+    const { error } = await sb.rpc('close_ticket', { tid: (d || o).dataset[d ? 'tkdone' : 'tkopen'], redeschide: !!o });
+    if (error) return toast('Nu am putut salva: ' + error.message, true);
+    return loadTickets();
+  }
+  if (x){
+    if (!confirm('Ștergi definitiv această raportare?')) return;
+    const { error } = await sb.from('tickets').delete().eq('id', x.dataset.tkdel);
+    if (error) return toast('Nu am putut șterge: ' + error.message, true);
+    loadTickets();
+  }
+});
+
+/* ---------- import nume în masă ---------- */
+$('#numeBulkBtn').addEventListener('click', async () => {
+  const btn = $('#numeBulkBtn'), log = $('#numeBulkLog');
+  const linii = $('#numeBulk').value.split('\n').map(l => l.trim()).filter(Boolean)
+    .map(l => { const [u, n] = l.split('|').map(x => (x||'').trim()); return { u:(u||'').toLowerCase(), n }; });
+
+  if (!linii.length) return toast('Nu am găsit nicio linie validă.', true);
+
+  log.classList.remove('hidden'); log.innerHTML = '';
+  btn.disabled = true;
+  let ok = 0;
+
+  for (const c of linii){
+    const u = users.find(x => x.email.split('@')[0].toLowerCase() === c.u);
+    if (!u){ log.innerHTML += `<span class="bad">✕ ${esc(c.u)} — cont inexistent</span>\n`; continue; }
+
+    const { error } = await sb.rpc('admin_set_name', { target: u.id, new_name: c.n });
+    if (error){ log.innerHTML += `<span class="bad">✕ ${esc(c.u)} — ${esc(error.message)}</span>\n`; continue; }
+    log.innerHTML += `<span class="ok">✓ ${esc(c.u)}</span>   ${esc(c.n)}\n`;
+    ok++;
+  }
+
+  btn.disabled = false;
+  log.innerHTML += `\n${ok} din ${linii.length} nume salvate.\n`;
+  $('#numeBulk').value = '';
+  await loadUsers();
+  toast(`${ok} din ${linii.length} nume salvate.`, ok < linii.length);
 });
 
 /* ---------- avertizări pentru oficiile neactualizate ---------- */
