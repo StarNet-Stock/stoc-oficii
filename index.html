@@ -119,9 +119,9 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .who-col{min-width:0}
 .oname{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ometa{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.oadr{font-size:11.5px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:5px;
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.oadr svg{flex:none;opacity:.7}
+.ocode{display:inline-block;margin-top:4px;padding:1px 7px;border-radius:5px;background:var(--surface-2);
+       border:1px solid var(--line);color:var(--muted);font-family:'JetBrains Mono',monospace;
+       font-size:10px;font-weight:500;letter-spacing:.02em}
 
 /* rezervări */
 .rz{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:start}
@@ -657,6 +657,12 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
         <textarea id="bulk" placeholder="OF-042 | Centrul Regional Orhei | Regiuni Centru&#10;OF-043 | Centrul Regional Criuleni | Regiuni Centru"></textarea>
         <div style="margin-top:10px"><button class="btn btn-ghost" id="bulkBtn" type="button">Importă lista</button></div>
         <div class="divider"></div>
+        <p class="hint">Import adrese — câte una pe linie: <span class="mono">cod | adresă</span></p>
+        <textarea id="adrBulk" placeholder="OF-001 | Bd. Moscova 15/7, Chișinău&#10;OF-002 | Str. Vlaicu Pârcălab 52, Chișinău"></textarea>
+        <div style="margin-top:10px"><button class="btn btn-ghost" id="adrBulkBtn" type="button">Salvează adresele</button></div>
+        <div class="replog hidden" id="adrBulkLog"></div>
+
+        <div class="divider"></div>
         <p class="hint">Marchează toate oficiile ca neactualizate. Fiecare va primi, la intrarea în aplicație,
           o avertizare care nu se poate amâna, până raportează sau confirmă stocul.</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -1177,6 +1183,7 @@ async function start(){
     return;
   }
   me = prof;
+  me.login = user.email.split('@')[0];
 
   const { data:myOff } = await sb.from('user_offices').select('office_id').eq('user_id', user.id);
   me.offices = new Set((myOff || []).map(r => r.office_id));
@@ -1474,8 +1481,8 @@ function render(){
           <div class="spine ${cls}"></div>
           <div class="who-col">
             <div class="oname">${esc(o.name)}${mine(o) ? ' <span class="badge-me">oficiul tău</span>' : ''}</div>
-            <div class="ometa"><span class="mono">${esc(o.code)}</span>${o.city ? ' · ' + esc(o.city) : ''}</div>
-            ${o.address ? `<div class="oadr" title="${esc(o.address)}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>${esc(o.address)}</div>` : ''}
+            <div class="ometa" title="${esc([o.city, o.address].filter(Boolean).join(' · '))}">${[o.city, o.address].filter(Boolean).map(esc).join(' · ') || '—'}</div>
+            ${isAdmin() ? `<div><span class="ocode">${esc(o.code)}</span></div>` : ''}
           </div>
           <div class="rz">${ITEMS.map(i => rezColHTML(o, i)).join('')}</div>
           <div class="tiles">${ITEMS.map(i => cellHTML(o, i)).join('')}</div>
@@ -1771,6 +1778,37 @@ $('#addForm').addEventListener('submit', async e => {
   const { error } = await sb.from('offices').insert(rec);
   if (error) return toast('Oficiul nu a fost adăugat: ' + error.message, true);
   e.target.reset(); await load(); toast('Oficiu adăugat.');
+});
+
+$('#adrBulkBtn').addEventListener('click', async () => {
+  const btn = $('#adrBulkBtn'), log = $('#adrBulkLog');
+  const linii = $('#adrBulk').value.split('\n').map(l => l.trim()).filter(Boolean)
+    .map(l => {
+      const i = l.indexOf('|');
+      return i < 0 ? null : { cod: l.slice(0, i).trim(), adr: l.slice(i + 1).trim() };
+    }).filter(Boolean);
+
+  if (!linii.length) return toast('Nu am găsit nicio linie validă.', true);
+
+  log.classList.remove('hidden'); log.innerHTML = '';
+  btn.disabled = true;
+  let ok = 0;
+
+  for (const c of linii){
+    const o = offices.find(x => x.code.toLowerCase() === c.cod.toLowerCase());
+    if (!o){ log.innerHTML += `<span class="bad">✕ ${esc(c.cod)} — cod inexistent</span>\n`; continue; }
+
+    const { error } = await sb.from('offices').update({ address: c.adr || null }).eq('id', o.id);
+    if (error){ log.innerHTML += `<span class="bad">✕ ${esc(c.cod)} — ${esc(error.message)}</span>\n`; continue; }
+    log.innerHTML += `<span class="ok">✓ ${esc(c.cod)}</span>   ${esc(c.adr)}\n`;
+    ok++;
+  }
+
+  btn.disabled = false;
+  log.innerHTML += `\n${ok} din ${linii.length} adrese salvate.\n`;
+  $('#adrBulk').value = '';
+  await load();
+  toast(`${ok} din ${linii.length} adrese salvate.`, ok < linii.length);
 });
 
 $('#askAllBtn').addEventListener('click', () => cereActualizare(null));
@@ -2861,7 +2899,7 @@ $('#rapSend').addEventListener('click', async () => {
   btn.disabled = true; btn.textContent = 'Se trimite…';
   const { error } = await sb.from('tickets').insert({
     reporter_name: nume, body: text,
-    created_by: me.id, login: (me.full_name || '')
+    created_by: me.id, login: me.login || ''
   });
   btn.disabled = false; btn.textContent = 'Trimite';
 
@@ -2898,7 +2936,8 @@ function renderTickets(){
       <div class="tk-hd">
         <span class="st ${t.status}">${t.status}</span>
         <b>${esc(t.reporter_name)}</b>
-        <span class="who-t">${esc(t.login || '')}</span>
+        ${fold(t.login || '') && fold(t.login) !== fold(t.reporter_name)
+          ? `<span class="who-t">${esc(t.login)}</span>` : ''}
         <span class="dt">${fmtDate(t.created_at)}</span>
       </div>
       <div class="tk-txt">${esc(t.body)}</div>
