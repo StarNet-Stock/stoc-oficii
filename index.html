@@ -19,19 +19,45 @@
   --r:10px;
 }
 :root[data-theme="light"]{
-  --bg:#E7EBF1; --surface:#FFFFFF; --surface-2:#E3E8EF; --line:#C4CDDA; --line-2:#93A1B5;
-  --ink:#0F1620; --muted:#4E5C71;
-  --ok:#15703A; --ok-dim:#DDF3E6; --ok-line:#79C79C;
-  --miss:#B23219; --miss-dim:#FBE2DB; --miss-line:#E79C88;
-  --accent:#E0AC00; --on-accent:#1A1600;
-  --hair:rgba(15,22,32,.09); --veil:rgba(20,28,40,.45);
+  --bg:#ECF0F7; --surface:#E4EAF2; --surface-2:#F5F8FB; --line:#B8C4D4; --line-2:#7F8FA6;
+  --ink:#0B1119; --muted:#44536A;
+  --ok:#126735; --ok-dim:#D6EEDF; --ok-line:#68BC91;
+  --miss:#A62C15; --miss-dim:#F7DAD1; --miss-line:#DE8D77;
+  --accent:#ffd800; --on-accent:#1A1600;
+  --hair:rgba(11,17,25,.12); --veil:rgba(16,24,36,.5);
 }
 :root[data-theme="light"] header,
 :root[data-theme="light"] .rw,
 :root[data-theme="light"] .stat,
 :root[data-theme="light"] .panel,
 :root[data-theme="light"] .card,
-:root[data-theme="light"] .modal-card{box-shadow:0 1px 2px rgba(15,22,32,.07)}
+:root[data-theme="light"] .wide,
+:root[data-theme="light"] .card2,
+:root[data-theme="light"] .modal-card{box-shadow:0 1px 3px rgba(11,17,25,.10)}
+
+/* pe fond deschis, elementele importante au nevoie de contrast mai ferm */
+:root[data-theme="light"] .head-row{border-bottom-color:var(--line-2)}
+:root[data-theme="light"] .stat{border-left:3px solid var(--line)}
+:root[data-theme="light"] .stat .l{color:#4E5D74}
+:root[data-theme="light"] .chip[aria-pressed="true"]{background:var(--ink);color:#F4F7FA;border-color:var(--ink)}
+:root[data-theme="light"] .tab[aria-selected="true"]{border-bottom-width:3px}
+:root[data-theme="light"] .tile{box-shadow:inset 0 -2px 0 rgba(11,17,25,.06)}
+:root[data-theme="light"] #rapBtn{box-shadow:0 6px 18px rgba(11,17,25,.18);background:var(--surface)}
+:root[data-theme="light"] #toast{background:var(--surface)}
+:root[data-theme="light"] .badge-me,
+:root[data-theme="light"] .hd-res .h48,
+:root[data-theme="light"] .stamp .never,
+:root[data-theme="light"] .mini.keep.urge,
+:root[data-theme="light"] .ask{color:#8A6A00}
+:root[data-theme="light"] .mini.keep.urge,
+:root[data-theme="light"] .ask{border-color:#D4A200}
+:root[data-theme="light"] .ask:hover,
+:root[data-theme="light"] .mini.keep.urge:hover{background:var(--accent);color:var(--on-accent)}
+:root[data-theme="light"] .opt.rosu b{color:var(--miss)}
+:root[data-theme="light"] .rw.plin{background:#E7F4EC;border-color:var(--ok-line)}
+:root[data-theme="light"] .rw.vechi{background:#FAE9E4;border-color:var(--miss-line)}
+:root[data-theme="light"] .rw.vechi .tile.unk{background:#FFFFFF;border-color:var(--miss-line)}
+:root[data-theme="light"] .head-row{background:var(--bg)}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font:400 15px/1.5 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
@@ -1475,8 +1501,9 @@ function render(){
   $('#rows').innerHTML = list.map(o => {
     const n = ITEMS.filter(i => o[i.key]).length;
     const cls = n === ITEMS.length ? 'full' : n === 0 ? '' : 'partial';
+    const ton = isStale(o) ? 'vechi' : (n === ITEMS.length ? 'plin' : '');
     return `
-      <div class="rw ${openHist === o.id ? 'open' : ''}">
+      <div class="rw ${ton} ${openHist === o.id ? 'open' : ''}">
         <div class="grid row">
           <div class="spine ${cls}"></div>
           <div class="who-col">
