@@ -2837,11 +2837,11 @@ $('#ofcSave').addEventListener('click', async () => {
 let tickets = [], tkDoarNoi = true;
 
 $('#rapBtn').addEventListener('click', () => {
-  $('#rapNume').value = me.full_name || '';
+  $('#rapNume').value = '';
   $('#rapText').value = '';
   $('#rapErr').classList.add('hidden');
   $('#rapModal').classList.remove('hidden');
-  setTimeout(() => ($('#rapNume').value ? $('#rapText') : $('#rapNume')).focus(), 30);
+  setTimeout(() => $('#rapNume').focus(), 30);
 });
 $('#rapCancel').addEventListener('click', () => $('#rapModal').classList.add('hidden'));
 $('#rapModal').addEventListener('keydown', e => {
