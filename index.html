@@ -257,7 +257,45 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 @keyframes scurge{to{width:0}}
 #lnkModal .modal-card{max-width:400px}
 #ackModal{z-index:80}
-#inbox,#compose,#priceModal,#tickModal{z-index:75}
+#inbox,#compose,#priceModal,#tickModal,#istModal{z-index:75}
+#istModal .wide{max-width:980px}
+.ist-hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.ist-hd select,.ist-hd input{width:auto;padding:9px 11px;font-size:13px}
+.nav-l{display:flex;align-items:center;gap:6px}
+.nav-l button{width:32px;height:32px;padding:0;display:grid;place-items:center;background:transparent;
+              border:1px solid var(--line);border-radius:8px;color:var(--muted);cursor:pointer;font-size:14px}
+.nav-l button:hover{border-color:var(--line-2);color:var(--ink)}
+.nav-l b{min-width:140px;text-align:center;font-size:14px;font-weight:600}
+
+.zi{border:1px solid var(--line);border-radius:var(--r);margin-bottom:8px;overflow:hidden}
+.zi-hd{display:flex;align-items:center;gap:10px;padding:9px 13px;background:var(--surface-2);
+       border-bottom:1px solid var(--line)}
+.zi-hd b{font-size:13.5px}
+.zi-hd .n{margin-left:auto;font-size:11px;color:var(--muted)}
+.ev{display:grid;grid-template-columns:50px 1fr auto;gap:10px;align-items:start;padding:8px 13px;
+    border-bottom:1px solid var(--hair);font-size:13px}
+.ev:last-child{border-bottom:0}
+.ev .ora{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);padding-top:2px}
+.ev .cine{font-size:11px;color:var(--muted)}
+.ev .stoc{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.qq{min-width:36px;text-align:center;padding:2px 5px;border-radius:5px;background:var(--surface-2);
+    border:1px solid var(--line);font-family:Archivo;font-size:12px;font-weight:700;line-height:1.2}
+.qq.zero{color:var(--miss);border-color:var(--miss-line);background:var(--miss-dim)}
+.qq i{display:block;font-style:normal;font-size:8px;font-weight:600;color:var(--muted);letter-spacing:.03em}
+.k-predare{color:var(--miss)}
+.k-rezervare{color:var(--accent)}
+.k-confirmare{color:var(--ok)}
+.k-start{color:var(--muted)}
+:root[data-theme="light"] .k-rezervare{color:#8A6A00}
+
+.zi-tabel{width:100%;border-collapse:collapse;font-size:13px}
+.zi-tabel th{text-align:left;padding:8px 10px;font-size:10px;text-transform:uppercase;letter-spacing:.07em;
+             color:var(--muted);border-bottom:1px solid var(--line);font-weight:700}
+.zi-tabel td{padding:8px 10px;border-bottom:1px solid var(--hair);vertical-align:middle}
+.zi-tabel tr:last-child td{border-bottom:0}
+.zi-tabel .num{text-align:center;font-family:Archivo;font-weight:700}
+.zi-tabel .num.off{color:var(--miss)}
+.zi-tabel .nec{color:var(--muted);font-size:11.5px}
 .icon-btn{position:relative}
 .ubadge{position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;padding:0 4px;border-radius:9px;
         background:var(--miss);color:#fff;font-size:10px;font-weight:700;display:grid;place-items:center;line-height:1}
@@ -616,6 +654,9 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4.5a3 3 0 0 1 6 0"/><rect x="7" y="7" width="10" height="12" rx="5"/><path d="M7 11H4M20 11h-3M7 16H4.5M19.5 16H17M12 19v2"/></svg>
           <span class="ubadge hidden" id="tkBadge">0</span>
         </button>
+        <button class="icon-btn hidden" id="istBtn" type="button" title="Istoric stocuri" aria-label="Istoric stocuri">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.1 11a9 9 0 1 1 .8 4.5"/><path d="M3 20v-5h5"/><path d="M12 7.5V12l3 1.8"/></svg>
+        </button>
         <button class="icon-btn" id="prBtn" type="button" title="Prețuri" aria-label="Prețuri">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.7 8a3 3 0 0 0-2.8-2h-3.8a2.9 2.9 0 0 0-.6 5.7l4.9 1.1a2.9 2.9 0 0 1-.6 5.7h-3.8A3 3 0 0 1 7.2 16"/><path d="M12 3v3M12 18v3"/></svg>
         </button>
@@ -952,6 +993,39 @@ textarea{width:100%;min-height:88px;padding:10px 12px;background:var(--bg);borde
   </div>
 </div>
 
+<div id="istModal" class="hidden">
+  <div class="wide">
+    <div class="wide-hd">
+      <h2 id="istTitlu">Istoric stocuri</h2>
+      <button class="x-btn" id="istX" type="button" aria-label="Închide">✕</button>
+    </div>
+    <div class="wide-bd">
+      <div class="ist-hd">
+        <div id="istMod" class="chips">
+          <button class="chip" data-m="luna" aria-pressed="true">Un oficiu, o lună</button>
+          <button class="chip" data-m="zi" aria-pressed="false">Toate oficiile, o zi</button>
+        </div>
+      </div>
+
+      <div class="ist-hd">
+        <select id="istOficiu"></select>
+        <div class="nav-l" id="istNavLuna">
+          <button id="lunaPrev" type="button" aria-label="Luna precedentă">‹</button>
+          <b id="lunaEt">—</b>
+          <button id="lunaNext" type="button" aria-label="Luna următoare">›</button>
+        </div>
+        <div class="nav-l hidden" id="istNavZi">
+          <button id="ziPrev" type="button" aria-label="Ziua precedentă">‹</button>
+          <input type="date" id="ziSel">
+          <button id="ziNext" type="button" aria-label="Ziua următoare">›</button>
+        </div>
+      </div>
+
+      <div id="istBody"></div>
+    </div>
+  </div>
+</div>
+
 <div id="rapModal" class="hidden">
   <div class="modal-card">
     <h2>Raportează o problemă</h2>
@@ -1221,6 +1295,7 @@ async function start(){
   $('#whoRole').textContent = ROLE_RO[prof.role] || prof.role;
   $('#adminPanel').classList.toggle('hidden', !isAdmin());
   $('#tickBtn').classList.toggle('hidden', !isAdmin());
+  $('#istBtn').classList.toggle('hidden', !isAdmin());
   $('#pwBtn').classList.toggle('hidden', prof.role === 'viewer');
 
   const scoped = prof.role === 'office' && me.offices.size > 0;
@@ -1522,6 +1597,7 @@ function render(){
               ${isAdmin() ? (o.stale_forced
                 ? `<button class="mini keep" data-unask="${o.id}" title="Ridică marcajul pus manual">Anulează cererea</button>`
                 : `<button class="mini" data-ask="${o.id}" title="Marchează oficiul ca neactualizat și cere raportare">Cere actualizare</button>`) : ''}
+              ${isAdmin() ? `<button class="mini" data-luna="${o.id}">Lună</button>` : ''}
               ${isAdmin() ? `<button class="mini" data-edit="${o.id}">Editează</button>` : ''}
               ${isAdmin() ? `<button class="mini danger" data-del="${o.id}">Șterge</button>` : ''}
             </div>
@@ -1601,6 +1677,9 @@ $('#rows').addEventListener('click', async e => {
 
   const rd = e.target.closest('[data-rzdel]');
   if (rd) return openRz(rd.dataset.rzdel);
+
+  const ln = e.target.closest('[data-luna]');
+  if (ln) return deschideIstoric('luna', ln.dataset.luna);
 
   const ed = e.target.closest('[data-edit]');
   if (ed) return openOfc(ed.dataset.edit);
@@ -2855,6 +2934,166 @@ $('#prBody').addEventListener('click', async e => {
   if (error) return toast('Nu am putut șterge: ' + error.message, true);
   await loadPrices(); renderPrices();
 });
+
+/* ==========================================================
+   ISTORICUL STOCURILOR  (doar administrator)
+   ========================================================== */
+let istMod = 'luna', istOfc = null, istLuna = new Date(), istZi = new Date();
+
+const LUNI = ['ianuarie','februarie','martie','aprilie','mai','iunie',
+              'iulie','august','septembrie','octombrie','noiembrie','decembrie'];
+const ZILE = ['duminică','luni','marți','miercuri','joi','vineri','sâmbătă'];
+const ziISO = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+
+const FEL = {
+  stoc:'Stoc actualizat', confirmare:'Stoc confirmat, fără schimbări',
+  predare:'Predat clientului', rezervare:'Rezervat pentru client', start:'Început de istoric'
+};
+
+$('#istBtn').addEventListener('click', () => deschideIstoric('zi'));
+$('#istX').addEventListener('click', () => $('#istModal').classList.add('hidden'));
+
+function deschideIstoric(mod, ofcId){
+  istMod = mod;
+  if (ofcId) istOfc = ofcId;
+  if (!istOfc && offices.length) istOfc = offices.slice().sort(byCode)[0].id;
+
+  $('#istOficiu').innerHTML = offices.slice().sort(byCode)
+    .map(o => `<option value="${o.id}"${o.id === istOfc ? ' selected' : ''}>${esc(o.code)} · ${esc(o.name)}</option>`).join('');
+
+  [...$('#istMod').children].forEach(c => c.setAttribute('aria-pressed', c.dataset.m === mod));
+  $('#istModal').classList.remove('hidden');
+  aplicaMod();
+}
+
+function aplicaMod(){
+  const peLuna = istMod === 'luna';
+  $('#istOficiu').classList.toggle('hidden', !peLuna);
+  $('#istNavLuna').classList.toggle('hidden', !peLuna);
+  $('#istNavZi').classList.toggle('hidden', peLuna);
+  $('#istTitlu').textContent = peLuna ? 'Istoric — un oficiu, o lună' : 'Istoric — toate oficiile, o zi';
+  peLuna ? incarcaLuna() : incarcaZi();
+}
+
+$('#istMod').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  istMod = b.dataset.m;
+  [...$('#istMod').children].forEach(c => c.setAttribute('aria-pressed', c === b));
+  aplicaMod();
+});
+
+$('#istOficiu').addEventListener('change', e => { istOfc = e.target.value; incarcaLuna(); });
+$('#lunaPrev').addEventListener('click', () => { istLuna.setMonth(istLuna.getMonth()-1); incarcaLuna(); });
+$('#lunaNext').addEventListener('click', () => { istLuna.setMonth(istLuna.getMonth()+1); incarcaLuna(); });
+$('#ziPrev').addEventListener('click', () => { istZi.setDate(istZi.getDate()-1); incarcaZi(); });
+$('#ziNext').addEventListener('click', () => { istZi.setDate(istZi.getDate()+1); incarcaZi(); });
+$('#ziSel').addEventListener('change', e => {
+  if (e.target.value){ istZi = new Date(e.target.value + 'T12:00:00'); incarcaZi(); }
+});
+
+function cutii(r){
+  return ITEMS.map(i => {
+    const q = r['qty_' + i.key] ?? 0;
+    const are = r[i.key];
+    const t = !are ? '✕' : (q > 0 ? q : '∞');
+    return `<span class="qq ${are ? '' : 'zero'}" title="${esc(i.label)}">${t}<i>${esc(i.label.replace('Telecomenzi ','').replace('Blocuri ',''))}</i></span>`;
+  }).join('');
+}
+
+function descriere(r){
+  const art = r.item && LABEL[r.item] ? LABEL[r.item] : '';
+  if (r.kind === 'predare')   return `<b class="k-predare">Predat clientului ${esc(r.note || '')}</b>${art ? ' · ' + esc(art) : ''}`;
+  if (r.kind === 'rezervare') return `<b class="k-rezervare">Rezervat pentru clientul ${esc(r.note || '')}</b>${art ? ' · ' + esc(art) : ''}`;
+  if (r.kind === 'confirmare')return `<b class="k-confirmare">${FEL.confirmare}</b>`;
+  if (r.kind === 'start')     return `<b class="k-start">${FEL.start}</b>`;
+  return `<b>${FEL.stoc}</b>`;
+}
+
+async function incarcaLuna(){
+  const inceput = new Date(istLuna.getFullYear(), istLuna.getMonth(), 1);
+  const sfarsit = new Date(istLuna.getFullYear(), istLuna.getMonth() + 1, 1);
+  $('#lunaEt').textContent = `${LUNI[inceput.getMonth()]} ${inceput.getFullYear()}`;
+  $('#istBody').innerHTML = '<p class="empty-h">Se încarcă…</p>';
+
+  const { data, error } = await sb.from('stock_snap').select('*')
+    .eq('office_id', istOfc)
+    .gte('at', inceput.toISOString()).lt('at', sfarsit.toISOString())
+    .order('at', { ascending: false });
+
+  if (error) return $('#istBody').innerHTML = `<p class="empty-h">Nu am putut încărca: ${esc(error.message)}</p>`;
+  if (!data.length) return $('#istBody').innerHTML = '<p class="empty-h">Nicio modificare în luna aceasta.</p>';
+
+  const peZi = new Map();
+  data.forEach(r => {
+    const z = ziISO(new Date(r.at));
+    if (!peZi.has(z)) peZi.set(z, []);
+    peZi.get(z).push(r);
+  });
+
+  $('#istBody').innerHTML = [...peZi.entries()].map(([z, lista]) => {
+    const d = new Date(z + 'T12:00:00');
+    return `<div class="zi">
+      <div class="zi-hd">
+        <b>${d.getDate()} ${LUNI[d.getMonth()]}</b>
+        <span class="n">${ZILE[d.getDay()]} · ${lista.length} ${lista.length === 1 ? 'modificare' : 'modificări'}</span>
+      </div>
+      ${lista.map(r => `
+        <div class="ev">
+          <span class="ora">${new Date(r.at).toLocaleTimeString('ro-MD',{hour:'2-digit',minute:'2-digit'})}</span>
+          <span class="desc">${descriere(r)}<br><span class="cine">${esc(r.changed_by || '')}</span></span>
+          <span class="stoc">${cutii(r)}</span>
+        </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+async function incarcaZi(){
+  const zi = ziISO(istZi);
+  $('#ziSel').value = zi;
+  $('#istBody').innerHTML = '<p class="empty-h">Se încarcă…</p>';
+
+  const inceput = new Date(istZi.getFullYear(), istZi.getMonth(), istZi.getDate());
+  const sfarsit = new Date(istZi.getFullYear(), istZi.getMonth(), istZi.getDate() + 1);
+
+  const [stare, ev] = await Promise.all([
+    sb.rpc('snap_day', { zi }),
+    sb.from('stock_snap').select('*')
+      .gte('at', inceput.toISOString()).lt('at', sfarsit.toISOString())
+      .order('at', { ascending: false })
+  ]);
+
+  if (stare.error) return $('#istBody').innerHTML = `<p class="empty-h">Nu am putut încărca: ${esc(stare.error.message)}</p>`;
+
+  const dupaOficiu = new Map();
+  (ev.data || []).forEach(r => {
+    if (!dupaOficiu.has(r.office_id)) dupaOficiu.set(r.office_id, []);
+    dupaOficiu.get(r.office_id).push(r);
+  });
+
+  const randuri = offices.slice().sort(byCode).map(o => {
+    const st = (stare.data || []).find(x => x.office_id === o.id);
+    const lista = dupaOficiu.get(o.id) || [];
+    const pred = lista.filter(x => x.kind === 'predare');
+
+    return `<tr>
+      <td>${esc(o.name)}<br><span class="nec">${esc(o.code)}</span></td>
+      ${ITEMS.map(i => {
+        if (!st) return '<td class="num nec">—</td>';
+        const q = st['qty_' + i.key] ?? 0;
+        return `<td class="num ${st[i.key] ? '' : 'off'}">${!st[i.key] ? '✕' : (q > 0 ? q : '∞')}</td>`;
+      }).join('')}
+      <td>${lista.length ? `${lista.length} · ${pred.length ? pred.map(p => esc(p.note)).join(', ') : '—'}` : '<span class="nec">—</span>'}</td>
+    </tr>`;
+  }).join('');
+
+  $('#istBody').innerHTML = `
+    <p class="hint" style="margin-top:0">Starea la finalul zilei de ${istZi.getDate()} ${LUNI[istZi.getMonth()]} ${istZi.getFullYear()}.
+      Ultima coloană arată câte modificări au fost în ziua aceea și cui s-a predat.</p>
+    <table class="zi-tabel">
+      <thead><tr><th>Oficiu</th>${ITEMS.map(i => `<th style="text-align:center">${esc(i.label)}</th>`).join('')}<th>Mișcări · predat</th></tr></thead>
+      <tbody>${randuri}</tbody>
+    </table>`;
+}
 
 /* ==========================================================
    EDITAREA OFICIULUI
