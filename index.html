@@ -202,7 +202,7 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .mini.keep.urge:hover{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
 
 /* fereastra de avertizare la intrare */
-#modal,#pwModal,#rzModal,#idModal,#lnkModal,#ackModal,#inbox,#compose,#priceModal,#rapModal,#ofcModal,#tickModal{position:fixed;inset:0;background:var(--veil);display:grid;place-items:center;padding:24px;z-index:60}
+#modal,#pwModal,#rzModal,#idModal,#lnkModal,#ackModal,#inbox,#compose,#priceModal,#rapModal,#ofcModal,#tickModal,#istModal{position:fixed;inset:0;background:var(--veil);display:grid;place-items:center;padding:24px;z-index:60}
 .modal-card{width:100%;max-width:460px;background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:24px}
 .modal-card h2{font-size:19px;font-weight:700;margin-bottom:6px}
 .modal-card p{color:var(--muted);font-size:13px;margin:0 0 16px}
@@ -285,6 +285,8 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .k-predare{color:var(--miss)}
 .k-rezervare{color:var(--accent)}
 .k-confirmare{color:var(--ok)}
+.k-anulare{color:var(--miss)}
+.k-expirare{color:var(--muted)}
 .k-start{color:var(--muted)}
 :root[data-theme="light"] .k-rezervare{color:#8A6A00}
 
@@ -409,6 +411,8 @@ header{border-bottom:1px solid var(--line);background:var(--surface);position:st
 .hline .mark.on{color:var(--ok)}
 .hline .mark.off{color:var(--miss)}
 .hline .mark.rz{color:var(--accent)}
+.hline .mark.an{color:var(--miss)}
+.hline .mark.ex{color:var(--line-2)}
 .hline .meta{color:var(--muted);font-size:11px;white-space:nowrap}
 .empty{text-align:center;color:var(--muted);padding:48px 0}
 .empty-h{color:var(--muted);font-size:13px}
@@ -1625,6 +1629,14 @@ function textLog(r){
     const art = LABEL[r.item] ? esc(LABEL[r.item]) + ' — ' : '';
     return `${art}rezervat pentru clientul ${esc(r.note || '')}`;
   }
+  if (tip === 'anulare'){
+    const art = LABEL[r.item] ? esc(LABEL[r.item]) + ' — ' : '';
+    return `${art}rezervare anulată, clientul ${esc(r.note || '')}`;
+  }
+  if (tip === 'expirare'){
+    const art = LABEL[r.item] ? esc(LABEL[r.item]) + ' — ' : '';
+    return `${art}rezervare expirată, clientul ${esc(r.note || '')}`;
+  }
   return `${esc(LABEL[r.item] || r.item)} — ${r.new_value ? 'marcat în stoc' : 'marcat lipsă'}`;
 }
 
@@ -1634,9 +1646,12 @@ function histHTML(id){
   if (!rows.length) return `<div class="hist"><h2>Istoric modificări</h2><p class="empty-h">Nicio modificare înregistrată.</p></div>`;
   return `<div class="hist"><h2>Istoric modificări</h2>` + rows.map(r => `
     <div class="hline">
-      <span class="mark ${tipLog(r) === 'stoc' ? (r.new_value?'on':'off') : (tipLog(r) === 'rezervare' ? 'rz' : '')}">${
+      <span class="mark ${tipLog(r) === 'stoc' ? (r.new_value?'on':'off')
+        : tipLog(r) === 'rezervare' ? 'rz' : tipLog(r) === 'anulare' ? 'an'
+        : tipLog(r) === 'expirare' ? 'ex' : ''}">${
         tipLog(r) === 'confirmare' ? '↻' : tipLog(r) === 'predare' ? '→'
-        : tipLog(r) === 'rezervare' ? '+' : (r.new_value?'✓':'✕')}</span>
+        : tipLog(r) === 'rezervare' ? '+' : tipLog(r) === 'anulare' ? '−'
+        : tipLog(r) === 'expirare' ? '×' : (r.new_value?'✓':'✕')}</span>
       <span>${textLog(r)}</span>
       <span class="meta">${fmtDate(r.changed_at)}${r.changed_by ? ' · ' + esc(r.changed_by) : ''}</span>
     </div>`).join('') + `</div>`;
@@ -1824,7 +1839,9 @@ async function dropRez(rid){
 
   if (error) return toast('Nu am putut șterge: ' + error.message, true);
   rez = rez.filter(x => x.id !== r.id);
+  delete histCache[r.office_id];
   render();
+  if (openHist === r.office_id) fetchHist(r.office_id);
   toast(`Rezervare ștearsă: ${r.client_id}`);
 }
 
@@ -3004,6 +3021,8 @@ function descriere(r){
   const art = r.item && LABEL[r.item] ? LABEL[r.item] : '';
   if (r.kind === 'predare')   return `<b class="k-predare">Predat clientului ${esc(r.note || '')}</b>${art ? ' · ' + esc(art) : ''}`;
   if (r.kind === 'rezervare') return `<b class="k-rezervare">Rezervat pentru clientul ${esc(r.note || '')}</b>${art ? ' · ' + esc(art) : ''}`;
+  if (r.kind === 'anulare')   return `<b class="k-anulare">Rezervare anulată · clientul ${esc(r.note || '')}</b>${art ? ' · ' + esc(art) : ''}`;
+  if (r.kind === 'expirare')  return `<b class="k-expirare">Rezervare expirată · clientul ${esc(r.note || '')}</b>${art ? ' · ' + esc(art) : ''}`;
   if (r.kind === 'confirmare')return `<b class="k-confirmare">${FEL.confirmare}</b>`;
   if (r.kind === 'start')     return `<b class="k-start">${FEL.start}</b>`;
   return `<b>${FEL.stoc}</b>`;
